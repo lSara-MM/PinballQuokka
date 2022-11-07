@@ -36,6 +36,8 @@ public:
 	SDL_Texture* box;
 	SDL_Texture* rick;
 
+	SDL_Texture* map;
+
 	// FX
 	uint bonus_fx;
 
