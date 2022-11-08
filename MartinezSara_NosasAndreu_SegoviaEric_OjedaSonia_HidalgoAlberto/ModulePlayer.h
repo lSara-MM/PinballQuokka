@@ -14,5 +14,9 @@ public:
 	bool CleanUp();
 
 public:
+	iPoint position;
 
+	//Textures
+	; SDL_Texture* texture;
+	
 };
