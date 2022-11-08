@@ -16,8 +16,8 @@ public:
 	bool CleanUp();
 
 public:
-	iPoint position;
 	SDL_Rect spring;
+	int compresion=0;
 	//Textures
 	SDL_Texture* texture;
 	

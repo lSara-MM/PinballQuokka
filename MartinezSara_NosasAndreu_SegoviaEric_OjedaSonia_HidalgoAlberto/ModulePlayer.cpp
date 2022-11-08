@@ -37,8 +37,9 @@ bool ModulePlayer::CleanUp()
 // Update: draw background
 update_status ModulePlayer::Update()
 {
-	App->renderer->Blit(texture, position.x, position.y, NULL, 1.0f);
-	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+	App->renderer->Blit(texture, spring.x, spring.y, &spring, 1.0f);
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+		compresion -= 1;
 
 	return UPDATE_CONTINUE;
 }
