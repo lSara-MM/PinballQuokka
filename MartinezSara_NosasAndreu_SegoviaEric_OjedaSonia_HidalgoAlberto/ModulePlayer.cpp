@@ -26,12 +26,14 @@ bool ModulePlayer::Start()
 
 	//PALAS
 
-	Pala1 = App->physics->CreateRectangle(pala1X, pala1Y, 200, 100, App->physics->KINEMATIK);
-	Pala2 = App->physics->CreateRectangle(pala1X + 20, pala1Y + 20, 200, 100, App->physics->KINEMATIK);
+	Pala1 = App->physics->CreateRectangle(pala1X + 600, pala1Y + 20, 200, 100, App->physics->KINEMATIK);
+	Pala2 = App->physics->CreateRectangle(pala1X + 600, pala1Y + 150, 200, 100, App->physics->KINEMATIK);
 
 	rDef = new b2RevoluteJointDef;
 	rDef->bodyA = Pala1->body;
 	rDef->bodyB = Pala2->body;
+	rDef->collideConnected = false;
+	rDef->localAnchorA.Set(0, 0);	
 	App->physics->world->CreateJoint(rDef);
 
 	return true;
@@ -52,7 +54,10 @@ update_status ModulePlayer::Update()
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 		compresion -= 1;
 
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN){}
+	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN){
+		Pala1->body->SetType(b2BodyType::b2_dynamicBody);
+		Pala2->body->SetType(b2BodyType::b2_dynamicBody);
+	}
 
 
 	return UPDATE_CONTINUE;
