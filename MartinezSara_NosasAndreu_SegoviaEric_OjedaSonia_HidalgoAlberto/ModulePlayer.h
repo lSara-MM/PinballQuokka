@@ -17,13 +17,18 @@ public:
 	bool CleanUp();
 
 public:
+	//Palas
 	b2RevoluteJointDef* rDef;
 	PhysBody* Pala1;
 	PhysBody* Pala2;
 	int pala1X = 20;
 	int pala1Y = 20;
-	SDL_Rect spring;
+
+	//Muelle lanzador
+	SDL_Rect springData;
 	int compresion=0;
+	PhysBody* spring;
+	PhysBody* base;
 	//Textures
 	SDL_Texture* texture;
 	

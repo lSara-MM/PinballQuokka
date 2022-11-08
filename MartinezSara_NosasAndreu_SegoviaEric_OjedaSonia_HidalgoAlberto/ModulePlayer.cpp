@@ -17,11 +17,18 @@ ModulePlayer::~ModulePlayer()
 bool ModulePlayer::Start()
 {
 	LOG("Loading player");
-	spring.x = METERS_TO_PIXELS(100);
-	spring.y = METERS_TO_PIXELS(100);
-	spring.w = METERS_TO_PIXELS(0, 5);
-	spring.h = METERS_TO_PIXELS(1);
-	App->physics->CreateRectangle(spring.x, spring.y, spring.w, spring.h, App->physics->KINEMATIK);
+	//DATA DEL MUELLE
+	springData.x = PIXEL_TO_METERS(200);
+	springData.y = PIXEL_TO_METERS(200);
+	springData.w = PIXEL_TO_METERS(50);
+	springData.h = PIXEL_TO_METERS(100);
+
+	//SUPERFICIE ESTATICA A LA QUE ESTA SUJETO EL MUELLE
+	base = App->physics->CreateRectangle(30, 30, springData.w, springData.h, App->physics->STATIC);
+
+	//MUELLE EN SI
+	spring = App->physics->CreateRectangle(springData.x, springData.y, springData.w, springData.h, App->physics->DYNAMIC);
+	
 	texture = App->textures->Load("pinball/muelle.png");
 
 	//PALAS
@@ -43,6 +50,7 @@ bool ModulePlayer::Start()
 bool ModulePlayer::CleanUp()
 {
 	LOG("Unloading player");
+	
 
 	return true;
 }
@@ -50,7 +58,12 @@ bool ModulePlayer::CleanUp()
 // Update: draw background
 update_status ModulePlayer::Update()
 {
-	App->renderer->Blit(texture, spring.x, spring.y, &spring, 1.0f);
+
+	//Posicion muelle
+	springData.x = spring->body->GetTransform().p.x;
+	springData.y = spring->body->GetTransform().p.y;
+
+	App->renderer->Blit(texture, springData.x, springData.y, NULL, 1.0f);
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 		compresion -= 1;
 
