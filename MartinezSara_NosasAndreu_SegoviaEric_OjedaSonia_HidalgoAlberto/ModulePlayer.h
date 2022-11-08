@@ -3,6 +3,8 @@
 #include "Globals.h"
 #include "p2Point.h"
 
+#include "SDL/include/SDL.h"
+
 class ModulePlayer : public Module
 {
 public:
@@ -15,8 +17,8 @@ public:
 
 public:
 	iPoint position;
-
+	SDL_Rect spring;
 	//Textures
-	; SDL_Texture* texture;
+	SDL_Texture* texture;
 	
 };

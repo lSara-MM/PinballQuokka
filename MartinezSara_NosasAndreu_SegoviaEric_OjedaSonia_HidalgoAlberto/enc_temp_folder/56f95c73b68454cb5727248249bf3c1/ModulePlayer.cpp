@@ -4,7 +4,6 @@
 #include "ModulePhysics.h"
 #include "ModuleRender.h"
 #include "ModuleTextures.h"
-#include "ModuleInput.h"
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -38,7 +37,7 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update()
 {
 	App->renderer->Blit(texture, position.x, position.y, NULL, 1.0f);
-	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+
 
 	return UPDATE_CONTINUE;
 }
