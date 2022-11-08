@@ -2,6 +2,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "p2Point.h"
+#include "ModulePhysics.h"
 
 #include "SDL/include/SDL.h"
 
@@ -16,6 +17,11 @@ public:
 	bool CleanUp();
 
 public:
+	b2RevoluteJointDef* rDef;
+	PhysBody* Pala1;
+	PhysBody* Pala2;
+	int pala1X = 20;
+	int pala1Y = 20;
 	SDL_Rect spring;
 	int compresion=0;
 	//Textures

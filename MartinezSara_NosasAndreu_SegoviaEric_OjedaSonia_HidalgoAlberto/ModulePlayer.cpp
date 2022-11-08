@@ -23,6 +23,17 @@ bool ModulePlayer::Start()
 	spring.h = METERS_TO_PIXELS(1);
 	App->physics->CreateRectangle(spring.x, spring.y, spring.w, spring.h, App->physics->KINEMATIK);
 	texture = App->textures->Load("pinball/muelle.png");
+
+	//PALAS
+
+	Pala1 = App->physics->CreateRectangle(pala1X, pala1Y, 200, 100, App->physics->KINEMATIK);
+	Pala2 = App->physics->CreateRectangle(pala1X + 20, pala1Y + 20, 200, 100, App->physics->KINEMATIK);
+
+	rDef = new b2RevoluteJointDef;
+	rDef->bodyA = Pala1->body;
+	rDef->bodyB = Pala2->body;
+	App->physics->world->CreateJoint(rDef);
+
 	return true;
 }
 
@@ -40,6 +51,9 @@ update_status ModulePlayer::Update()
 	App->renderer->Blit(texture, spring.x, spring.y, &spring, 1.0f);
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 		compresion -= 1;
+
+	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN){}
+
 
 	return UPDATE_CONTINUE;
 }
