@@ -33,15 +33,19 @@ bool ModulePlayer::Start()
 
 	//PALAS
 
-	Pala1 = App->physics->CreateRectangle(pala1X + 600, pala1Y + 20, 200, 100, App->physics->KINEMATIK);
-	Pala2 = App->physics->CreateRectangle(pala1X + 600, pala1Y + 150, 200, 100, App->physics->KINEMATIK);
+	circle = App->physics->CreateCircle(600, 200, 2, App->physics->STATIC);
 
-	rDef = new b2RevoluteJointDef;
-	rDef->bodyA = Pala1->body;
-	rDef->bodyB = Pala2->body;
-	rDef->collideConnected = false;
-	rDef->localAnchorA.Set(0, 0);	
-	App->physics->world->CreateJoint(rDef);
+	rect = App->physics->CreateRectangle(600, 200, 64, 10, App->physics->DYNAMIC);
+
+	App->physics->CreateRevoluteJoint(rect, Vec1, circle, Vec2, 33.0f);
+
+	Vec1 = { -0.50, 0 };
+
+	circle2 = App->physics->CreateCircle(400, 200, 2, App->physics->STATIC);
+
+	rect2 = App->physics->CreateRectangle(464, 200, 64, 10, App->physics->DYNAMIC);
+
+	App->physics->CreateRevoluteJoint(rect2, Vec1, circle2, Vec2, 33.0f);
 
 	return true;
 }
@@ -67,9 +71,12 @@ update_status ModulePlayer::Update()
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 		compresion -= 1;
 
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN){
-		Pala1->body->SetType(b2BodyType::b2_dynamicBody);
-		Pala2->body->SetType(b2BodyType::b2_dynamicBody);
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
+		rect2->body->ApplyForce(b2Vec2(-30, -30), b2Vec2(0, -5), true);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
+		rect->body->ApplyForce(b2Vec2(-30, -30), b2Vec2(0, -5), true);
 	}
 
 

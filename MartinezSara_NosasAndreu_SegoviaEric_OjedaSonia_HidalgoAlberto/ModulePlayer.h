@@ -18,11 +18,13 @@ public:
 
 public:
 	//Palas
-	b2RevoluteJointDef* rDef;
-	PhysBody* Pala1;
-	PhysBody* Pala2;
-	int pala1X = 20;
-	int pala1Y = 20;
+	PhysBody* rect;
+	PhysBody* rect2;
+	PhysBody* circle;
+	PhysBody* circle2;
+
+	b2Vec2 Vec1 = b2Vec2(0.50, 0);
+	b2Vec2 Vec2 = b2Vec2(0, 0);
 
 	//Muelle lanzador
 	SDL_Rect springData;
