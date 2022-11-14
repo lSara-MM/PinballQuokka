@@ -18,18 +18,22 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 	//DATA DEL MUELLE
-	springData.x = PIXEL_TO_METERS(200);
-	springData.y = PIXEL_TO_METERS(200);
+	springData.x = PIXEL_TO_METERS(700);
+	springData.y = PIXEL_TO_METERS(400);
 	springData.w = PIXEL_TO_METERS(50);
 	springData.h = PIXEL_TO_METERS(100);
 
-	//SUPERFICIE ESTATICA A LA QUE ESTA SUJETO EL MUELLE
-	base = App->physics->CreateRectangle(30, 30, springData.w, springData.h, App->physics->STATIC);
+	//LANZADOR
+	
+	base = App->physics->CreateRectangle(30, 30, springData.w, springData.h, App->physics->STATIC);//Superficie apoyo
 
 	//MUELLE EN SI
 	spring = App->physics->CreateRectangle(springData.x, springData.y, springData.w, springData.h, App->physics->DYNAMIC);
 	
-	texture = App->textures->Load("pinball/muelle.png");
+	App->physics->CreatePrismaticJoint(base, VecS1, spring, VecS2, axis, 200);
+
+	//texture = App->textures->Load("pinball/muelle.png");
+
 
 	//PALAS
 
@@ -67,7 +71,7 @@ update_status ModulePlayer::Update()
 	springData.x = spring->body->GetTransform().p.x;
 	springData.y = spring->body->GetTransform().p.y;
 
-	App->renderer->Blit(texture, springData.x, springData.y, NULL, 1.0f);
+	//App->renderer->Blit(texture, springData.x, springData.y, NULL, 1.0f);
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 		compresion -= 1;
 
