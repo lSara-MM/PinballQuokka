@@ -268,7 +268,6 @@ void ModulePhysics::CreateScenarioGround()
 	// Create a fixture and associate the circle to it
 	b2FixtureDef fixture;
 	fixture.shape = &shape;
-
 	// Add the ficture (plus shape) to the static body
 	big_ball->CreateFixture(&fixture);
 }
@@ -339,6 +338,8 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius, BodyType type)
 	// Return our PhysBody class
 	return pbody;
 }
+
+
 
 PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height, BodyType type)
 {
@@ -451,6 +452,53 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, BodyTy
 	// Return our PhysBody class
 	return pbody;
 }
+
+PhysBody* ModulePhysics::CreateBouncyChain(int x, int y, int* points, int size, int bounce, BodyType type)
+{
+	// Create BODY at position x,y
+	b2BodyDef body;
+	if (type == BodyType::DYNAMIC) { body.type = b2_dynamicBody; }
+	if (type == BodyType::KINEMATIK) { body.type = b2_kinematicBody; }
+	if (type == BodyType::STATIC) { body.type = b2_staticBody; }
+
+	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
+
+	// Add BODY to the world
+	b2Body* b = world->CreateBody(&body);
+
+	// Create SHAPE
+	b2ChainShape shape;
+	b2Vec2* p = new b2Vec2[size / 2];
+	for (uint i = 0; i < size / 2; ++i)
+	{
+		p[i].x = PIXEL_TO_METERS(points[i * 2 + 0]);
+		p[i].y = PIXEL_TO_METERS(points[i * 2 + 1]);
+	}
+	shape.CreateLoop(p, size / 2);
+
+	// Create FIXTURE
+	b2FixtureDef fixture;
+	fixture.shape = &shape;
+
+	//Bounce
+	fixture.restitution = bounce;
+
+	// Add fixture to the BODY
+	b->CreateFixture(&fixture);
+
+	// Clean-up temp array
+	delete p;
+
+	// Create our custom PhysBody class
+	PhysBody* pbody = new PhysBody();
+	pbody->body = b;
+	b->SetUserData(pbody);
+	pbody->width = pbody->height = 0;
+
+	// Return our PhysBody class
+	return pbody;
+}
+
 
 // Callback function to collisions with Box2D
 void ModulePhysics::BeginContact(b2Contact* contact)

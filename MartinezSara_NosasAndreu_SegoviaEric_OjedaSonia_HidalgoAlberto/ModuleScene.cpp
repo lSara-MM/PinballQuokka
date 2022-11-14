@@ -46,7 +46,7 @@ bool ModuleScene::Start()
 	// Add this module (ModuleScene) as a listener for collisions with the sensor.
 	// In ModulePhysics::PreUpdate(), we iterate over all sensors and (if colliding) we call the function ModuleScene::OnCollision()
 	lower_ground_sensor->listener = this;
-
+	
 	return ret;
 }
 
@@ -128,13 +128,31 @@ update_status ModuleScene::Update()
 			30, 62
 		};
 
-		ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64));
+		ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64, App->physics->DYNAMIC));
 	}
+
+	//Slingershot
+	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
+
+		int triangle[6] = {
+				0, 0,
+				400, 0,
+				200, 200,//valors arbirtaris, canviar en funció mapa
+
+		};
+
+		slingershots.add(App->physics->CreateBouncyChain(App->input->GetMouseX(), App->input->GetMouseY(), triangle, 6, 2, App->physics->STATIC));
+	}
+
 
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 	{
+
+
 		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_intro, 90);
 	}
+
+	
 
 	// Prepare for raycast ------------------------------------------------------
 	
@@ -193,6 +211,16 @@ update_status ModuleScene::Update()
 		int x, y;
 		c->data->GetPosition(x, y);
 		App->renderer->Blit(rick, x, y, NULL, 1.0f, c->data->GetRotation());
+		c = c->next;
+	}
+
+	//Slingershots
+	c = slingershots.getFirst();
+	while (c != NULL)
+	{
+		int x, y;
+		c->data->GetPosition(x, y);
+		//App->renderer->Blit(rick, x, y, NULL, 1.0f, c->data->GetRotation());
 		c = c->next;
 	}
 

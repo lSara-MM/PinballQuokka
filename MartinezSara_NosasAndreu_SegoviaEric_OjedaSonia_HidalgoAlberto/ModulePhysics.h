@@ -68,7 +68,8 @@ public:
 	PhysBody* CreateCircle(int x, int y, int radius, BodyType type= BodyType::DYNAMIC);
 	PhysBody* CreateRectangle(int x, int y, int width, int height, BodyType type = BodyType::DYNAMIC);
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height);
-	PhysBody* CreateChain(int x, int y, int* points, int size, BodyType type = BodyType::DYNAMIC);
+	PhysBody* CreateChain(int x, int y, int* points, int size, BodyType type);
+	PhysBody* CreateBouncyChain(int x, int y, int* points, int size,int bounce, BodyType type);
 
 	b2RevoluteJoint* CreateRevoluteJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, b2Vec2 anchorB, float angle = 0.0f, bool collideConnected = false, bool enableLimit = true);
 	b2PrismaticJoint* CreatePrismaticJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, b2Vec2 anchorB, b2Vec2 axys, float maxHeight = 0.0f, bool collideConnected = true, bool enableLimit = true);
