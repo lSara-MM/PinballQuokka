@@ -36,6 +36,7 @@ public:
 	SDL_Texture* circle;
 	SDL_Texture* box;
 	SDL_Texture* rick;
+	SDL_Texture* fondo; 
 
 	SDL_Texture* map;
 

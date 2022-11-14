@@ -39,6 +39,9 @@ bool ModuleScene::Start()
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 	map = App->textures->Load("pinball/muelle.png");
 
+	fondo = App->textures->Load("pinball/Fondo.png");
+	 
+
 	// Create a big red sensor on the bottom of the screen.
 	// This sensor will not make other objects collide with it, but it can tell if it is "colliding" with something else
 	lower_ground_sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50);
@@ -60,6 +63,7 @@ bool ModuleScene::CleanUp()
 update_status ModuleScene::Update()
 {
 	//Dibujar el mapa
+	App->renderer->Blit(fondo, 0, 0);
 	App->renderer->Blit(map,0,0);
 
 	// If user presses SPACE, enable RayCast
