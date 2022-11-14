@@ -34,7 +34,7 @@ public:
 
 	b2Vec2 VecS1 = b2Vec2(0, 0);
 	b2Vec2 VecS2 = b2Vec2(0, 0);
-	b2Vec2 axis = b2Vec2(0, 1);
+	b2Vec2 axis = b2Vec2(0, -1);
 
 	//Textures
 	SDL_Texture* texture;
