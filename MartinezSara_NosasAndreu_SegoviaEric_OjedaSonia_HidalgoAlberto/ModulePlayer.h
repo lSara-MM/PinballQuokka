@@ -28,9 +28,12 @@ public:
 
 	//Muelle lanzador
 	SDL_Rect springData;
-	int compresion=0;
+	float compresion=0.1;
+	float MaxLength=4;
+	bool SpringReleased= false;
 	PhysBody* spring;
 	PhysBody* base;
+	b2PrismaticJoint* jointMuelle;
 
 	b2Vec2 VecS1 = b2Vec2(0, 0);
 	b2Vec2 VecS2 = b2Vec2(0, 0);

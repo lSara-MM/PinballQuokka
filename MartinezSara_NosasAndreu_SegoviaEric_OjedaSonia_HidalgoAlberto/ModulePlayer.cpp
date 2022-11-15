@@ -18,19 +18,19 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 	//DATA DEL MUELLE
-	springData.x = 700;
-	springData.y = 200;
-	springData.w = 25;
-	springData.h = 10;
+	springData.x = 445;
+	springData.y = 600;
+	springData.w = 40;
+	springData.h = 25;
 
 	//LANZADOR
 	
-	base = App->physics->CreateRectangleSensor(springData.x, springData.y, springData.w, springData.h /*, App->physics->STATIC*/);//Superficie apoyo
+	base = App->physics->CreateRectangleSensor(springData.x+ springData.w, springData.y+10, springData.w, 10 );//Superficie apoyo
 
 	//MUELLE EN SI
-	spring = App->physics->CreateRectangle(springData.x, springData.y+springData.h, springData.w, springData.h, App->physics->DYNAMIC);
+	spring = App->physics->CreateRectangle(springData.x+ springData.w, springData.y+springData.h, springData.w, springData.h, App->physics->DYNAMIC);
 	
-	App->physics->CreatePrismaticJoint(spring, VecS1, base, VecS2, axis, 2, false, true); //TODO: Modificar funcion para max y min
+	jointMuelle = App->physics->CreatePrismaticJoint(spring, VecS1, base, VecS2, axis, compresion, false, true); //TODO: Modificar funcion para max y min
 
 	//texture = App->textures->Load("pinball/muelle.png");
 
@@ -71,12 +71,33 @@ update_status ModulePlayer::Update()
 	springData.x = spring->body->GetTransform().p.x;
 	springData.y = spring->body->GetTransform().p.y;
 
-	//App->renderer->Blit(texture, springData.x, springData.y, NULL, 1.0f);
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
-		spring->body->ApplyForce(b2Vec2(0, -30), b2Vec2(0, 0), true);
+	if (spring->body->GetAngularVelocity() == 0 && SpringReleased == true)
+	{
+		compresion = 0.1;
+		SpringReleased = false;
+	}
+	jointMuelle->SetLimits(-0.01, compresion);
 
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
-		spring->body->ApplyForce(b2Vec2(0, 30), b2Vec2(0, 0), true);
+	//App->renderer->Blit(texture, springData.x, springData.y, NULL, 1.0f);
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT && compresion<=4)
+	{
+		if (compresion == 0)
+		{
+			compresion = 0.1;
+		}
+
+		compresion += (0.1-compresion/40);
+		LOG("%f",compresion)
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP )
+	{
+		SpringReleased = true;
+		spring->body->ApplyForce(b2Vec2(0, -compresion * compresion*85), b2Vec2(0, 0), true);
+		
+	}
+
+	
 
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
 		rect2->body->ApplyForce(b2Vec2(-30, -30), b2Vec2(0, -5), true);
