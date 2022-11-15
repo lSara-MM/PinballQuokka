@@ -25,12 +25,12 @@ bool ModulePlayer::Start()
 
 	//LANZADOR
 	
-	base = App->physics->CreateRectangleSensor(springData.x+ springData.w, springData.y+10, springData.w, 10 );//Superficie apoyo
+	base = App->physics->CreateRectangle(springData.x+ springData.w, springData.y+10, springData.w, 10, App->physics->STATIC );//Superficie apoyo
 
 	//MUELLE EN SI
 	spring = App->physics->CreateRectangle(springData.x+ springData.w, springData.y+springData.h, springData.w, springData.h, App->physics->DYNAMIC);
 	
-	jointMuelle = App->physics->CreatePrismaticJoint(spring, VecS1, base, VecS2, axis, compresion, false, true); //TODO: Modificar funcion para max y min
+	jointMuelle = App->physics->CreatePrismaticJoint(spring, VecS1, base, VecS2, axis, -MaxLength/2, MaxLength, false, true); //TODO: Modificar funcion para max y min
 
 	//texture = App->textures->Load("pinball/muelle.png");
 
@@ -83,17 +83,17 @@ update_status ModulePlayer::Update()
 	{
 		if (compresion == 0)
 		{
-			compresion = 0.1;
+			compresion = 0.05;
 		}
 
-		compresion += (0.1-compresion/40);
+		compresion += (0.05-compresion/85);
 		LOG("%f",compresion)
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP )
 	{
 		SpringReleased = true;
-		spring->body->ApplyForce(b2Vec2(0, -compresion * compresion*85), b2Vec2(0, 0), true);
+		spring->body->ApplyForce(b2Vec2(-MaxLength / 2, -compresion * compresion*85), b2Vec2(0, 0), true);
 		
 	}
 

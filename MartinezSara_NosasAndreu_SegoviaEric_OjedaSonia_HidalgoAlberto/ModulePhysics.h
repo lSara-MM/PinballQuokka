@@ -72,7 +72,7 @@ public:
 	PhysBody* CreateBouncyChain(int x, int y, int* points, int size,int bounce, BodyType type);
 
 	b2RevoluteJoint* CreateRevoluteJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, b2Vec2 anchorB, float angle = 0.0f, bool collideConnected = false, bool enableLimit = true);
-	b2PrismaticJoint* CreatePrismaticJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, b2Vec2 anchorB, b2Vec2 axys, float maxHeight = 0.0f, bool collideConnected = true, bool enableLimit = true);
+	b2PrismaticJoint* CreatePrismaticJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, b2Vec2 anchorB, b2Vec2 axys, float minHeigth=0.0f, float maxHeight = 0.0f, bool collideConnected = true, bool enableLimit = true);
 
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);

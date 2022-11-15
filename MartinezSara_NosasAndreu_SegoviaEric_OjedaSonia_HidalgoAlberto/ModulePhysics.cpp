@@ -288,7 +288,7 @@ b2RevoluteJoint* ModulePhysics::CreateRevoluteJoint(PhysBody* A, b2Vec2 anchorA,
 	return (b2RevoluteJoint*)world->CreateJoint(&revoluteJointDef);
 }
 
-b2PrismaticJoint* ModulePhysics::CreatePrismaticJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, b2Vec2 anchorB, b2Vec2 axys, float maxHeight, bool collideConnected, bool enableLimit)
+b2PrismaticJoint* ModulePhysics::CreatePrismaticJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, b2Vec2 anchorB, b2Vec2 axys, float minHeigth, float maxHeight, bool collideConnected, bool enableLimit)
 {
 	b2PrismaticJointDef prismaticJointDef;
 	prismaticJointDef.bodyA = A->body;
@@ -299,7 +299,7 @@ b2PrismaticJoint* ModulePhysics::CreatePrismaticJoint(PhysBody* A, b2Vec2 anchor
 	prismaticJointDef.localAnchorB.Set(anchorB.x, anchorB.y);
 	prismaticJointDef.referenceAngle = 0;
 	prismaticJointDef.enableLimit = enableLimit;
-	prismaticJointDef.lowerTranslation = -0.01;
+	prismaticJointDef.lowerTranslation = minHeigth;
 	prismaticJointDef.upperTranslation = maxHeight;
 
 	return (b2PrismaticJoint*)world->CreateJoint(&prismaticJointDef);
