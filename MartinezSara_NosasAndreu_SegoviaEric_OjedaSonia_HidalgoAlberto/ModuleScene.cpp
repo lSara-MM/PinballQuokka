@@ -127,7 +127,7 @@ bool ModuleScene::Start()
 		   312, 950
 	};
 
-	App->physics->CreateChain(0, 0, Fondo, 168, App->physics->STATIC);
+	App->physics->CreateChain(0, 0, Fondo, 168, App->physics->STATIC, ColliderType::UNKNOWN);
 
 	// Create a big red sensor on the bottom of the screen.
 	// This sensor will not make other objects collide with it, but it can tell if it is "colliding" with something else
@@ -150,7 +150,7 @@ bool ModuleScene::CleanUp()
 update_status ModuleScene::Update()
 {
 	//Dibujar el mapa
-	//App->renderer->Blit(fondo, 0, 0);
+	App->renderer->Blit(fondo, 0, 0);
 	App->renderer->Blit(map,0,0);
 
 	// If user presses SPACE, enable RayCast
@@ -219,7 +219,7 @@ update_status ModuleScene::Update()
 			30, 62
 		};
 		
-		ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64, App->physics->DYNAMIC));
+		ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64, App->physics->DYNAMIC,ColliderType::UNKNOWN));
 	}
 
 	//Slingershot
@@ -232,7 +232,7 @@ update_status ModuleScene::Update()
 
 		};
 
-		slingershots.add(App->physics->CreateBouncyChain(App->input->GetMouseX(), App->input->GetMouseY(), triangle, 6, 2, App->physics->STATIC));
+		slingershots.add(App->physics->CreateBouncyChain(App->input->GetMouseX(), App->input->GetMouseY(), triangle, 6, 2, App->physics->STATIC, ColliderType::UNKNOWN));
 	}
 
 
@@ -340,5 +340,19 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	// Play Audio FX on every collision, regardless of who is colliding
 	App->audio->PlayFx(bonus_fx);
 
-	// Do something else. You can also check which bodies are colliding (sensor? ball? player?)
+	//switch (bodyB->ctype)
+	//{
+	//	case ColliderType::EYES:
+	//		LOG("Collider eyes");
+	//		//WHATEVER
+	//	
+	//		break;
+
+	//	case ColliderType::GREEN_PAW:
+	//		LOG("Collider green paw");
+	//		//WHATEVER
+	//		break;
+
+
+	//}
 }

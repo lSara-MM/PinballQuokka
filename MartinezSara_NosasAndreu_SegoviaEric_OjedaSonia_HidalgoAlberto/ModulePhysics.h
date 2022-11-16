@@ -18,7 +18,16 @@
 #define RAD_TO_DEG(r) ((float) RAD_PER_DEG * r)
 #define DEG_TO_RAD(r) ((float) DEG_PER_RAD * r)
 
-
+enum class ColliderType {
+	GREEN_PAW,
+	PURPLE_PAW,
+	TURQUOISE_PAW,
+	ORANGE_BUMPER,
+	SLINGERSHOT,
+	EYES,
+	UNKNOWN
+	// ..
+};
 // Small class to return to other modules to track position and rotation of physics bodies
 class PhysBody
 {
@@ -35,6 +44,7 @@ public:
 	int width, height;
 	b2Body* body;
 	Module* listener;
+	ColliderType ctype;
 };
 
 // Module --------------------------------------
@@ -68,8 +78,8 @@ public:
 	PhysBody* CreateCircle(int x, int y, int radius, BodyType type= BodyType::DYNAMIC);
 	PhysBody* CreateRectangle(int x, int y, int width, int height, BodyType type = BodyType::DYNAMIC);
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height);
-	PhysBody* CreateChain(int x, int y, int* points, int size, BodyType type);
-	PhysBody* CreateBouncyChain(int x, int y, int* points, int size,int bounce, BodyType type);
+	PhysBody* CreateChain(int x, int y, int* points, int size, BodyType type, ColliderType collType);
+	PhysBody* CreateBouncyChain(int x, int y, int* points, int size,int bounce, BodyType type, ColliderType collType);
 
 	b2RevoluteJoint* CreateRevoluteJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, b2Vec2 anchorB, float angle = 0.0f, bool collideConnected = false, bool enableLimit = true);
 	b2PrismaticJoint* CreatePrismaticJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, b2Vec2 anchorB, b2Vec2 axys, float minHeigth=0.0f, float maxHeight = 0.0f, bool collideConnected = true, bool enableLimit = true);

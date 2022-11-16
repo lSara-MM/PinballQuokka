@@ -410,7 +410,7 @@ PhysBody* ModulePhysics::CreateRectangleSensor(int x, int y, int width, int heig
 	return pbody;
 }
 
-PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, BodyType type)
+PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, BodyType type, ColliderType collType)
 {
 	// Create BODY at position x,y
 	b2BodyDef body;
@@ -449,11 +449,16 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, BodyTy
 	b->SetUserData(pbody);
 	pbody->width = pbody->height = 0;
 
+	if (collType == ColliderType::UNKNOWN) { pbody->ctype = ColliderType::UNKNOWN; }
+	if (collType == ColliderType::EYES) { pbody->ctype = ColliderType::EYES; }
+	if (collType == ColliderType::GREEN_PAW) { pbody->ctype = ColliderType::GREEN_PAW; }
+	
+
 	// Return our PhysBody class
 	return pbody;
 }
 
-PhysBody* ModulePhysics::CreateBouncyChain(int x, int y, int* points, int size, int bounce, BodyType type)
+PhysBody* ModulePhysics::CreateBouncyChain(int x, int y, int* points, int size, int bounce, BodyType type, ColliderType collType)
 {
 	// Create BODY at position x,y
 	b2BodyDef body;
@@ -495,6 +500,10 @@ PhysBody* ModulePhysics::CreateBouncyChain(int x, int y, int* points, int size, 
 	b->SetUserData(pbody);
 	pbody->width = pbody->height = 0;
 
+	if (collType == ColliderType::UNKNOWN) { pbody->ctype = ColliderType::UNKNOWN; }
+	if (collType == ColliderType::EYES) { pbody->ctype = ColliderType::EYES; }
+	if (collType == ColliderType::GREEN_PAW) { pbody->ctype = ColliderType::GREEN_PAW; }
+
 	// Return our PhysBody class
 	return pbody;
 }
@@ -515,12 +524,13 @@ void ModulePhysics::BeginContact(b2Contact* contact)
 
 // PHYS BODY FUNCTIONS -------------------------------------------------------------------------------
 
-PhysBody::PhysBody() : listener(NULL), body(NULL)
+PhysBody::PhysBody() : listener(NULL), body(NULL), ctype(ColliderType::UNKNOWN)
 {
 	// Initialize all internal class variables
 	width = height = 0;
 	body = NULL;
 	listener = NULL;
+	ctype = ColliderType::UNKNOWN;
 }
 
 PhysBody::~PhysBody()
