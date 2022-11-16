@@ -127,7 +127,184 @@ bool ModuleScene::Start()
 		   312, 950
 	};
 
+	int FondoOreja[40] = {
+	67, 203,
+	66, 303,
+	69, 313,
+	74, 321,
+	82, 325,
+	94, 325,
+	105, 320,
+	113, 312,
+	116, 301,
+	118, 271,
+	128, 252,
+	145, 241,
+	150, 236,
+	152, 225,
+	130, 203,
+	115, 192,
+	97, 184,
+	85, 182,
+	78, 185,
+	71, 193
+	};
+
+	int FondoOreja2[42] = {
+	420, 209,
+	420, 301,
+	418, 314,
+	411, 323,
+	402, 326,
+	389, 325,
+	380, 319,
+	372, 310,
+	370, 303,
+	369, 274,
+	364, 262,
+	358, 252,
+	348, 245,
+	338, 239,
+	335, 232,
+	336, 224,
+	349, 210,
+	374, 190,
+	392, 184,
+	407, 185,
+	417, 197
+	};
+
+	int FondoBarra[10] = {
+		80, 522,
+		80, 647,
+		88, 647,
+		88, 523,
+		84, 519
+	};
+
+	int FondoBarra2[10] = {
+	404, 523,
+	404, 648,
+	413, 649,
+	413, 523,
+	409, 519
+	};
+
+	int FondoTriangle[22] = {
+	93, 649,
+	186, 728,
+	188, 733,
+	188, 741,
+	184, 747,
+	177, 752,
+	77, 728,
+	71, 720,
+	71, 657,
+	75, 651,
+	83, 649
+	};
+
+	int FondoTriangle2[20] = {
+	399, 648,
+	304, 726,
+	300, 733,
+	302, 741,
+	309, 747,
+	315, 748,
+	413, 728,
+	420, 720,
+	419, 654,
+	407, 649
+	};
+
+	int FondoOval[40] = {
+	177, 250,
+	181, 254,
+	183, 263,
+	185, 276,
+	186, 287,
+	186, 300,
+	186, 313,
+	185, 332,
+	183, 349,
+	181, 357,
+	177, 363,
+	173, 357,
+	170, 348,
+	168, 331,
+	168, 312,
+	167, 299,
+	168, 286,
+	169, 275,
+	171, 262,
+	173, 254
+	};
+
+	int FondoOval2[40] = {
+	247, 250,
+	251, 254,
+	253, 263,
+	255, 276,
+	256, 287,
+	256, 300,
+	256, 313,
+	255, 332,
+	253, 349,
+	251, 357,
+	247, 363,
+	243, 357,
+	240, 348,
+	238, 331,
+	238, 312,
+	237, 299,
+	238, 286,
+	239, 275,
+	241, 262,
+	243, 254
+	};
+
+	int FondoOval3[40] = {
+    314, 250,
+    318, 254,
+    320, 263,
+    322, 276,
+    323, 287,
+	323, 300,
+	323, 313,
+	322, 332,
+	320, 349,
+	318, 357,
+    314, 363,
+    310, 357,
+    307, 348,
+    305, 331,
+	305, 312,
+	304, 299,
+	305, 286,
+	306, 275,
+    308, 262,
+	310, 254
+	};
+
+
+	
+
 	App->physics->CreateChain(0, 0, Fondo, 168, App->physics->STATIC, ColliderType::UNKNOWN);
+	App->physics->CreateChain(0, 0, FondoOreja, 40, App->physics->STATIC, ColliderType::UNKNOWN);
+	App->physics->CreateChain(0, 0, FondoOreja2, 42, App->physics->STATIC, ColliderType::UNKNOWN);
+	App->physics->CreateChain(0, 0, FondoBarra, 10, App->physics->STATIC, ColliderType::UNKNOWN);
+	App->physics->CreateChain(0, 0, FondoBarra2, 10, App->physics->STATIC, ColliderType::UNKNOWN);
+	App->physics->CreateChain(0, 0, FondoTriangle, 22, App->physics->STATIC, ColliderType::UNKNOWN);
+	App->physics->CreateChain(0, 0, FondoTriangle2, 20, App->physics->STATIC, ColliderType::UNKNOWN);
+	App->physics->CreateChain(0, 0, FondoOval, 40, App->physics->STATIC, ColliderType::UNKNOWN);
+	App->physics->CreateChain(0, 0, FondoOval2, 40, App->physics->STATIC, ColliderType::UNKNOWN);
+	App->physics->CreateChain(0, 0, FondoOval3, 40, App->physics->STATIC, ColliderType::UNKNOWN);
+
+	PhysBody* circle1 = App->physics->CreateCircle(247, 64, 43, App->physics->STATIC); 
+	PhysBody* circle2 = App->physics->CreateCircle(153, 134, 43, App->physics->STATIC); 
+	PhysBody* circle3 = App->physics->CreateCircle(336, 134, 43, App->physics->STATIC); 
+	PhysBody* circle4 = App->physics->CreateCircle(87, 483, 24, App->physics->STATIC); 
+	PhysBody* circle5 = App->physics->CreateCircle(402, 483, 24, App->physics->STATIC); 
 
 	// Create a big red sensor on the bottom of the screen.
 	// This sensor will not make other objects collide with it, but it can tell if it is "colliding" with something else
