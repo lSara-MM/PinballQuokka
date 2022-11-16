@@ -25,14 +25,14 @@ bool ModulePlayer::Start()
 
 	//LANZADOR
 	
-	base = App->physics->CreateRectangle(springData.x+ springData.w, springData.y+10, springData.w, 10, App->physics->STATIC );//Superficie apoyo
+	base = App->physics->CreateRectangle(springData.x+ springData.w, springData.y+10, springData.w, 1, App->physics->STATIC );//Superficie apoyo
 
 	//MUELLE EN SI
 	spring = App->physics->CreateRectangle(springData.x+ springData.w, springData.y+springData.h, springData.w, springData.h, App->physics->DYNAMIC);
 	
 	jointMuelle = App->physics->CreatePrismaticJoint(spring, VecS1, base, VecS2, axis, -MaxLength/2, MaxLength, false, true); //TODO: Modificar funcion para max y min
 
-	//texture = App->textures->Load("pinball/muelle.png");
+	texture = App->textures->Load("pinball/muelle1.png");
 
 
 	//PALAS
@@ -97,7 +97,7 @@ update_status ModulePlayer::Update()
 		
 	}
 
-	
+	App->renderer->Blit(texture, (float)METERS_TO_PIXELS(springData.x), (float)METERS_TO_PIXELS(springData.y));
 
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
 		rect2->body->ApplyForce(b2Vec2(-30, -30), b2Vec2(0, -5), true);
