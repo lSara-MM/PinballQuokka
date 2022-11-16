@@ -40,7 +40,94 @@ bool ModuleScene::Start()
 	map = App->textures->Load("pinball/muelle.png");
 
 	fondo = App->textures->Load("pinball/Fondo.png");
-	 
+	int Fondo[168] = {
+			175, 950,
+			172, 820,
+		   170, 818,
+		   165, 811,
+		   157, 807,
+		   148, 803,
+		   137, 799,
+		   125, 795,
+		   117, 793,
+		   107, 789,
+		   96, 784,
+		   88, 780,
+		   76, 775,
+		   65, 771,
+		   58, 766,
+		   50, 761,
+		   42, 753,
+		   38, 749,
+		   35, 742,
+		   33, 736,
+		   32, 728,
+		   32, 717,
+		   32, 67,
+		   33, 64,
+		   36, 58,
+		   40, 52,
+		   44, 46,
+		   47, 41,
+		   52, 35,
+		   57, 31,
+		   62, 27,
+		   68, 23,
+		   74, 18,
+		   79, 15,
+		   86, 12,
+		   91, 10,
+		   98, 6,
+		   103, 4,
+		   108, 3,
+		   116, 2,
+		   120, 2,
+		   127, 1,
+		   428, 0,
+		   436, 4,
+		   448, 10,
+		   455, 14,
+		   473, 30,
+		   476, 34,
+		   483, 41,
+		   486, 46,
+		   492, 54,
+		   503, 70,
+		   504, 818,
+		   467, 818,
+		   467, 206,
+		   464, 202,
+		   462, 201,
+		   459, 201,
+		   457, 203,
+		   455, 206,
+		   455, 208,
+		   455, 727,
+		   454, 733,
+		   452, 741,
+		   448, 749,
+		   437, 764,
+		   430, 768,
+		   425, 771,
+		   420, 773,
+		   414, 775,
+		   409, 778,
+		   402, 780,
+		   391, 784,
+		   380, 789,
+		   375, 790,
+		   370, 792,
+		   364, 794,
+		   353, 798,
+		   349, 800,
+		   333, 807,
+		   322, 812,
+		   317, 818,
+		   315, 820,
+		   312, 950
+	};
+
+	App->physics->CreateChain(0, 0, Fondo, 168, App->physics->STATIC);
 
 	// Create a big red sensor on the bottom of the screen.
 	// This sensor will not make other objects collide with it, but it can tell if it is "colliding" with something else
@@ -63,7 +150,7 @@ bool ModuleScene::CleanUp()
 update_status ModuleScene::Update()
 {
 	//Dibujar el mapa
-	App->renderer->Blit(fondo, 0, 0);
+	//App->renderer->Blit(fondo, 0, 0);
 	App->renderer->Blit(map,0,0);
 
 	// If user presses SPACE, enable RayCast
@@ -131,7 +218,7 @@ update_status ModuleScene::Update()
 			0, 75,
 			30, 62
 		};
-
+		
 		ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64, App->physics->DYNAMIC));
 	}
 
