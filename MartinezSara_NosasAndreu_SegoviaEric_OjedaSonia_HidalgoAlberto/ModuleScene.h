@@ -27,6 +27,8 @@ public:
 	p2List<PhysBody*> boxes;
 	p2List<PhysBody*> ricks;
 	p2List<PhysBody*> slingershots;
+	p2List<PhysBody*> chains;
+	
 
 	// Lower ground sensor (will kill all objects passig through it)
 	PhysBody* lower_ground_sensor;
@@ -46,5 +48,8 @@ public:
 	// Raycast
 	p2Point<int> ray;
 	bool ray_on;
+
+	//Score
+	int score;
 
 };

@@ -40,6 +40,9 @@ bool ModuleScene::Start()
 	map = App->textures->Load("pinball/muelle.png");
 
 	fondo = App->textures->Load("pinball/Fondo.png");
+
+	score = 0;
+
 	int Fondo[168] = {
 			175, 950,
 			172, 820,
@@ -127,7 +130,7 @@ bool ModuleScene::Start()
 		   312, 950
 	};
 
-	int FondoOreja[40] = {
+	int Oreja[40] = {
 	67, 203,
 	66, 303,
 	69, 313,
@@ -150,7 +153,7 @@ bool ModuleScene::Start()
 	71, 193
 	};
 
-	int FondoOreja2[42] = {
+	int Oreja2[42] = {
 	420, 209,
 	420, 301,
 	418, 314,
@@ -174,7 +177,7 @@ bool ModuleScene::Start()
 	417, 197
 	};
 
-	int FondoBarra[10] = {
+	int Barra[10] = {
 		80, 522,
 		80, 647,
 		88, 647,
@@ -182,7 +185,7 @@ bool ModuleScene::Start()
 		84, 519
 	};
 
-	int FondoBarra2[10] = {
+	int Barra2[10] = {
 	404, 523,
 	404, 648,
 	413, 649,
@@ -190,7 +193,7 @@ bool ModuleScene::Start()
 	409, 519
 	};
 
-	int FondoTriangle[22] = {
+	int Triangle[22] = {
 	93, 649,
 	186, 728,
 	188, 733,
@@ -204,7 +207,7 @@ bool ModuleScene::Start()
 	83, 649
 	};
 
-	int FondoTriangle2[20] = {
+	int Triangle2[20] = {
 	399, 648,
 	304, 726,
 	300, 733,
@@ -217,7 +220,7 @@ bool ModuleScene::Start()
 	407, 649
 	};
 
-	int FondoOval[40] = {
+	int Oval[40] = {
 	177, 250,
 	181, 254,
 	183, 263,
@@ -240,7 +243,7 @@ bool ModuleScene::Start()
 	173, 254
 	};
 
-	int FondoOval2[40] = {
+	int Oval2[40] = {
 	247, 250,
 	251, 254,
 	253, 263,
@@ -263,7 +266,7 @@ bool ModuleScene::Start()
 	243, 254
 	};
 
-	int FondoOval3[40] = {
+	int Oval3[40] = {
     314, 250,
     318, 254,
     320, 263,
@@ -286,29 +289,29 @@ bool ModuleScene::Start()
 	310, 254
 	};
 
+	chains.add(App->physics->CreateChain(0, 0, Fondo, 168, App->physics->STATIC, ColliderType::PLATFORM));
+	chains.add(App->physics->CreateChain(0, 0, Oreja, 40, App->physics->STATIC, ColliderType::EARS));
+	chains.add(App->physics->CreateChain(0, 0, Oreja2, 42, App->physics->STATIC, ColliderType::EARS));
+	chains.add(App->physics->CreateChain(0, 0, Barra, 10, App->physics->STATIC, ColliderType::ROD));
+	chains.add(App->physics->CreateChain(0, 0, Barra2, 10, App->physics->STATIC, ColliderType::ROD));
+	chains.add(App->physics->CreateChain(0, 0, Triangle, 22, App->physics->STATIC, ColliderType::ORANGE_BUMPER));
+	chains.add(App->physics->CreateChain(0, 0, Triangle2, 20, App->physics->STATIC, ColliderType::ORANGE_BUMPER));
+	chains.add(App->physics->CreateChain(0, 0, Oval, 40, App->physics->STATIC, ColliderType::OVAL));
+	chains.add(App->physics->CreateChain(0, 0, Oval2, 40, App->physics->STATIC, ColliderType::OVAL));
+	chains.add(App->physics->CreateChain(0, 0, Oval3, 40, App->physics->STATIC, ColliderType::OVAL));
 
-	
+	circles.add(App->physics->CreateCircle(87, 483, 24, 1.2f,App->physics->STATIC, ColliderType::CHEEK));
+	circles.add(App->physics->CreateCircle(402, 483, 24, 1.2f, App->physics->STATIC, ColliderType::CHEEK));
 
-	App->physics->CreateChain(0, 0, Fondo, 168, App->physics->STATIC, ColliderType::UNKNOWN);
-	App->physics->CreateChain(0, 0, FondoOreja, 40, App->physics->STATIC, ColliderType::UNKNOWN);
-	App->physics->CreateChain(0, 0, FondoOreja2, 42, App->physics->STATIC, ColliderType::UNKNOWN);
-	App->physics->CreateChain(0, 0, FondoBarra, 10, App->physics->STATIC, ColliderType::UNKNOWN);
-	App->physics->CreateChain(0, 0, FondoBarra2, 10, App->physics->STATIC, ColliderType::UNKNOWN);
-	App->physics->CreateChain(0, 0, FondoTriangle, 22, App->physics->STATIC, ColliderType::UNKNOWN);
-	App->physics->CreateChain(0, 0, FondoTriangle2, 20, App->physics->STATIC, ColliderType::UNKNOWN);
-	App->physics->CreateChain(0, 0, FondoOval, 40, App->physics->STATIC, ColliderType::UNKNOWN);
-	App->physics->CreateChain(0, 0, FondoOval2, 40, App->physics->STATIC, ColliderType::UNKNOWN);
-	App->physics->CreateChain(0, 0, FondoOval3, 40, App->physics->STATIC, ColliderType::UNKNOWN);
 
-	PhysBody* circle1 = App->physics->CreateCircle(247, 64, 43, App->physics->STATIC); 
-	PhysBody* circle2 = App->physics->CreateCircle(153, 134, 43, App->physics->STATIC); 
-	PhysBody* circle3 = App->physics->CreateCircle(336, 134, 43, App->physics->STATIC); 
-	PhysBody* circle4 = App->physics->CreateCircle(87, 483, 24, App->physics->STATIC); 
-	PhysBody* circle5 = App->physics->CreateCircle(402, 483, 24, App->physics->STATIC); 
+	PhysBody* Purple_Paw = App->physics->CreateCircle(247, 64, 43, 1.2f, App->physics->STATIC, ColliderType::PURPLE_PAW);//no en lista para acceder más fácil(cambiar sprite when combo)
+	PhysBody* Green_Paw = App->physics->CreateCircle(153, 134, 43, 1.2f, App->physics->STATIC, ColliderType::GREEN_PAW);
+	PhysBody* Turquoise_Paw = App->physics->CreateCircle(336, 134, 43, 1.2f, App->physics->STATIC, ColliderType::TURQUOISE_PAW);
+
 
 	// Create a big red sensor on the bottom of the screen.
 	// This sensor will not make other objects collide with it, but it can tell if it is "colliding" with something else
-	lower_ground_sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50);
+	lower_ground_sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50, ColliderType::UNKNOWN);
 
 	// Add this module (ModuleScene) as a listener for collisions with the sensor.
 	// In ModulePhysics::PreUpdate(), we iterate over all sensors and (if colliding) we call the function ModuleScene::OnCollision()
@@ -327,8 +330,8 @@ bool ModuleScene::CleanUp()
 update_status ModuleScene::Update()
 {
 	//Dibujar el mapa
-	App->renderer->Blit(fondo, 0, 0);
-	App->renderer->Blit(map,0,0);
+	//App->renderer->Blit(fondo, 0, 0);
+	//App->renderer->Blit(map,0,0);
 
 	// If user presses SPACE, enable RayCast
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
@@ -344,7 +347,7 @@ update_status ModuleScene::Update()
 	// If user presses 1, create a new circle object
 	if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 10));
+		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 10, 1.0f, App->physics->DYNAMIC, ColliderType::UNKNOWN));
 
 		// Add this module (ModuleScene) as a "listener" interested in collisions with circles.
 		// If Box2D detects a collision with this last generated circle, it will automatically callback the function ModulePhysics::BeginContact()
@@ -354,7 +357,7 @@ update_status ModuleScene::Update()
 	// If user presses 2, create a new box object
 	if(App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 	{
-		boxes.add(App->physics->CreateRectangle(App->input->GetMouseX(), App->input->GetMouseY(), 100, 50));
+		boxes.add(App->physics->CreateRectangle(App->input->GetMouseX(), App->input->GetMouseY(), 100, 50, App->physics->DYNAMIC, ColliderType::UNKNOWN));
 	}
 
 	// If user presses 3, create a new RickHead object
@@ -409,7 +412,7 @@ update_status ModuleScene::Update()
 
 		};
 
-		slingershots.add(App->physics->CreateBouncyChain(App->input->GetMouseX(), App->input->GetMouseY(), triangle, 6, 2, App->physics->STATIC, ColliderType::UNKNOWN));
+		slingershots.add(App->physics->CreateBouncyChain(App->input->GetMouseX(), App->input->GetMouseY(), triangle, 6, 2.0, App->physics->STATIC, ColliderType::UNKNOWN));
 	}
 
 
@@ -515,30 +518,29 @@ update_status ModuleScene::Update()
 void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
 	// Play Audio FX on every collision, regardless of who is colliding
+	
 	App->audio->PlayFx(bonus_fx);
 
-	/*
 	switch (bodyB->ctype)
 	{
 		case ColliderType::PLATFORM:
 			LOG("Collider platform");
 			//WHATEVER
-
 			break;
 
-		case ColliderType::EYES:
-			LOG("Collider eyes");
+		case ColliderType::EARS:
+			LOG("Collider ears");
 			//WHATEVER
 		
 			break;
 
 		case ColliderType::ORANGE_BUMPER:
-			LOG("Collider bumper paw");
+			LOG("Collider orange bumper");
 			//WHATEVER
 			break;
 
-		case ColliderType::SLINGERSHOT:
-			LOG("Collider slingershot paw");
+		case ColliderType::OVAL:
+			LOG("Collider oval");
 			//WHATEVER
 			break;
 
@@ -557,10 +559,25 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 			break;
 
 		case ColliderType::BELL:
-			LOG("Collider bell paw");
+			LOG("Collider bell");
+			//WHATEVER
+			break;
+
+		case ColliderType::CHEEK:
+			LOG("Collider cheek");
+			//WHATEVER
+			break;
+
+		case ColliderType::ROD:
+			LOG("Collider rod");
+			//WHATEVER
+			break;
+
+		case ColliderType::SLINGERSHOT:
+			LOG("Collider slingershot");
 			//WHATEVER
 			break;
 	}
-	*/
+	
 }
 

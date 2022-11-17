@@ -25,10 +25,10 @@ bool ModulePlayer::Start()
 
 	//LANZADOR
 	
-	base = App->physics->CreateRectangle(springData.x+ springData.w, springData.y+10, springData.w, 1, App->physics->STATIC );//Superficie apoyo
+	base = App->physics->CreateRectangle(springData.x+ springData.w, springData.y+10, springData.w, 1, App->physics->STATIC, ColliderType::UNKNOWN);//Superficie apoyo
 
 	//MUELLE EN SI
-	spring = App->physics->CreateRectangle(springData.x+ springData.w, springData.y+springData.h, springData.w, springData.h, App->physics->DYNAMIC);
+	spring = App->physics->CreateRectangle(springData.x+ springData.w, springData.y+springData.h, springData.w, springData.h, App->physics->DYNAMIC, ColliderType::UNKNOWN);
 	
 	jointMuelle = App->physics->CreatePrismaticJoint(spring, VecS1, base, VecS2, axis, -MaxLength/2, MaxLength, false, true); //TODO: Modificar funcion para max y min
 
@@ -37,17 +37,17 @@ bool ModulePlayer::Start()
 
 	//PALAS
 
-	circle = App->physics->CreateCircle(600, 200, 2, App->physics->STATIC);
+	circle = App->physics->CreateCircle(600, 200, 2, 1.0f, App->physics->STATIC, ColliderType::UNKNOWN);
 
-	rect = App->physics->CreateRectangle(600, 200, 64, 10, App->physics->DYNAMIC);
+	rect = App->physics->CreateRectangle(600, 200, 64, 10, App->physics->DYNAMIC, ColliderType::UNKNOWN);
 
 	App->physics->CreateRevoluteJoint(rect, Vec1, circle, Vec2, 33.0f);
 
 	Vec1 = { -0.50, 0 };
 
-	circle2 = App->physics->CreateCircle(400, 200, 2, App->physics->STATIC);
+	circle2 = App->physics->CreateCircle(400, 200, 2, 1.0f, App->physics->STATIC, ColliderType::UNKNOWN);
 
-	rect2 = App->physics->CreateRectangle(464, 200, 64, 10, App->physics->DYNAMIC);
+	rect2 = App->physics->CreateRectangle(464, 200, 64, 10, App->physics->DYNAMIC, ColliderType::UNKNOWN);
 
 	App->physics->CreateRevoluteJoint(rect2, Vec1, circle2, Vec2, 33.0f);
 
