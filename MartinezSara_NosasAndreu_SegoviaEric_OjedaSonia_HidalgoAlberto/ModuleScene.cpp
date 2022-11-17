@@ -286,14 +286,13 @@ bool ModuleScene::Start()
 	chains.add(App->physics->CreateChain(0, 0, Oval2, 40, App->physics->STATIC, ColliderType::OVAL));
 	chains.add(App->physics->CreateChain(0, 0, Oval3, 40, App->physics->STATIC, ColliderType::OVAL));
 
-	circles.add(App->physics->CreateCircle(87, 483, 24, 1.2f,App->physics->STATIC, ColliderType::CHEEK));
-	circles.add(App->physics->CreateCircle(402, 483, 24, 1.2f, App->physics->STATIC, ColliderType::CHEEK));
+	circles.add(App->physics->CreateCircle(379, 554, 19, 1.2f, App->physics->STATIC, ColliderType::CHEEK));
+	circles.add(App->physics->CreateCircle(128, 554, 19, 1.2f, App->physics->STATIC, ColliderType::CHEEK));
 
-
-
-	PhysBody* Purple_Paw = App->physics->CreateCircle(247, 64, 43, 1.2f, App->physics->STATIC, ColliderType::PURPLE_PAW);//no en lista para acceder más fácil(cambiar sprite when combo)
-	PhysBody* Green_Paw = App->physics->CreateCircle(153, 134, 43, 1.2f, App->physics->STATIC, ColliderType::GREEN_PAW);
-	PhysBody* Turquoise_Paw = App->physics->CreateCircle(336, 134, 43, 1.2f, App->physics->STATIC, ColliderType::TURQUOISE_PAW);
+	PhysBody* Purple_Paw = App->physics->CreateCircle(252, 136, 31,1.2f, App->physics->STATIC, ColliderType::PURPLE_PAW);
+	PhysBody* Green_Paw = App->physics->CreateCircle(143, 198, 31, 1.2f, App->physics->STATIC, ColliderType::GREEN_PAW);
+	PhysBody* Turqupise_Paw = App->physics->CreateCircle(363, 198, 31, 1.2f, App->physics->STATIC, ColliderType::TURQUOISE_PAW);
+	PhysBody* Pink_Paw = App->physics->CreateCircle(252, 256, 31, 1.2f, App->physics->STATIC, ColliderType::PINK_PAW);
 
 
 	// Create a big red sensor on the bottom of the screen.
@@ -317,7 +316,7 @@ bool ModuleScene::CleanUp()
 update_status ModuleScene::Update()
 {
 	//Dibujar el mapa
-	//App->renderer->Blit(fondo, 0, 0);
+	App->renderer->Blit(fondo, 0, 0);
 	//App->renderer->Blit(map,0,0);
 
 	// If user presses SPACE, enable RayCast
@@ -542,6 +541,11 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 			break;
 		case ColliderType::TURQUOISE_PAW:
 			LOG("Collider turquoise paw");
+			//WHATEVER
+			break;
+
+		case ColliderType::PINK_PAW:
+			LOG("Collider pink paw");
 			//WHATEVER
 			break;
 
