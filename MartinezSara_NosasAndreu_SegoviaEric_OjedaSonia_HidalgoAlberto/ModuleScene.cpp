@@ -517,19 +517,50 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	// Play Audio FX on every collision, regardless of who is colliding
 	App->audio->PlayFx(bonus_fx);
 
-	//switch (bodyB->ctype)
-	//{
-	//	case ColliderType::EYES:
-	//		LOG("Collider eyes");
-	//		//WHATEVER
-	//	
-	//		break;
+	/*
+	switch (bodyB->ctype)
+	{
+		case ColliderType::PLATFORM:
+			LOG("Collider platform");
+			//WHATEVER
 
-	//	case ColliderType::GREEN_PAW:
-	//		LOG("Collider green paw");
-	//		//WHATEVER
-	//		break;
+			break;
 
+		case ColliderType::EYES:
+			LOG("Collider eyes");
+			//WHATEVER
+		
+			break;
 
-	//}
+		case ColliderType::ORANGE_BUMPER:
+			LOG("Collider bumper paw");
+			//WHATEVER
+			break;
+
+		case ColliderType::SLINGERSHOT:
+			LOG("Collider slingershot paw");
+			//WHATEVER
+			break;
+
+		case ColliderType::GREEN_PAW:
+			LOG("Collider green paw");
+			//WHATEVER
+			break;
+		
+		case ColliderType::PURPLE_PAW:
+			LOG("Collider purple paw");
+			//WHATEVER
+			break;
+		case ColliderType::TURQUOISE_PAW:
+			LOG("Collider turquoise paw");
+			//WHATEVER
+			break;
+
+		case ColliderType::BELL:
+			LOG("Collider bell paw");
+			//WHATEVER
+			break;
+	}
+	*/
 }
+
