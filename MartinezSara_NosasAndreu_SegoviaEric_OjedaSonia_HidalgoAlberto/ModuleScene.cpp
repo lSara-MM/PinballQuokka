@@ -295,6 +295,8 @@ bool ModuleScene::Start()
 	PhysBody* Turqupise_Paw = App->physics->CreateBouncyCircle(363, 198, 31, 1.2f, App->physics->STATIC, ColliderType::TURQUOISE_PAW);
 	PhysBody* Pink_Paw = App->physics->CreateBouncyCircle(252, 256, 31, 1.2f, App->physics->STATIC, ColliderType::PINK_PAW);
 
+	chains.add(App->physics->CreateRectangleSensor(280, 380, 40, 1, ColliderType::OVAL));//sensor típic passar carril sumar punts, animació especial?
+	chains.add(App->physics->CreateRectangleSensor(222, 380, 40, 1, ColliderType::OVAL));
 
 	// Create a big red sensor on the bottom of the screen.
 	// This sensor will not make other objects collide with it, but it can tell if it is "colliding" with something else
@@ -515,36 +517,42 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 		case ColliderType::EARS:
 			LOG("Collider ears");
+			score += 50;
 			//WHATEVER
-		
 			break;
 
 		case ColliderType::ORANGE_BUMPER:
 			LOG("Collider orange bumper");
+			score += 100;
 			//WHATEVER
 			break;
 
 		case ColliderType::OVAL:
 			LOG("Collider oval");
+			score += 50;
 			//WHATEVER
 			break;
 
 		case ColliderType::GREEN_PAW:
 			LOG("Collider green paw");
+			score += 150;
 			//WHATEVER
 			break;
 		
 		case ColliderType::PURPLE_PAW:
 			LOG("Collider purple paw");
+			score += 150;
 			//WHATEVER
 			break;
 		case ColliderType::TURQUOISE_PAW:
 			LOG("Collider turquoise paw");
+			score += 150;
 			//WHATEVER
 			break;
 
 		case ColliderType::PINK_PAW:
 			LOG("Collider pink paw");
+			score += 150;
 			//WHATEVER
 			break;
 
@@ -559,6 +567,7 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 		case ColliderType::CHEEK:
 			LOG("Collider cheek");
+			score += 100;
 			//WHATEVER
 			break;
 
