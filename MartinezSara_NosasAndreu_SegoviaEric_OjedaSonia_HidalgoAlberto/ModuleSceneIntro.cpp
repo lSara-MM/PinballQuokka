@@ -10,6 +10,10 @@
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
 
+uint Time_ = 0;
+uint delta__Time = 0;
+uint last__TickTime = 0;
+
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 
@@ -39,6 +43,14 @@ bool ModuleSceneIntro::Start()
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 	map = App->textures->Load("pinball/map.png");
 
+	// Load Font
+	char lookupTable1[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789   .,:!?()-" };
+	titleFont = App->renderer->LoadFont("Pinball/font_CatPaw.png", lookupTable1, 4, 13); // 4 = rows 13 = columns
+	
+	char lookupTable2[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789   .,:!?()-" };
+	subtitleFont = App->renderer->LoadFont("Pinball/font_CatPaw32.png", lookupTable2, 6, 13); // 6 = rows 13 = columns
+
+	startTime = SDL_GetTicks();
 	return ret;
 }
 
@@ -51,24 +63,35 @@ bool ModuleSceneIntro::CleanUp()
 	return true;
 }
 
+#include <iostream>
+using namespace std;
+#include <sstream>
+
 update_status ModuleSceneIntro::Update()
 {
+	dTime = SDL_GetTicks() - startTime;
 	//Dibujar el mapa
 	App->renderer->Blit(map,0,0);
 
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
 		App->fade->FadeToBlack(this, (Module*)App->scene, 90);
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
+	{
+		startTime = SDL_GetTicks();
+		LOG("startTime: %d\ndTime: %d", startTime, dTime);
+	}
+
+	
+	if (dTime < 1500)
+	{
+		App->renderer->BlitText(85, 600, subtitleFont, "Press ENTER");
+		App->renderer->BlitText(120, 650, subtitleFont, "to start");
+	}
+	if (dTime > 2500) { startTime = SDL_GetTicks(); }
+	
 	// Keep playing
 	return UPDATE_CONTINUE;
-}
-
-void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
-{
-	// Play Audio FX on every collision, regardless of who is colliding
-	App->audio->PlayFx(bonus_fx);
-
-	// Do something else. You can also check which bodies are colliding (sensor? ball? player?)
 }

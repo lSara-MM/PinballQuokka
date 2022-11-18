@@ -95,8 +95,12 @@ bool ModuleRender::Blit(SDL_Texture* texture, float x, float y, const SDL_Rect* 
 {
 	bool ret = true;
 	SDL_Rect rect;
-	rect.x = (int) (camera.x * speed) + x * SCREEN_SIZE * scale;
-	rect.y = (int) (camera.y * speed) + y * SCREEN_SIZE * scale;
+	//rect.x = (int) (camera.x * speed) + x * SCREEN_SIZE * scale;
+	//rect.y = (int) (camera.y * speed) + y * SCREEN_SIZE * scale;
+
+	rect.x = (int) (camera.x * speed) + x * SCREEN_SIZE;
+	rect.y = (int) (camera.y * speed) + y * SCREEN_SIZE;
+
 
 	if(section != NULL)
 	{
@@ -108,8 +112,11 @@ bool ModuleRender::Blit(SDL_Texture* texture, float x, float y, const SDL_Rect* 
 		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
 	}
 
-	rect.w *= SCREEN_SIZE;
-	rect.h *= SCREEN_SIZE;
+	//rect.w *= SCREEN_SIZE;
+	//rect.h *= SCREEN_SIZE;
+
+	rect.w *= SCREEN_SIZE * scale;
+	rect.h *= SCREEN_SIZE * scale;
 
 	SDL_Point* p = NULL;
 	SDL_Point pivot;

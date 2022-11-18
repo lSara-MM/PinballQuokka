@@ -404,8 +404,6 @@ update_status ModuleScene::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 	{
-
-
 		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_intro, 90);
 	}
 
@@ -551,6 +549,10 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 		case ColliderType::BELL:
 			LOG("Collider bell");
+			if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+			{
+				App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_intro, 90);
+			}
 			//WHATEVER
 			break;
 

@@ -18,7 +18,6 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
-	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
 
 public:
 
@@ -44,4 +43,11 @@ public:
 	// Raycast
 	p2Point<int> ray;
 	bool ray_on;
+
+private:
+	int titleFont;
+	int subtitleFont;
+
+	Uint32 startTime = 0;
+	uint dTime;
 };
