@@ -16,6 +16,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+
 public:
 	//Palas
 	PhysBody* rect;
@@ -39,12 +40,13 @@ public:
 	b2Vec2 VecS2 = b2Vec2(0, 0);
 	b2Vec2 axis = b2Vec2(0, -1);
 
+	// Balls
+	int numBalls; 
+
 	//Textures
 	SDL_Texture* texture;
 
 	int scoreFont;
 	int score;
 	int comboPaws;
-
-	bool godMode;
 };

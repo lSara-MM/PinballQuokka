@@ -13,6 +13,7 @@ class ModulePhysics;
 
 class ModuleFadeToBlack;
 
+class ModuleLeaderboard;
 class ModuleSceneIntro;
 class ModuleScene;
 class ModulePlayer;
@@ -30,6 +31,7 @@ public:
 
 	ModuleFadeToBlack* fade;
 	
+	ModuleLeaderboard* scene_lead;
 	ModuleSceneIntro* scene_intro;
 	ModuleScene* scene;
 	ModulePlayer* player;

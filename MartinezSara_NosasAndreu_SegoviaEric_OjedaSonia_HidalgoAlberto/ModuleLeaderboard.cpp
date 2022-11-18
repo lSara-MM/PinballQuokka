@@ -1,7 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleRender.h"
-#include "ModuleSceneIntro.h"
+#include "ModuleLeaderboard.h"
 #include "ModuleInput.h"
 #include "ModuleTextures.h"
 #include "ModuleAudio.h"
@@ -10,25 +10,22 @@
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
 
-uint Time_ = 0;
-uint delta__Time = 0;
-uint last__TickTime = 0;
 
-ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
+#include <iostream>
+using namespace std;
+#include <sstream>
+
+ModuleLeaderboard::ModuleLeaderboard(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 
-	// Initialise all the internal class variables, at least to NULL pointer
-	circle = box = rick = NULL;
-	ray_on = false;
-	sensed = false;
 }
 
-ModuleSceneIntro::~ModuleSceneIntro()
+ModuleLeaderboard::~ModuleLeaderboard()
 {
 	// You should do some memory cleaning here, if required
 }
 
-bool ModuleSceneIntro::Start()
+bool ModuleLeaderboard::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
@@ -37,11 +34,7 @@ bool ModuleSceneIntro::Start()
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
 	// Load textures
-	circle = App->textures->Load("pinball/wheel.png"); 
-	box = App->textures->Load("pinball/crate.png");
-	rick = App->textures->Load("pinball/rick_head.png");
-	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
-	map = App->textures->Load("pinball/map.png");
+	
 
 	// Load Font
 	char lookupTable1[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789   .,:!?()-" };
@@ -50,28 +43,20 @@ bool ModuleSceneIntro::Start()
 	char lookupTable2[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789   .,:!?()-" };
 	subtitleFont = App->renderer->LoadFont("Pinball/font_CatPaw32.png", lookupTable2, 6, 13); // 6 = rows 13 = columns
 
-	startTime = SDL_GetTicks();
+	//startTime = SDL_GetTicks();
 	return ret;
 }
 
-bool ModuleSceneIntro::CleanUp()
+bool ModuleLeaderboard::CleanUp()
 {
-	LOG("Unloading Intro scene");
-	App->physics->Enable();
-	App->player->Enable();
-	
 	return true;
 }
 
-#include <iostream>
-using namespace std;
-#include <sstream>
-
-update_status ModuleSceneIntro::Update()
+update_status ModuleLeaderboard::Update()
 {
 	dTime = SDL_GetTicks() - startTime;
 	//Dibujar el mapa
-	App->renderer->Blit(map,0,0);
+	//App->renderer->Blit(map,0,0);
 
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
@@ -99,4 +84,36 @@ update_status ModuleSceneIntro::Update()
 	
 	// Keep playing
 	return UPDATE_CONTINUE;
+}
+
+void ModuleLeaderboard::ranks()
+{
+	SDL_Rect bgColor;
+	bgColor = { 0, 0, SCREEN_WIDTH * SCREEN_SIZE,  SCREEN_HEIGHT * SCREEN_SIZE };
+
+	SDL_RenderFillRect(App->renderer->renderer, &bgColor);
+	bubbleSort(leaderboard, 10);
+
+}
+
+void ModuleLeaderboard::bubbleSort(int array[], int size)
+{
+	// loop to access each array element
+	for (int step = 0; step < size - 1; ++step) {
+
+		// loop to compare array elements
+		for (int i = 0; i < size - step - 1; ++i) {
+
+			// compare two adjacent elements
+			// change > to < to sort in descending order
+			if (array[i] > array[i + 1]) {
+
+				// swapping occurs if elements
+				// are not in the intended order
+				int temp = array[i];
+				array[i] = array[i + 1];
+				array[i + 1] = temp;
+			}
+		}
+	}
 }

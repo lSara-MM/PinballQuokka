@@ -15,6 +15,8 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	void ranks();
+	void bubbleSort(int array[], int size);
 public:
 
 	
@@ -30,4 +32,8 @@ private:
 
 	Uint32 startTime = 0;
 	uint dTime;
+
+	// Ranks
+	int leaderboard[10];
+	int prevScore;
 };

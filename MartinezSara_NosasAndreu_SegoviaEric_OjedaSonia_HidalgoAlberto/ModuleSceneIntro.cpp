@@ -33,7 +33,7 @@ bool ModuleSceneIntro::Start()
 	// Set camera position
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
-	//bgTexture = App->textures->Load();
+	bgTexture = App->textures->Load("pinball/map.png");
 
 	// Load Font
 	char lookupTable1[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789   .,:!?()-" };
@@ -57,7 +57,7 @@ update_status ModuleSceneIntro::Update()
 {
 	dTime = SDL_GetTicks() - startTime;
 	//Dibujar el mapa
-	App->renderer->Blit(map,0,0);
+	App->renderer->Blit(bgTexture, 0, 0);
 
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
