@@ -40,8 +40,6 @@ bool ModuleScene::Start()
 	map = App->textures->Load("pinball/muelle.png");
 
 
-	score = 0;
-
 	fondo = App->textures->Load("pinball/Fondo2.png");
 	int Fondo[122] = {
 	504, 825,
@@ -306,6 +304,12 @@ bool ModuleScene::Start()
 	// In ModulePhysics::PreUpdate(), we iterate over all sensors and (if colliding) we call the function ModuleScene::OnCollision()
 	lower_ground_sensor->listener = this;
 	
+
+
+	greenP = false;
+	purpleP = false; 
+	turquoiseP = false; 
+	pinkP = false;
 	return ret;
 }
 
@@ -498,6 +502,16 @@ update_status ModuleScene::Update()
 			App->renderer->DrawLine(ray.x + destination.x, ray.y + destination.y, ray.x + destination.x + normal.x * 25.0f, ray.y + destination.y + normal.y * 25.0f, 100, 255, 100);
 	}
 
+
+	if (App->player->comboPaws == 4)
+	{
+		App->player->score += 500;
+		greenP = false;
+		purpleP = false;
+		turquoiseP = false;
+		pinkP = false;
+
+	}
 	// Keep playing
 	return UPDATE_CONTINUE;
 }
@@ -517,42 +531,62 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 		case ColliderType::EARS:
 			LOG("Collider ears");
-			score += 50;
+			App->player->score += 50;
 			//WHATEVER
 			break;
 
 		case ColliderType::ORANGE_BUMPER:
 			LOG("Collider orange bumper");
-			score += 100;
+			App->player->score += 100;
 			//WHATEVER
 			break;
 
 		case ColliderType::OVAL:
 			LOG("Collider oval");
-			score += 50;
+			App->player->score += 50;
 			//WHATEVER
 			break;
 
 		case ColliderType::GREEN_PAW:
 			LOG("Collider green paw");
-			score += 150;
+			App->player->score += 150;
+			if (greenP == false)
+			{
+				App->player->comboPaws++;
+				greenP = true;
+			}
 			//WHATEVER
 			break;
 		
 		case ColliderType::PURPLE_PAW:
 			LOG("Collider purple paw");
-			score += 150;
+			App->player->score += 150;
+			if (purpleP == false)
+			{
+				App->player->comboPaws++;
+				purpleP = true;
+			}
 			//WHATEVER
 			break;
 		case ColliderType::TURQUOISE_PAW:
 			LOG("Collider turquoise paw");
-			score += 150;
+			App->player->score += 150;
+			if (turquoiseP == false)
+			{
+				App->player->comboPaws++;
+				turquoiseP = true;
+			}
 			//WHATEVER
 			break;
 
 		case ColliderType::PINK_PAW:
 			LOG("Collider pink paw");
-			score += 150;
+			App->player->score += 150;
+			if (pinkP == false)
+			{
+				App->player->comboPaws++;
+				pinkP = true;
+			}
 			//WHATEVER
 			break;
 
@@ -567,7 +601,7 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 		case ColliderType::CHEEK:
 			LOG("Collider cheek");
-			score += 100;
+			App->player->score += 100;
 			//WHATEVER
 			break;
 
