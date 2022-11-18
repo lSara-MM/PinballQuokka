@@ -81,7 +81,8 @@ public:
 	};
 
 	// Create basic physics objects
-	PhysBody* CreateCircle(int x, int y, int radius, float bounce, BodyType type, ColliderType collType);
+	PhysBody* CreateCircle(int x, int y, int radius, BodyType type, ColliderType collType);
+	PhysBody* CreateBouncyCircle(int x, int y, int radius, float bounce, BodyType type, ColliderType collType);
 	PhysBody* CreateRectangle(int x, int y, int width, int height, BodyType type ,ColliderType collType);
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height, ColliderType collType);
 	PhysBody* CreateChain(int x, int y, int* points, int size, BodyType type, ColliderType collType);

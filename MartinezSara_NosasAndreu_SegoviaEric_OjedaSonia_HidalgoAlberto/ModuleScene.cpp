@@ -276,23 +276,24 @@ bool ModuleScene::Start()
 	};
 
 	chains.add(App->physics->CreateChain(0, 0, Fondo, 122, App->physics->STATIC, ColliderType::PLATFORM));
-	chains.add(App->physics->CreateChain(0, 0, Oreja, 44, App->physics->STATIC, ColliderType::EARS));
-	chains.add(App->physics->CreateChain(0, 0, Oreja2, 48, App->physics->STATIC, ColliderType::EARS));
+
+	chains.add(App->physics->CreateBouncyChain(0, 0, Oreja, 44, 1.2f, App->physics->STATIC, ColliderType::EARS));
+	chains.add(App->physics->CreateBouncyChain(0, 0, Oreja2, 48, 1.2f, App->physics->STATIC, ColliderType::EARS));
 	chains.add(App->physics->CreateChain(0, 0, Barra, 14, App->physics->STATIC, ColliderType::ROD));
 	chains.add(App->physics->CreateChain(0, 0, Barra2, 14, App->physics->STATIC, ColliderType::ROD));
-	chains.add(App->physics->CreateChain(0, 0, Triangle, 20, App->physics->STATIC, ColliderType::ORANGE_BUMPER));
-	chains.add(App->physics->CreateChain(0, 0, Triangle2, 20, App->physics->STATIC, ColliderType::ORANGE_BUMPER));
-	chains.add(App->physics->CreateChain(0, 0, Oval, 40, App->physics->STATIC, ColliderType::OVAL));
-	chains.add(App->physics->CreateChain(0, 0, Oval2, 40, App->physics->STATIC, ColliderType::OVAL));
-	chains.add(App->physics->CreateChain(0, 0, Oval3, 40, App->physics->STATIC, ColliderType::OVAL));
+	chains.add(App->physics->CreateBouncyChain(0, 0, Triangle, 20, 1.75f, App->physics->STATIC, ColliderType::ORANGE_BUMPER));
+	chains.add(App->physics->CreateBouncyChain(0, 0, Triangle2, 20, 1.75f, App->physics->STATIC, ColliderType::ORANGE_BUMPER));//canviar els valos de bounce per ajustar rebot
+	chains.add(App->physics->CreateBouncyChain(0, 0, Oval, 40, 1.1f, App->physics->STATIC, ColliderType::OVAL));
+	chains.add(App->physics->CreateBouncyChain(0, 0, Oval2, 40, 1.1f, App->physics->STATIC, ColliderType::OVAL));
+	chains.add(App->physics->CreateBouncyChain(0, 0, Oval3, 40, 1.1f, App->physics->STATIC, ColliderType::OVAL));
 
-	circles.add(App->physics->CreateCircle(379, 554, 19, 1.2f, App->physics->STATIC, ColliderType::CHEEK));
-	circles.add(App->physics->CreateCircle(128, 554, 19, 1.2f, App->physics->STATIC, ColliderType::CHEEK));
+	circles.add(App->physics->CreateBouncyCircle(379, 554, 19, 1.2f, App->physics->STATIC, ColliderType::CHEEK));
+	circles.add(App->physics->CreateBouncyCircle(128, 554, 19, 1.2f, App->physics->STATIC, ColliderType::CHEEK));
 
-	PhysBody* Purple_Paw = App->physics->CreateCircle(252, 136, 31,1.2f, App->physics->STATIC, ColliderType::PURPLE_PAW);
-	PhysBody* Green_Paw = App->physics->CreateCircle(143, 198, 31, 1.2f, App->physics->STATIC, ColliderType::GREEN_PAW);
-	PhysBody* Turqupise_Paw = App->physics->CreateCircle(363, 198, 31, 1.2f, App->physics->STATIC, ColliderType::TURQUOISE_PAW);
-	PhysBody* Pink_Paw = App->physics->CreateCircle(252, 256, 31, 1.2f, App->physics->STATIC, ColliderType::PINK_PAW);
+	PhysBody* Purple_Paw = App->physics->CreateBouncyCircle(252, 136, 31,1.2f, App->physics->STATIC, ColliderType::PURPLE_PAW);
+	PhysBody* Green_Paw = App->physics->CreateBouncyCircle(143, 198, 31, 1.2f, App->physics->STATIC, ColliderType::GREEN_PAW);
+	PhysBody* Turqupise_Paw = App->physics->CreateBouncyCircle(363, 198, 31, 1.2f, App->physics->STATIC, ColliderType::TURQUOISE_PAW);
+	PhysBody* Pink_Paw = App->physics->CreateBouncyCircle(252, 256, 31, 1.2f, App->physics->STATIC, ColliderType::PINK_PAW);
 
 
 	// Create a big red sensor on the bottom of the screen.
@@ -333,7 +334,7 @@ update_status ModuleScene::Update()
 	// If user presses 1, create a new circle object
 	if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 10, 1.0f, App->physics->DYNAMIC, ColliderType::UNKNOWN));
+		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 10, App->physics->DYNAMIC, ColliderType::UNKNOWN));
 
 		// Add this module (ModuleScene) as a "listener" interested in collisions with circles.
 		// If Box2D detects a collision with this last generated circle, it will automatically callback the function ModulePhysics::BeginContact()
@@ -505,7 +506,7 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
 	// Play Audio FX on every collision, regardless of who is colliding
 	
-	App->audio->PlayFx(bonus_fx);
+	//App->audio->PlayFx(bonus_fx);
 
 	switch (bodyB->ctype)
 	{
