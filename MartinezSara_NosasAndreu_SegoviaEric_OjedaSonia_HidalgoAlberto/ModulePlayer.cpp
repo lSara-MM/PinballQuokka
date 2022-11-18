@@ -6,6 +6,10 @@
 #include "ModuleTextures.h"
 #include "ModuleInput.h"
 
+#include <iostream>
+using namespace std;
+#include <sstream>
+
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 }
@@ -51,8 +55,8 @@ bool ModulePlayer::Start()
 	score = 0;
 
 	// Load Font
-	char lookupTable[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,:!?()-" };
-	scoreFont = App->renderer->LoadFont("Pinball/font_CatPaw.png", lookupTable, 6, 13); // 6 = rows 
+	char lookupTable[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789   .,:!?()- " };
+	scoreFont = App->renderer->LoadFont("Pinball/font_CatPaw32.png", lookupTable, 6, 13); // 6 = rows 
 	
 	return true;
 }
@@ -110,9 +114,12 @@ update_status ModulePlayer::Update()
 		rect->body->ApplyForce(b2Vec2(-30, -30), b2Vec2(0, -5), true);
 	}
 
-	App->renderer->BlitText(80, 20, scoreFont, "score", 0.65f);
+
+	// strings to const char*
+	string s_score = std::to_string(score);
+	const char* ch_score = s_score.c_str();
+	App->renderer->BlitText(250, 15, scoreFont, "Score:");
+	App->renderer->BlitText(450, 15, scoreFont, ch_score);
+
 	return UPDATE_CONTINUE;
 }
-
-
-
