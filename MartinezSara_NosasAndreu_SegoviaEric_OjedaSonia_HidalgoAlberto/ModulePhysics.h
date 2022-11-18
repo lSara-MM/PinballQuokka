@@ -19,6 +19,7 @@
 #define DEG_TO_RAD(r) ((float) DEG_PER_RAD * r)
 
 enum class ColliderType {
+	BALL,
 	GREEN_PAW,
 	PURPLE_PAW,
 	TURQUOISE_PAW,

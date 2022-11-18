@@ -45,4 +45,6 @@ public:
 	int scoreFont;
 	int score;
 	int comboPaws;
+
+	bool godMode;
 };

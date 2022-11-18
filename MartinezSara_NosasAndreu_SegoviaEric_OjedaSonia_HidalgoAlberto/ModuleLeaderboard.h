@@ -1,18 +1,14 @@
 #pragma once
 #include "Module.h"
-#include "p2List.h"
-#include "p2Point.h"
 #include "Globals.h"
 
-class PhysBody;
-
-class ModuleSceneIntro : public Module
+class ModuleLeaderboard : public Module
 {
 public:
 
 	// Constructors & Destructors
-	ModuleSceneIntro(Application* app, bool start_enabled = true);
-	~ModuleSceneIntro();
+	ModuleLeaderboard(Application* app, bool start_enabled = true);
+	~ModuleLeaderboard();
 
 	// Main module steps
 	bool Start();
@@ -21,11 +17,16 @@ public:
 
 public:
 
+	
+	// Textures
+	//SDL_Texture* map;
+
+	// FX
+	//uint bonus_fx;
+
 private:
 	int titleFont;
 	int subtitleFont;
-
-	SDL_Texture* bgTexture;
 
 	Uint32 startTime = 0;
 	uint dTime;

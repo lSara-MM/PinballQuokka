@@ -54,6 +54,8 @@ bool ModulePlayer::Start()
 	// Score
 	score = 0;
 	comboPaws = 0;
+
+	godMode = false;
 	// Load Font
 	char lookupTable[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789   .,:!?()- " };
 	scoreFont = App->renderer->LoadFont("Pinball/font_CatPaw32.png", lookupTable, 6, 13); // 6 = rows 
@@ -118,8 +120,8 @@ update_status ModulePlayer::Update()
 	// strings to const char*
 	string s_score = std::to_string(score);
 	const char* ch_score = s_score.c_str();
-	App->renderer->BlitText(250, 15, scoreFont, "Score:");
-	App->renderer->BlitText(450, 15, scoreFont, ch_score);
+	App->renderer->BlitText(120, 15, scoreFont, "Score:");
+	App->renderer->BlitText(350, 15, scoreFont, ch_score);
 
 	return UPDATE_CONTINUE;
 }

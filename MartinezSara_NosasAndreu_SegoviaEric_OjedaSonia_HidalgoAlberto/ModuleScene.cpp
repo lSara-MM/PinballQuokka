@@ -28,6 +28,8 @@ bool ModuleScene::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
+	App->physics->Enable();
+	App->player->Enable();
 
 	// Set camera position
 	App->renderer->camera.x = App->renderer->camera.y = 0;
@@ -305,7 +307,6 @@ bool ModuleScene::Start()
 	lower_ground_sensor->listener = this;
 	
 
-
 	greenP = false;
 	purpleP = false; 
 	turquoiseP = false; 
@@ -317,6 +318,20 @@ bool ModuleScene::CleanUp()
 {
 	LOG("Unloading Intro scene");
 
+	App->textures->Unload(circle);
+	App->textures->Unload(fondo);
+	App->textures->Unload(box);
+	App->textures->Unload(rick);
+	App->textures->Unload(map);
+	App->textures->Unload(fondo);
+
+	greenP = false;
+	purpleP = false;
+	turquoiseP = false;
+	pinkP = false;
+
+	App->player->Disable();
+	//App->physics->Disable();
 	return true;
 }
 
@@ -340,8 +355,6 @@ update_status ModuleScene::Update()
 
 		slingershots.add(App->physics->CreateBouncyChain(App->input->GetMouseX(), App->input->GetMouseY(), triangle, 6, 2.0, App->physics->STATIC, ColliderType::UNKNOWN));
 	}
-
-
 	
 	// Prepare for raycast ------------------------------------------------------
 	
@@ -433,12 +446,14 @@ update_status ModuleScene::Update()
 	if (App->player->comboPaws == 4)
 	{
 		App->player->score += 500;
+		App->player->comboPaws = 0;
 		greenP = false;
 		purpleP = false;
 		turquoiseP = false;
 		pinkP = false;
-
+		LOG("COMBO! Score: %d", App->player->score);
 	}
+
 	// Keep playing
 	return UPDATE_CONTINUE;
 }
@@ -561,10 +576,7 @@ void ModuleScene::debug()
 	// If user presses 1, create a new circle object
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 10, App->physics->DYNAMIC, ColliderType::UNKNOWN));
-
-		// Add this module (ModuleScene) as a "listener" interested in collisions with circles.
-		// If Box2D detects a collision with this last generated circle, it will automatically callback the function ModulePhysics::BeginContact()
+		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 10, App->physics->DYNAMIC, ColliderType::BALL));
 		circles.getLast()->data->listener = this;
 	}
 
@@ -616,7 +628,7 @@ void ModuleScene::debug()
 		ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64, App->physics->DYNAMIC, ColliderType::UNKNOWN));
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)	// delete after
 	{
 		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_intro, 90);
 	}
@@ -632,18 +644,24 @@ void ModuleScene::debug()
 	{
 		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene, 90);
 	}
-	// Insta win
-	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
-	{
-		//App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene, 90);
-	}
-	// Insta lose
-	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
-	{
-		//App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene, 90);
-	}
+	//// Insta win
+	//if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN && App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	//{
+	//	//App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene, 90);
+	//}
+	//// Insta lose
+	//if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN && App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
+	//{
+	//	App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene, 90);
+	//}
+
 	// Score++
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	{
+		App->player->score++;
+	}
+	// Spawn bola
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 	{
 		App->player->score++;
 	}

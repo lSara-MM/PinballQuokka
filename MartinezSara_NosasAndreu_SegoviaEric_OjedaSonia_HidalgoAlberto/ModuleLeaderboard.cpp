@@ -9,15 +9,18 @@
 
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
-#include "ModuleLeaderboard.h"
 
-#include <iostream>
-using namespace std;
-#include <sstream>
+uint Time_ = 0;
+uint delta__Time = 0;
+uint last__TickTime = 0;
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 
+	// Initialise all the internal class variables, at least to NULL pointer
+	circle = box = rick = NULL;
+	ray_on = false;
+	sensed = false;
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
@@ -33,7 +36,12 @@ bool ModuleSceneIntro::Start()
 	// Set camera position
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
-	//bgTexture = App->textures->Load();
+	// Load textures
+	circle = App->textures->Load("pinball/wheel.png"); 
+	box = App->textures->Load("pinball/crate.png");
+	rick = App->textures->Load("pinball/rick_head.png");
+	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
+	map = App->textures->Load("pinball/map.png");
 
 	// Load Font
 	char lookupTable1[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789   .,:!?()-" };
@@ -49,9 +57,15 @@ bool ModuleSceneIntro::Start()
 bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
+	App->physics->Enable();
+	App->player->Enable();
 	
 	return true;
 }
+
+#include <iostream>
+using namespace std;
+#include <sstream>
 
 update_status ModuleSceneIntro::Update()
 {
