@@ -41,5 +41,7 @@ public:
 
 	//Textures
 	SDL_Texture* texture;
-	
+
+	int scoreFont;
+	int score;
 };

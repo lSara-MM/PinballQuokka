@@ -29,28 +29,31 @@ bool ModulePlayer::Start()
 
 	//MUELLE EN SI
 	spring = App->physics->CreateRectangle(springData.x+ springData.w, springData.y+springData.h, springData.w, springData.h, App->physics->DYNAMIC, ColliderType::UNKNOWN);
-	
 	jointMuelle = App->physics->CreatePrismaticJoint(spring, VecS1, base, VecS2, axis, -MaxLength/2, MaxLength, false, true); //TODO: Modificar funcion para max y min
-
 	texture = App->textures->Load("pinball/muelle1.png");
 
 
 	//PALAS
 
 	circle = App->physics->CreateCircle(600, 200, 2, 1.0f, App->physics->STATIC, ColliderType::UNKNOWN);
-
 	rect = App->physics->CreateRectangle(600, 200, 64, 10, App->physics->DYNAMIC, ColliderType::UNKNOWN);
 
 	App->physics->CreateRevoluteJoint(rect, Vec1, circle, Vec2, 33.0f);
-
 	Vec1 = { -0.50, 0 };
 
 	circle2 = App->physics->CreateCircle(400, 200, 2, 1.0f, App->physics->STATIC, ColliderType::UNKNOWN);
-
 	rect2 = App->physics->CreateRectangle(464, 200, 64, 10, App->physics->DYNAMIC, ColliderType::UNKNOWN);
 
 	App->physics->CreateRevoluteJoint(rect2, Vec1, circle2, Vec2, 33.0f);
 
+
+	// Score
+	score = 0;
+
+	// Load Font
+	char lookupTable[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,:!?()-" };
+	scoreFont = App->renderer->LoadFont("Pinball/font_CatPaw.png", lookupTable, 6, 13); // 6 = rows 
+	
 	return true;
 }
 
@@ -107,7 +110,7 @@ update_status ModulePlayer::Update()
 		rect->body->ApplyForce(b2Vec2(-30, -30), b2Vec2(0, -5), true);
 	}
 
-
+	App->renderer->BlitText(80, 20, scoreFont, "score", 0.50f);
 	return UPDATE_CONTINUE;
 }
 
