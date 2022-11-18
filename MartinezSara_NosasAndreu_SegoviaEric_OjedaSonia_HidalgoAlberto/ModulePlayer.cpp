@@ -53,7 +53,7 @@ bool ModulePlayer::Start()
 
 	// Score
 	score = 0;
-
+	comboPaws = 0;
 	// Load Font
 	char lookupTable[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789   .,:!?()- " };
 	scoreFont = App->renderer->LoadFont("Pinball/font_CatPaw32.png", lookupTable, 6, 13); // 6 = rows 

@@ -325,75 +325,8 @@ update_status ModuleScene::Update()
 	//Dibujar el mapa
 	App->renderer->Blit(fondo, 0, 0);
 	//App->renderer->Blit(map,0,0);
-
-	// If user presses SPACE, enable RayCast
-	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-	{
-		// Enable raycast mode
-		ray_on = !ray_on;
-
-		// Origin point of the raycast is be the mouse current position now (will not change)
-		ray.x = App->input->GetMouseX();
-		ray.y = App->input->GetMouseY();
-	}
-
-	// If user presses 1, create a new circle object
-	if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-	{
-		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 10, App->physics->DYNAMIC, ColliderType::UNKNOWN));
-
-		// Add this module (ModuleScene) as a "listener" interested in collisions with circles.
-		// If Box2D detects a collision with this last generated circle, it will automatically callback the function ModulePhysics::BeginContact()
-		circles.getLast()->data->listener = this;
-	}
-
-	// If user presses 2, create a new box object
-	if(App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
-	{
-		boxes.add(App->physics->CreateRectangle(App->input->GetMouseX(), App->input->GetMouseY(), 100, 50, App->physics->DYNAMIC, ColliderType::UNKNOWN));
-	}
-
-	// If user presses 3, create a new RickHead object
-	if(App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
-	{
-		// Pivot 0, 0
-		int rick_head[64] = {
-			14, 36,
-			42, 40,
-			40, 0,
-			75, 30,
-			88, 4,
-			94, 39,
-			111, 36,
-			104, 58,
-			107, 62,
-			117, 67,
-			109, 73,
-			110, 85,
-			106, 91,
-			109, 99,
-			103, 104,
-			100, 115,
-			106, 121,
-			103, 125,
-			98, 126,
-			95, 137,
-			83, 147,
-			67, 147,
-			53, 140,
-			46, 132,
-			34, 136,
-			38, 126,
-			23, 123,
-			30, 114,
-			10, 102,
-			29, 90,
-			0, 75,
-			30, 62
-		};
-		
-		ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64, App->physics->DYNAMIC,ColliderType::UNKNOWN));
-	}
+	
+	debug();
 
 	//Slingershot
 	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
@@ -409,13 +342,7 @@ update_status ModuleScene::Update()
 	}
 
 
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
-	{
-		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_intro, 90);
-	}
-
 	
-
 	// Prepare for raycast ------------------------------------------------------
 	
 	// The target point of the raycast is the mouse current position (will change over game time)
@@ -618,3 +545,107 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	
 }
 
+void ModuleScene::debug()
+{
+	// If user presses SPACE, enable RayCast
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		// Enable raycast mode
+		ray_on = !ray_on;
+
+		// Origin point of the raycast is be the mouse current position now (will not change)
+		ray.x = App->input->GetMouseX();
+		ray.y = App->input->GetMouseY();
+	}
+
+	// If user presses 1, create a new circle object
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	{
+		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 10, App->physics->DYNAMIC, ColliderType::UNKNOWN));
+
+		// Add this module (ModuleScene) as a "listener" interested in collisions with circles.
+		// If Box2D detects a collision with this last generated circle, it will automatically callback the function ModulePhysics::BeginContact()
+		circles.getLast()->data->listener = this;
+	}
+
+	// If user presses 2, create a new box object
+	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
+	{
+		boxes.add(App->physics->CreateRectangle(App->input->GetMouseX(), App->input->GetMouseY(), 100, 50, App->physics->DYNAMIC, ColliderType::UNKNOWN));
+	}
+
+	// If user presses 3, create a new RickHead object
+	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+	{
+		// Pivot 0, 0
+		int rick_head[64] = {
+			14, 36,
+			42, 40,
+			40, 0,
+			75, 30,
+			88, 4,
+			94, 39,
+			111, 36,
+			104, 58,
+			107, 62,
+			117, 67,
+			109, 73,
+			110, 85,
+			106, 91,
+			109, 99,
+			103, 104,
+			100, 115,
+			106, 121,
+			103, 125,
+			98, 126,
+			95, 137,
+			83, 147,
+			67, 147,
+			53, 140,
+			46, 132,
+			34, 136,
+			38, 126,
+			23, 123,
+			30, 114,
+			10, 102,
+			29, 90,
+			0, 75,
+			30, 62
+		};
+
+		ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64, App->physics->DYNAMIC, ColliderType::UNKNOWN));
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	{
+		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_intro, 90);
+	}
+
+
+	// GodMode
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	{
+		//
+	}
+	// Restart level
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	{
+		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene, 90);
+	}
+	// Insta win
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
+	{
+		//App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene, 90);
+	}
+	// Insta lose
+	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
+	{
+		//App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene, 90);
+	}
+	// Score++
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	{
+		App->player->score++;
+	}
+
+}

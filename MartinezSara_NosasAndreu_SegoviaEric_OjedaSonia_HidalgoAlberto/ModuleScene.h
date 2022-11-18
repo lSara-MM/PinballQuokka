@@ -20,6 +20,7 @@ public:
 	bool CleanUp();
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
 
+	void debug();
 public:
 
 	// Lists of physics objects
@@ -49,7 +50,7 @@ public:
 	p2Point<int> ray;
 	bool ray_on;
 
-	//Score
-	int score;
+	// Combo
+	bool greenP, purpleP, turquoiseP, pinkP;
 
 };

@@ -44,4 +44,5 @@ public:
 
 	int scoreFont;
 	int score;
+	int comboPaws;
 };
