@@ -36,7 +36,7 @@ bool ModulePlayer::Start()
 	//MUELLE EN SI
 	spring = App->physics->CreateRectangle(springData.x+ springData.w, springData.y+springData.h, springData.w, springData.h, App->physics->DYNAMIC, ColliderType::UNKNOWN);
 	jointMuelle = App->physics->CreatePrismaticJoint(spring, VecS1, base, VecS2, axis, -MaxLength/2, MaxLength, false, true); //TODO: Modificar funcion para max y min
-	texture = App->textures->Load("pinball/muelle1.png");
+	texture = App->textures->Load("pinball/muelle.png");
 
 
 	//PALAS
@@ -94,11 +94,7 @@ bool ModulePlayer::CleanUp()
 	{
 		circle2->body->DestroyFixture(circle2->body->GetFixtureList());
 	}
-	/*base->body->DestroyFixture(base->body->GetFixtureList());
-	rect->body->DestroyFixture(rect->body->GetFixtureList());
-	rect2->body->DestroyFixture(rect2->body->GetFixtureList());
-	circle->body->DestroyFixture(circle->body->GetFixtureList());
-	circle2->body->DestroyFixture(circle2->body->GetFixtureList());*/
+	
 
 	return true;	
 }
@@ -108,8 +104,8 @@ update_status ModulePlayer::Update()
 {
 	
 	//Posicion muelle
-	springData.x = spring->body->GetTransform().p.x;
-	springData.y = spring->body->GetTransform().p.y;
+	springData.x = METERS_TO_PIXELS(spring->body->GetTransform().p.x);
+	springData.y = METERS_TO_PIXELS(spring->body->GetTransform().p.y);
 
 	if ( SpringReleased == true)
 	{
@@ -125,7 +121,7 @@ update_status ModulePlayer::Update()
 	}
 	jointMuelle->SetLimits(-compresion/4, compresion);
 
-	//App->renderer->Blit(texture, springData.x, springData.y, NULL, 1.0f);
+	
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT && compresion<=8)
 	{
 		//setearlo
@@ -136,7 +132,7 @@ update_status ModulePlayer::Update()
 		}
 		//comprimir el muelle
 		compresion += (0.025-compresion/320);
-		LOG("%f", compresion);
+		//LOG("%f", compresion);
 		jointMuelle->SetLimits(compresion / 4, compresion);
 		
 		
@@ -149,8 +145,8 @@ update_status ModulePlayer::Update()
 		
 	}
 	
-
-	App->renderer->Blit(texture, (float)METERS_TO_PIXELS(springData.x), (float)METERS_TO_PIXELS(springData.y));
+	
+	App->renderer->Blit(texture, springData.x-25, springData.y-15,NULL,0.4F); //Al convertir de metros a pixeles hay cierto error de redondeo asi que ponemos el -25 y el -15
 
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
 		rect2->body->ApplyForce(b2Vec2(-2, -2), b2Vec2(0, -5), true);
