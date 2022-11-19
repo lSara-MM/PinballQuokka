@@ -98,10 +98,6 @@ public:
 	b2World* world;
 
 private:
-
-	// Debug mode
-	bool debug;
-
 	// Main ground
 	b2Body* ground;
 
@@ -110,10 +106,7 @@ private:
 	b2Body* mouse_body;
 
 public:
-
+	// Debug mode
+	bool debug;
 	float GRAVITY_Y = -7.0f;
-	bool grav = false;
-	float frames = 60.0f;
-	bool fps = false;
-	bool boing = false;
 };

@@ -53,7 +53,7 @@ update_status ModulePhysics::PreUpdate()
 {
 	// Step (update) the World
 	// WARNING: WE ARE STEPPING BY CONSTANT 1/60 SECONDS!
-	world->Step(1.0f / frames, 6, 2);
+	world->Step(1.0f / App->scene->frames, 6, 2);
 
 	// Because Box2D does not automatically broadcast collisions/contacts with sensors, 
 	// we have to manually search for collisions and "call" the equivalent to the ModulePhysics::BeginContact() ourselves...
@@ -76,63 +76,6 @@ update_status ModulePhysics::PreUpdate()
 
 update_status ModulePhysics::PostUpdate()
 {
-	// Activate or deactivate debug mode
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
-		debug = !debug;
-	}
-
-	// FPS Change
-
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
-		fps = true;
-		LOG("frames %f", frames);
-	}
-
-	if (fps)
-	{
-		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
-		{
-			frames = 0;
-			fps = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
-			frames = 10;
-			fps = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
-			frames = 20;
-			fps = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
-			frames = 30;
-			fps = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
-			frames = 40;
-			fps = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN) {
-			frames = 50;
-			fps = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN) {
-			frames = 60;
-			fps = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN) {
-			frames = 70;
-			fps = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
-			frames = 80;
-			fps = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN) {
-			frames = 90;
-			fps = false;
-		}
-	}
-
 	// Gravity Change
 
 		//PhysBody* grav = CreateRectangle(100, 200, 30, 30, BodyType::STATIC, ColliderType::UNKNOWN);
@@ -147,108 +90,6 @@ update_status ModulePhysics::PostUpdate()
 
 		//	}
 		//}
-
-	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
-		grav = true;
-		LOG("GRAVITY %f", GRAVITY_Y);
-	}
-
-	if (grav) 
-	{
-		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
-		{
-			GRAVITY_Y = -0;
-			grav = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
-			GRAVITY_Y = -1;
-			grav = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
-			GRAVITY_Y = -2;
-			grav = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
-			GRAVITY_Y = -3;
-			grav = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
-			GRAVITY_Y = -4;
-			grav = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN) {
-			GRAVITY_Y = -5;
-			grav = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN) {
-			GRAVITY_Y = -6;
-			grav = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN) {
-			GRAVITY_Y = -7;
-			grav = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
-			GRAVITY_Y = -8;
-			grav = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN) {
-			GRAVITY_Y = -9;
-			grav = false;
-		}
-	}
-
-	// Bouncing coefficient
-
-	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {
-		boing = true;
-		LOG("Boing %f", App->scene->bounce);
-	}
-
-	if (fps)
-	{
-		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
-		{
-			App->scene->bounce = 0;
-			boing = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
-			App->scene->bounce = 1;
-			boing = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
-			App->scene->bounce = 2;
-			boing = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
-			App->scene->bounce = 3;
-			boing = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
-			App->scene->bounce = 4;
-			fps = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN) {
-			App->scene->bounce = 5;
-			boing = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN) {
-			App->scene->bounce = 6;
-			boing = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN) {
-			App->scene->bounce = 7;
-			boing = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
-			App->scene->bounce = 8;
-			boing = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN) {
-			App->scene->bounce = 9;
-			boing = false;
-		}
-	}
 
 	// If we are not in debug mode, do nothing else here and Keep playing
 	if(!debug)

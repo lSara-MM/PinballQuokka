@@ -57,4 +57,10 @@ public:
 
 	float bounce = 1.2f;
 
+
+	
+	bool grav = false;
+	float frames = 60.0f;
+	bool fps = false;
+	bool boing = false;
 };

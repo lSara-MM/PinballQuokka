@@ -607,8 +607,6 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 void ModuleScene::debug()
 {
-
-	LOG("x = %d y = %d", App->input->GetMouseX(), App->input->GetMouseY());
 	// If user presses SPACE, enable RayCast
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
@@ -677,12 +675,15 @@ void ModuleScene::debug()
 	// GodMode
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
-		//
+		App->physics->debug = !App->physics->debug;
 	}
-	// Restart level
+
+	// Spawn bola donde el mouse
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
-		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene, 90);
+		circles.getLast()->data->body->DestroyFixture(circles.getLast()->data->body->GetFixtureList());
+		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 16, App->physics->DYNAMIC, ColliderType::BALL));
+		circles.getLast()->data->listener = this;
 	}
 	
 	// Insta lose
@@ -692,16 +693,161 @@ void ModuleScene::debug()
 	}
 
 	// Score++
-	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
 	{
 		App->player->score++;
 	}
-	// Spawn bola donde el mouse
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
-	{
-		circles.getLast()->data->body->DestroyFixture(circles.getLast()->data->body->GetFixtureList());
-		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 16, App->physics->DYNAMIC, ColliderType::BALL));
-		circles.getLast()->data->listener = this;
+
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
+		grav = true;
+		LOG("GRAVITY %f", App->physics->GRAVITY_Y);
 	}
 
+	// Gravity change
+	if (grav)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
+		{
+			App->physics->GRAVITY_Y = -0;
+			grav = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
+			App->physics->GRAVITY_Y = -1;
+			grav = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
+			App->physics->GRAVITY_Y = -2;
+			grav = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
+			App->physics->GRAVITY_Y = -3;
+			grav = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
+			App->physics->GRAVITY_Y = -4;
+			grav = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN) {
+			App->physics->GRAVITY_Y = -5;
+			grav = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN) {
+			App->physics->GRAVITY_Y = -6;
+			grav = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN) {
+			App->physics->GRAVITY_Y = -7;
+			grav = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
+			App->physics->GRAVITY_Y = -8;
+			grav = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN) {
+			App->physics->GRAVITY_Y = -9;
+			grav = false;
+		}
+	}
+
+	// FPS Change
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
+		fps = true;
+		LOG("frames %f", frames);
+	}
+
+	if (fps)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
+		{
+			frames = 0;
+			fps = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
+			frames = 10;
+			fps = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
+			frames = 20;
+			fps = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
+			frames = 30;
+			fps = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
+			frames = 40;
+			fps = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN) {
+			frames = 50;
+			fps = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN) {
+			frames = 60;
+			fps = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN) {
+			frames = 70;
+			fps = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
+			frames = 80;
+			fps = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN) {
+			frames = 90;
+			fps = false;
+		}
+	}
+
+	// Bouncing coefficient
+	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {
+		boing = true;
+		LOG("Boing %f", App->scene->bounce);
+	}
+
+	if (boing)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
+		{
+			App->scene->bounce = 0;
+			boing = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
+			App->scene->bounce = 1;
+			boing = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
+			App->scene->bounce = 2;
+			boing = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
+			App->scene->bounce = 3;
+			boing = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
+			App->scene->bounce = 4;
+			fps = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN) {
+			App->scene->bounce = 5;
+			boing = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN) {
+			App->scene->bounce = 6;
+			boing = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN) {
+			App->scene->bounce = 7;
+			boing = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
+			App->scene->bounce = 8;
+			boing = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN) {
+			App->scene->bounce = 9;
+			boing = false;
+		}
+	}
 }

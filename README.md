@@ -54,14 +54,9 @@ https://github.com/lSara-MM/PinballQuokka
 This project is licensed under an unmodified MIT license, which is an OSI-certified license that allows static linking with closed source software. Check [LICENSE](LICENSE) for further details.
 
 {AdditionalLicenses}
-Assets Character
-https://craftpix.net/file-licenses/
+Yarn icons created by Freepik
+-https://www.flaticon.com/free-icons/yarn
 
-Assets Gems
-@danimaccari -> https://dani-maccari.itch.io/
-
-Pixel art background
-https://wallpaperaccess.com/anime-pixel-art
-
-Font (pcsenior)
-[ codeman38 | cody@zone38.net | http://www.zone38.net/ ]
+Fonts (https://www.1001freefonts.com/animal-fonts.php)
+Cat-Paw by beary
+Quiet-Meows by Darrell Flood
