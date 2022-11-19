@@ -277,23 +277,23 @@ bool ModuleScene::Start()
 
 	chains.add(App->physics->CreateChain(0, 0, Fondo, 122, App->physics->STATIC, ColliderType::PLATFORM));
 
-	chains.add(App->physics->CreateBouncyChain(0, 0, Oreja, 44, 1.2f, App->physics->STATIC, ColliderType::EARS));
-	chains.add(App->physics->CreateBouncyChain(0, 0, Oreja2, 48, 1.2f, App->physics->STATIC, ColliderType::EARS));
+	chains.add(App->physics->CreateBouncyChain(0, 0, Oreja, 44, bounce, App->physics->STATIC, ColliderType::EARS));
+	chains.add(App->physics->CreateBouncyChain(0, 0, Oreja2, 48, bounce, App->physics->STATIC, ColliderType::EARS));
 	chains.add(App->physics->CreateChain(0, 0, Barra, 14, App->physics->STATIC, ColliderType::ROD));
 	chains.add(App->physics->CreateChain(0, 0, Barra2, 14, App->physics->STATIC, ColliderType::ROD));
-	chains.add(App->physics->CreateBouncyChain(0, 0, Triangle, 20, 1.75f, App->physics->STATIC, ColliderType::ORANGE_BUMPER));
-	chains.add(App->physics->CreateBouncyChain(0, 0, Triangle2, 20, 1.75f, App->physics->STATIC, ColliderType::ORANGE_BUMPER));//canviar els valos de bounce per ajustar rebot
-	chains.add(App->physics->CreateBouncyChain(0, 0, Oval, 40, 1.1f, App->physics->STATIC, ColliderType::OVAL));
-	chains.add(App->physics->CreateBouncyChain(0, 0, Oval2, 40, 1.1f, App->physics->STATIC, ColliderType::OVAL));
-	chains.add(App->physics->CreateBouncyChain(0, 0, Oval3, 40, 1.1f, App->physics->STATIC, ColliderType::OVAL));
+	chains.add(App->physics->CreateBouncyChain(0, 0, Triangle, 20, bounce, App->physics->STATIC, ColliderType::ORANGE_BUMPER));
+	chains.add(App->physics->CreateBouncyChain(0, 0, Triangle2, 20, bounce, App->physics->STATIC, ColliderType::ORANGE_BUMPER));//canviar els valos de bounce per ajustar rebot
+	chains.add(App->physics->CreateBouncyChain(0, 0, Oval, 40, bounce, App->physics->STATIC, ColliderType::OVAL));
+	chains.add(App->physics->CreateBouncyChain(0, 0, Oval2, 40, bounce, App->physics->STATIC, ColliderType::OVAL));
+	chains.add(App->physics->CreateBouncyChain(0, 0, Oval3, 40, bounce, App->physics->STATIC, ColliderType::OVAL));
 
-	circles.add(App->physics->CreateBouncyCircle(379, 554, 19, 1.2f, App->physics->STATIC, ColliderType::CHEEK));
-	circles.add(App->physics->CreateBouncyCircle(128, 554, 19, 1.2f, App->physics->STATIC, ColliderType::CHEEK));
+	circles.add(App->physics->CreateBouncyCircle(379, 554, 19, bounce, App->physics->STATIC, ColliderType::CHEEK));
+	circles.add(App->physics->CreateBouncyCircle(128, 554, 19, bounce, App->physics->STATIC, ColliderType::CHEEK));
 
-	PhysBody* Purple_Paw = App->physics->CreateBouncyCircle(252, 136, 31,1.2f, App->physics->STATIC, ColliderType::PURPLE_PAW);
-	PhysBody* Green_Paw = App->physics->CreateBouncyCircle(143, 198, 31, 1.2f, App->physics->STATIC, ColliderType::GREEN_PAW);
-	PhysBody* Turqupise_Paw = App->physics->CreateBouncyCircle(363, 198, 31, 1.2f, App->physics->STATIC, ColliderType::TURQUOISE_PAW);
-	PhysBody* Pink_Paw = App->physics->CreateBouncyCircle(252, 256, 31, 1.2f, App->physics->STATIC, ColliderType::PINK_PAW);
+	PhysBody* Purple_Paw = App->physics->CreateBouncyCircle(252, 136, 31, bounce, App->physics->STATIC, ColliderType::PURPLE_PAW);
+	PhysBody* Green_Paw = App->physics->CreateBouncyCircle(143, 198, 31, bounce, App->physics->STATIC, ColliderType::GREEN_PAW);
+	PhysBody* Turqupise_Paw = App->physics->CreateBouncyCircle(363, 198, 31, bounce, App->physics->STATIC, ColliderType::TURQUOISE_PAW);
+	PhysBody* Pink_Paw = App->physics->CreateBouncyCircle(252, 256, 31, bounce, App->physics->STATIC, ColliderType::PINK_PAW);
 
 	circles.add(Purple_Paw);
 	circles.add(Green_Paw);
