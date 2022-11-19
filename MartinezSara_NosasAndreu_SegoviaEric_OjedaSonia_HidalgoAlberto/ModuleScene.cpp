@@ -14,7 +14,7 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 {
 
 	// Initialise all the internal class variables, at least to NULL pointer
-	circle = box = rick = NULL;
+	ball = box = rick = NULL;
 	ray_on = false;
 	sensed = false;
 }
@@ -35,7 +35,7 @@ bool ModuleScene::Start()
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
 	// Load textures
-	circle = App->textures->Load("pinball/wheel.png"); 
+	ball = App->textures->Load("pinball/ball_yarn.png"); 
 	box = App->textures->Load("pinball/crate.png");
 	rick = App->textures->Load("pinball/rick_head.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
@@ -316,7 +316,6 @@ bool ModuleScene::Start()
 	circles.add(App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
 	circles.getLast()->data->listener = this;
 
-
 	greenP = false;
 	purpleP = false; 
 	turquoiseP = false; 
@@ -328,7 +327,7 @@ bool ModuleScene::CleanUp()
 {
 	LOG("Unloading Intro scene");
 
-	App->textures->Unload(circle);
+	App->textures->Unload(ball);
 	App->textures->Unload(fondo);
 	App->textures->Unload(box);
 	App->textures->Unload(rick);
@@ -391,9 +390,7 @@ update_status ModuleScene::Update()
 				0, 0,
 				400, 0,
 				200, 200,//valors arbirtaris, canviar en funció mapa
-
 		};
-
 		slingershots.add(App->physics->CreateBouncyChain(App->input->GetMouseX(), App->input->GetMouseY(), triangle, 6, 2.0, App->physics->STATIC, ColliderType::UNKNOWN));
 	}
 	
@@ -421,7 +418,7 @@ update_status ModuleScene::Update()
 
 		// If mouse is over this circle, paint the circle's texture
 		if(c->data->Contains(App->input->GetMouseX(), App->input->GetMouseY()))
-			App->renderer->Blit(circle, x, y, NULL, 1.0f, c->data->GetRotation());
+			App->renderer->Blit(ball, x, y, NULL, 1.0f, c->data->GetRotation());
 
 		c = c->next;
 	}
@@ -483,6 +480,10 @@ update_status ModuleScene::Update()
 			App->renderer->DrawLine(ray.x + destination.x, ray.y + destination.y, ray.x + destination.x + normal.x * 25.0f, ray.y + destination.y + normal.y * 25.0f, 100, 255, 100);
 	}
 
+	// Ball render
+	int ballX, ballY;
+	circles.getLast()->data->GetPosition(ballX, ballY);
+	App->renderer->Blit(ball, ballX, ballY, NULL, 1, 1.0f, circles.getLast()->data->GetRotation());
 
 	if (App->player->comboPaws == 4)
 	{
