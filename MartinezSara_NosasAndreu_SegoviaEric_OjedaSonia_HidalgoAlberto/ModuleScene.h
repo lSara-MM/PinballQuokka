@@ -63,6 +63,9 @@ public:
 	float frames = 60.0f;
 	bool fps = false;
 	bool boing = false;
+	bool god = false;
+	int godint = 0;
+
 	PhysBody* b1;
 	PhysBody* b2;
 	PhysBody* b3;

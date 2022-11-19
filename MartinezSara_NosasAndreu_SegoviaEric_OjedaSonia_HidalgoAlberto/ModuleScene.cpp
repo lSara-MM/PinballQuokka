@@ -879,4 +879,22 @@ void ModuleScene::debug()
 		Purple_Paw->body->GetFixtureList()->SetRestitution(bounce);
 		Turqupise_Paw->body->GetFixtureList()->SetRestitution(bounce);
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
+
+		god = !god;
+		godint++;
+	}
+
+	b2Vec2 g;
+
+	if (god) {
+		g = App->physics->world->GetGravity();
+		App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 0));
+	}
+
+	if (godint == 2) {
+		App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 7));
+		godint = 0;
+	}
 }
