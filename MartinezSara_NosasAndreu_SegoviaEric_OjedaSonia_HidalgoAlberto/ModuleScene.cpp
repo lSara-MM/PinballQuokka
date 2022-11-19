@@ -306,6 +306,10 @@ bool ModuleScene::Start()
 	// In ModulePhysics::PreUpdate(), we iterate over all sensors and (if colliding) we call the function ModuleScene::OnCollision()
 	lower_ground_sensor->listener = this;
 	
+	// Ball
+	circles.add(App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
+	circles.getLast()->data->listener = this;
+
 
 	greenP = false;
 	purpleP = false; 
@@ -536,7 +540,10 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 			LOG("Collider bell");
 			if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 			{
-				App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_intro, 90);
+				App->player->numBalls--;
+				circles.getLast()->data->body->DestroyFixture(circles.getLast()->data->body->GetFixtureList());
+				circles.add(App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
+				circles.getLast()->data->listener = this;
 			}
 			//WHATEVER
 			break;
@@ -562,6 +569,8 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 void ModuleScene::debug()
 {
+
+	LOG("x = %d y = %d", App->input->GetMouseX(), App->input->GetMouseY());
 	// If user presses SPACE, enable RayCast
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
@@ -571,13 +580,6 @@ void ModuleScene::debug()
 		// Origin point of the raycast is be the mouse current position now (will not change)
 		ray.x = App->input->GetMouseX();
 		ray.y = App->input->GetMouseY();
-	}
-
-	// If user presses 1, create a new circle object
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-	{
-		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 10, App->physics->DYNAMIC, ColliderType::BALL));
-		circles.getLast()->data->listener = this;
 	}
 
 	// If user presses 2, create a new box object
@@ -644,26 +646,24 @@ void ModuleScene::debug()
 	{
 		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene, 90);
 	}
-	//// Insta win
-	//if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN && App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-	//{
-	//	//App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene, 90);
-	//}
-	//// Insta lose
-	//if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN && App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
-	//{
-	//	App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene, 90);
-	//}
+	
+	// Insta lose
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
+	{
+		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene, 90);
+	}
 
 	// Score++
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 	{
 		App->player->score++;
 	}
-	// Spawn bola
+	// Spawn bola donde el mouse
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 	{
-		App->player->score++;
+		circles.getLast()->data->body->DestroyFixture(circles.getLast()->data->body->GetFixtureList());
+		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 16, App->physics->DYNAMIC, ColliderType::BALL));
+		circles.getLast()->data->listener = this;
 	}
 
 }
