@@ -1,6 +1,7 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
+#include "Animation.h"
 
 class ModuleLeaderboard : public Module
 {
@@ -21,11 +22,16 @@ public:
 
 	
 	// Textures
-	//SDL_Texture* map;
+	SDL_Texture* bgTexture;
+
+	Animation animLurkingCat;
+	SDL_Texture* texLurkingCat;
 
 	// FX
 	//uint bonus_fx;
 
+	int leaderboard[10];
+	int currentScore;
 private:
 	int titleFont;
 	int subtitleFont;
@@ -34,6 +40,5 @@ private:
 	uint dTime;
 
 	// Ranks
-	int leaderboard[10];
 	int prevScore;
 };

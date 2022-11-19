@@ -20,13 +20,13 @@ public:
 	bool CleanUp();
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
 
+	bool loseGame();
+
 	void debug();
 public:
 
 	// Lists of physics objects
 	p2List<PhysBody*> circles;
-	p2List<PhysBody*> boxes;
-	p2List<PhysBody*> ricks;
 	p2List<PhysBody*> slingershots;
 	p2List<PhysBody*> chains;
 	
@@ -37,10 +37,7 @@ public:
 
 	// Textures
 	SDL_Texture* ball;
-	SDL_Texture* box;
-	SDL_Texture* rick;
 	SDL_Texture* fondo; 
-
 	SDL_Texture* map;
 
 	// FX
@@ -57,14 +54,10 @@ public:
 
 	float bounce = 1.2f;
 
-
-	
 	bool grav = false;
 	float frames = 60.0f;
 	bool fps = false;
 	bool boing = false;
-	bool god = false;
-	int godint = 0;
 
 	PhysBody* b1;
 	PhysBody* b2;

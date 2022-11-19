@@ -74,6 +74,10 @@ update_status ModuleSceneIntro::Update()
 		startTime = SDL_GetTicks();
 		LOG("startTime: %d\ndTime: %d", startTime, dTime);
 	}
+	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)
+	{
+		App->fade->FadeToBlack(this, (Module*)App->scene_lead, 0);
+	}
 
 	
 	if (dTime < 1500)

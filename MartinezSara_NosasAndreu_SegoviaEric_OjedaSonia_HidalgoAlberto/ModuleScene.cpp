@@ -7,6 +7,7 @@
 #include "ModuleAudio.h"
 #include "ModulePhysics.h"
 
+#include "ModuleLeaderboard.h"
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
 
@@ -14,7 +15,7 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 {
 
 	// Initialise all the internal class variables, at least to NULL pointer
-	ball = box = rick = NULL;
+	ball = NULL;
 	ray_on = false;
 	sensed = false;
 }
@@ -36,8 +37,6 @@ bool ModuleScene::Start()
 
 	// Load textures
 	ball = App->textures->Load("pinball/ball_yarn.png"); 
-	box = App->textures->Load("pinball/crate.png");
-	rick = App->textures->Load("pinball/rick_head.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 	map = App->textures->Load("pinball/muelle.png");
 
@@ -339,8 +338,6 @@ bool ModuleScene::CleanUp()
 
 	App->textures->Unload(ball);
 	App->textures->Unload(fondo);
-	App->textures->Unload(box);
-	App->textures->Unload(rick);
 	App->textures->Unload(map);
 	App->textures->Unload(fondo);
 
@@ -430,37 +427,6 @@ update_status ModuleScene::Update()
 		if(c->data->Contains(App->input->GetMouseX(), App->input->GetMouseY()))
 			App->renderer->Blit(ball, x, y, NULL, 1.0f, c->data->GetRotation());
 
-		c = c->next;
-	}
-
-	// Boxes
-	c = boxes.getFirst();
-	while(c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-
-		// Always paint boxes texture
-		App->renderer->Blit(box, x, y, NULL, 1.0f, c->data->GetRotation());
-
-		// Are we hitting this box with the raycast?
-		if(ray_on)
-		{
-			// Test raycast over the box, return fraction and normal vector
-			int hit = c->data->RayCast(ray.x, ray.y, mouse.x, mouse.y, normal.x, normal.y);
-			if(hit >= 0)
-				ray_hit = hit;
-		}
-		c = c->next;
-	}
-
-	// Rick Heads
-	c = ricks.getFirst();
-	while(c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-		App->renderer->Blit(rick, x, y, NULL, 1.0f, c->data->GetRotation());
 		c = c->next;
 	}
 
@@ -615,6 +581,23 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	
 }
 
+bool ModuleScene::loseGame()
+{
+	for (int i = 0; i < 10; i++)
+	{
+		if (App->scene_lead->leaderboard[i] < App->player->score)
+		{
+			App->scene_lead->leaderboard[i] = App->player->score;
+			break;
+		}
+	}
+
+	App->scene_lead->currentScore = App->player->score;
+	App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_intro, 90);
+
+	return true;
+}
+
 void ModuleScene::debug()
 {
 	// If user presses SPACE, enable RayCast
@@ -628,57 +611,14 @@ void ModuleScene::debug()
 		ray.y = App->input->GetMouseY();
 	}
 
-	// If user presses 2, create a new box object
-	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
-	{
-		boxes.add(App->physics->CreateRectangle(App->input->GetMouseX(), App->input->GetMouseY(), 100, 50, App->physics->DYNAMIC, ColliderType::UNKNOWN));
-	}
-
-	// If user presses 3, create a new RickHead object
-	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
-	{
-		// Pivot 0, 0
-		int rick_head[64] = {
-			14, 36,
-			42, 40,
-			40, 0,
-			75, 30,
-			88, 4,
-			94, 39,
-			111, 36,
-			104, 58,
-			107, 62,
-			117, 67,
-			109, 73,
-			110, 85,
-			106, 91,
-			109, 99,
-			103, 104,
-			100, 115,
-			106, 121,
-			103, 125,
-			98, 126,
-			95, 137,
-			83, 147,
-			67, 147,
-			53, 140,
-			46, 132,
-			34, 136,
-			38, 126,
-			23, 123,
-			30, 114,
-			10, 102,
-			29, 90,
-			0, 75,
-			30, 62
-		};
-
-		ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64, App->physics->DYNAMIC, ColliderType::UNKNOWN));
-	}
 
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)	// delete after
 	{
-		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_intro, 90);
+		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_intro, 0);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)	// delete after
+	{
+		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_lead, 0);
 	}
 
 
@@ -687,6 +627,8 @@ void ModuleScene::debug()
 	{
 		App->physics->debug = !App->physics->debug;
 	}
+	if (App->physics->debug) { App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 0)); }
+	if (!App->physics->debug) { App->physics->world->SetGravity(b2Vec2(GRAVITY_X, -GRAVITY_Y)); }
 
 	// Spawn bola donde el mouse
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
@@ -699,7 +641,7 @@ void ModuleScene::debug()
 	// Insta lose
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
-		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene, 90);
+		loseGame();
 	}
 
 	// Score++
@@ -708,12 +650,11 @@ void ModuleScene::debug()
 		App->player->score++;
 	}
 
+	// Gravity change
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
 		grav = true;
 		LOG("GRAVITY %f", App->physics->world->GetGravity().y);
-	}
-	
-	// Gravity change
+	}	
 	if (grav)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
@@ -768,7 +709,6 @@ void ModuleScene::debug()
 		fps = true;
 		LOG("frames %f", frames);
 	}
-
 	if (fps)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
@@ -819,7 +759,6 @@ void ModuleScene::debug()
 		boing = true;
 		LOG("Boing %f", App->scene->bounce);
 	}
-
 	if (boing)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
@@ -878,23 +817,5 @@ void ModuleScene::debug()
 		Pink_Paw->body->GetFixtureList()->SetRestitution(bounce);
 		Purple_Paw->body->GetFixtureList()->SetRestitution(bounce);
 		Turqupise_Paw->body->GetFixtureList()->SetRestitution(bounce);
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
-
-		god = !god;
-		godint++;
-	}
-
-	b2Vec2 g;
-
-	if (god) {
-		g = App->physics->world->GetGravity();
-		App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 0));
-	}
-
-	if (godint == 2) {
-		App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 7));
-		godint = 0;
 	}
 }
