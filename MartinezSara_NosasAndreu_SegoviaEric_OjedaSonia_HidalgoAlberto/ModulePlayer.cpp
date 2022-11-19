@@ -114,12 +114,16 @@ update_status ModulePlayer::Update()
 	if ( SpringReleased == true)
 	{
 		--timer;
-		if (timer<=0){
+		if (timer <= 0) {
+
 			compresion = 0.1;
-		SpringReleased = false;}
+			SpringReleased = false;
+			timer = 100;
+
+		}
 		
 	}
-	jointMuelle->SetLimits(-0.01, compresion);
+	jointMuelle->SetLimits(-compresion/4, compresion);
 
 	//App->renderer->Blit(texture, springData.x, springData.y, NULL, 1.0f);
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT && compresion<=4)
@@ -132,8 +136,9 @@ update_status ModulePlayer::Update()
 		}
 		//comprimir el muelle
 		compresion += (0.05-compresion/80);
-		LOG("%f",compresion)
-
+		LOG("%f", compresion);
+		jointMuelle->SetLimits(-compresion / 4, compresion);
+		
 		
 	}
 
