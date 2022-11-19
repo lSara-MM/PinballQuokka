@@ -22,7 +22,7 @@ public:
 
 	
 	// Textures
-	SDL_Texture* bgTexture;
+	//SDL_Texture* bgTexture;
 
 	Animation animLurkingCat;
 	SDL_Texture* texLurkingCat;
