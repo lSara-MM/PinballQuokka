@@ -700,51 +700,55 @@ void ModuleScene::debug()
 
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
 		grav = true;
-		LOG("GRAVITY %f", App->physics->GRAVITY_Y);
+		LOG("GRAVITY %f", App->physics->world->GetGravity().y);
 	}
-
+	
 	// Gravity change
 	if (grav)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
 		{
-			App->physics->GRAVITY_Y = -0;
+			App->physics->world->SetGravity(b2Vec2(GRAVITY_X, -5));
 			grav = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
-			App->physics->GRAVITY_Y = -1;
+			App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 1));
 			grav = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
-			App->physics->GRAVITY_Y = -2;
+			App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 2));
 			grav = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
-			App->physics->GRAVITY_Y = -3;
+			App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 3));
 			grav = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
-			App->physics->GRAVITY_Y = -4;
+			App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 4));
 			grav = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN) {
-			App->physics->GRAVITY_Y = -5;
+			App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 5));
 			grav = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN) {
-			App->physics->GRAVITY_Y = -6;
+			App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 6));
 			grav = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN) {
-			App->physics->GRAVITY_Y = -7;
+			App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 7));
 			grav = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
-			App->physics->GRAVITY_Y = -8;
+			App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 8));
 			grav = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN) {
-			App->physics->GRAVITY_Y = -9;
+			App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 9));
+			grav = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) {
+			App->physics->world->SetGravity(b2Vec2(GRAVITY_X, -GRAVITY_Y));
 			grav = false;
 		}
 	}
