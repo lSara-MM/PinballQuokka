@@ -32,6 +32,7 @@ public:
 	float compresion=0.1;
 	float MaxLength=4;
 	bool SpringReleased= false;
+	short timer=100;
 	PhysBody* spring;
 	PhysBody* base;
 	b2PrismaticJoint* jointMuelle;
