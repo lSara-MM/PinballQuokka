@@ -63,4 +63,18 @@ public:
 	float frames = 60.0f;
 	bool fps = false;
 	bool boing = false;
+	PhysBody* b1;
+	PhysBody* b2;
+	PhysBody* b3;
+	PhysBody* b4;
+	PhysBody* b5;
+	PhysBody* b6;
+	PhysBody* b7;
+	PhysBody* b8;
+	PhysBody* b9;
+
+	PhysBody* Pink_Paw;
+	PhysBody* Turqupise_Paw;
+	PhysBody* Green_Paw;
+	PhysBody* Purple_Paw;
 };
