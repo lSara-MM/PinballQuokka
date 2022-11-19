@@ -59,6 +59,10 @@ public:
 	bool fps = false;
 	bool boing = false;
 
+	//Audio
+
+	int audiohit; 
+
 	PhysBody* b1;
 	PhysBody* b2;
 	PhysBody* b3;

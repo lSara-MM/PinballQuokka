@@ -49,7 +49,10 @@ bool ModuleSceneIntro::Start()
 bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
-	
+
+	// Clear fonts
+	App->renderer->UnLoadFont(titleFont);
+	App->renderer->UnLoadFont(subtitleFont);
 	return true;
 }
 

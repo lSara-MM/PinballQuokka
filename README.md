@@ -24,17 +24,17 @@ https://github.com/lSara-MM/PinballQuokka
 
 * God Mode -> F1
 
-* _ -> F2
+* Spawn ball at mouse position -> F2
 
 * Instant Lose -> F3
 
 * _ -> F4
 
-* Score++ -> F5
+* Change Gravity -> F5 & (0-9)
 
-* Spawn ball at mouse position -> F6
+* Change & show fps -> F6 & (0-9)
 
-* _ -> F7
+* Change Bouncing coefficient -> F7
 
 * _  -> F8
 
@@ -54,8 +54,12 @@ https://github.com/lSara-MM/PinballQuokka
 This project is licensed under an unmodified MIT license, which is an OSI-certified license that allows static linking with closed source software. Check [LICENSE](LICENSE) for further details.
 
 {AdditionalLicenses}
-Yarn icons created by Freepik
+*Yarn icons by: Freepik
 -https://www.flaticon.com/free-icons/yarn
+
+*Lurking black cat by: Tom Fabre
+https://lottiefiles.com/78625-le-petit-chat-cat-noir
+
 
 Fonts (https://www.1001freefonts.com/animal-fonts.php)
 Cat-Paw by beary

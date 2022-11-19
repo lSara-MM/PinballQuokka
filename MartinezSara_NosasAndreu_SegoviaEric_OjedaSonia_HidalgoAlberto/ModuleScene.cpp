@@ -325,6 +325,10 @@ bool ModuleScene::Start()
 	circles.add(App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
 	circles.getLast()->data->listener = this;
 
+	// Audio
+
+	audiohit = App->audio->LoadFx("pinball/hit.ogg");
+
 	greenP = false;
 	purpleP = false; 
 	turquoiseP = false; 
@@ -510,6 +514,7 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		case ColliderType::GREEN_PAW:
 			LOG("Collider green paw");
 			App->player->score += 150;
+			App->audio->PlayFx(audiohit); 
 			if (greenP == false)
 			{
 				App->player->comboPaws++;
@@ -521,6 +526,7 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		case ColliderType::PURPLE_PAW:
 			LOG("Collider purple paw");
 			App->player->score += 150;
+			App->audio->PlayFx(audiohit);
 			if (purpleP == false)
 			{
 				App->player->comboPaws++;
@@ -531,6 +537,7 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		case ColliderType::TURQUOISE_PAW:
 			LOG("Collider turquoise paw");
 			App->player->score += 150;
+			App->audio->PlayFx(audiohit);
 			if (turquoiseP == false)
 			{
 				App->player->comboPaws++;
@@ -542,6 +549,7 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		case ColliderType::PINK_PAW:
 			LOG("Collider pink paw");
 			App->player->score += 150;
+			App->audio->PlayFx(audiohit);
 			if (pinkP == false)
 			{
 				App->player->comboPaws++;
@@ -618,6 +626,13 @@ void ModuleScene::debug()
 	}
 	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)	// delete after
 	{
+		if (App->scene_lead->leaderboard[9] < App->player->score)
+		{
+			App->scene_lead->leaderboard[9] = App->player->score;
+
+		}
+
+		App->scene_lead->currentScore = App->player->score;
 		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_lead, 0);
 	}
 
