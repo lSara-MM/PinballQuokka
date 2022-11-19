@@ -126,7 +126,7 @@ update_status ModulePlayer::Update()
 	jointMuelle->SetLimits(-compresion/4, compresion);
 
 	//App->renderer->Blit(texture, springData.x, springData.y, NULL, 1.0f);
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT && compresion<=4)
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT && compresion<=8)
 	{
 		//setearlo
 		SpringReleased = false;
@@ -135,9 +135,9 @@ update_status ModulePlayer::Update()
 			compresion = 0.1;
 		}
 		//comprimir el muelle
-		compresion += (0.05-compresion/80);
+		compresion += (0.025-compresion/320);
 		LOG("%f", compresion);
-		jointMuelle->SetLimits(-compresion / 4, compresion);
+		jointMuelle->SetLimits(compresion / 4, compresion);
 		
 		
 	}
@@ -145,7 +145,7 @@ update_status ModulePlayer::Update()
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP && compresion >= 0)
 	{
 		SpringReleased = true;
-		spring->body->ApplyForce(b2Vec2(/*-MaxLength / 2*/ 0, -compresion * compresion*85), b2Vec2(0, 0), true);
+		spring->body->ApplyForce(b2Vec2(/*-MaxLength / 2*/ 0, -compresion * compresion*25), b2Vec2(0, 0), true);
 		
 	}
 	
