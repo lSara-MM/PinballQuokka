@@ -53,4 +53,8 @@ public:
 	// Combo
 	bool greenP, purpleP, turquoiseP, pinkP;
 
+	// Bounce valor
+
+	float bounce = 1.2f;
+
 };
