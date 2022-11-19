@@ -271,7 +271,7 @@ int ModuleRender::LoadFont(const char* texture_path, const char* characters, uin
 	return id;
 }
 
-void ModuleRender::UnLoad(int font_id)
+void ModuleRender::UnLoadFont(int font_id)
 {
 	if (font_id >= 0 && font_id < MAX_FONTS && fonts[font_id].texture != nullptr)
 	{

@@ -14,19 +14,33 @@
 using namespace std;
 #include <sstream>
 
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>
+
 #include "Animation.h"
 
 ModuleLeaderboard::ModuleLeaderboard(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
+	animLurkingCat.PushBack({ 0, 0, 256, 192 });
+	animLurkingCat.PushBack({ 0, 0, 256, 192 });
+	animLurkingCat.PushBack({ 0, 0, 256, 192 });
+
 	for (int i = 0; i < 4; i++)
 	{
 		for (int j = 0; j < 11; j++)
 		{
-			animLurkingCat.PushBack({ 640 * j, 640 * i, 640, 640 });
+			animLurkingCat.PushBack({ 256 * j, 192 * i, 256, 192 });
 			if (i == 3 && j == 3) { break; }
 		}
 	}
-	animLurkingCat.loop = true;
+	for (int i = 7; i > 0; i--)
+	{
+		animLurkingCat.PushBack({ 256 * i, 0, 256, 192 });
+	}
+
+	//animLurkingCat.loop = true;
+	//animLurkingCat.pingpong = true;
+	animLurkingCat.speed = 0.2f;
 }
 
 ModuleLeaderboard::~ModuleLeaderboard()
@@ -45,6 +59,8 @@ bool ModuleLeaderboard::Start()
 	// Load textures
 	bgTexture = App->textures->Load("pinball/map.png");
 	texLurkingCat = App->textures->Load("pinball/ss_LurkingCat.png");
+	bgColor = { 0, 0, SCREEN_WIDTH * SCREEN_SIZE, SCREEN_HEIGHT * SCREEN_SIZE };
+
 
 	// Load Font
 	char lookupTable1[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789   .,:!?()-" };
@@ -53,26 +69,46 @@ bool ModuleLeaderboard::Start()
 	char lookupTable2[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789   .,:!?()-" };
 	subtitleFont = App->renderer->LoadFont("Pinball/font_CatPaw32.png", lookupTable2, 6, 13); // 6 = rows 13 = columns
 
-	//startTime = SDL_GetTicks();
+	srand(time(NULL));
+	startTime = SDL_GetTicks();
 	return ret;
 }
 
 bool ModuleLeaderboard::CleanUp()
 {
+	prevScore[0] = prevScore[1];
+
+	App->renderer->UnLoadFont(titleFont);
+	App->renderer->UnLoadFont(subtitleFont);
 	return true;
 }
 
 update_status ModuleLeaderboard::Update()
 {
 	dTime = SDL_GetTicks() - startTime;
-	//Dibujar el mapa
-	App->renderer->Blit(bgTexture, 0, 0);
+	randNum = rand() % 3000 + 7000;
+	// Dibujar el mapa
+	//App->renderer->Blit(bgTexture, 0, 0);
+	
+	App->renderer->DrawQuad(bgColor, 162, 209, 255);
 
-	App->renderer->Blit(texLurkingCat, -100, 0, NULL, 1.f, 1.f, 90, 0, 0, SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
+	// Animation
+	//LOG("%d", randNum);
+	if (dTime < 4000 || animLurkingCat.HasFinished() == true)
+	{
+		animLurkingCat.Update();
+		App->renderer->Blit(texLurkingCat, 300, 300, &(animLurkingCat.GetCurrentFrame()), 1.f, 1.f, -90, INT_MAX, INT_MAX, SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
 
+	}
+	if (dTime > randNum)
+	{
+		startTime = SDL_GetTicks();
+	}
+
+	// Change screens
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
-		App->fade->FadeToBlack(this, (Module*)App->scene, 90);
+		App->fade->FadeToBlack(this, (Module*)App->scene_intro, 90);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
@@ -80,12 +116,15 @@ update_status ModuleLeaderboard::Update()
 	}
 	if (App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
 	{
-		startTime = SDL_GetTicks();
+		//startTime = SDL_GetTicks();
 		LOG("startTime: %d\ndTime: %d", startTime, dTime);
 	}
 	
-	App->renderer->BlitText(200, 30, titleFont, "HIGH", 0.7f);
-	App->renderer->BlitText(150, 80, titleFont, "SCORES", 0.7f);
+	ranks();
+
+	// render text
+	App->renderer->BlitText(170, 30, titleFont, "HIGH", 0.7f);
+	App->renderer->BlitText(130, 80, titleFont, "SCORES", 0.7f);
 	for (int i = 0; i < 10; i++)
 	{
 		string s_num = std::to_string(i+1);
@@ -93,8 +132,17 @@ update_status ModuleLeaderboard::Update()
 		(i < 9) ? App->renderer->BlitText(85, 164 + 50 * i, titleFont, ch_num, 0.5f)
 			: App->renderer->BlitText(53, 164 + 50 * i, titleFont, ch_num, 0.5f);
 		App->renderer->BlitText(117, 164 + 50 * i, titleFont, ".", 0.5f);
+
+
+		string s_score = std::to_string(leaderboard[i]);
+		const char* ch_score = s_score.c_str();
+		App->renderer->BlitText(150, 164 + 50 * i, subtitleFont, ch_score);
 	}
 
+	App->renderer->BlitText(150, 700, titleFont, "PREVIOUS SCORE", 0.3f);
+	string s_Pnum = std::to_string(prevScore[0]);
+	const char* ch_Pnum = s_Pnum.c_str();
+	App->renderer->BlitText(200, 750, subtitleFont, ch_Pnum);
 
 	// Keep playing
 	return UPDATE_CONTINUE;
@@ -103,6 +151,7 @@ update_status ModuleLeaderboard::Update()
 void ModuleLeaderboard::ranks()
 {
 	bubbleSort(leaderboard, 10);
+	prevScore[1] = currentScore;
 }
 
 void ModuleLeaderboard::bubbleSort(int array[], int size)
@@ -115,7 +164,7 @@ void ModuleLeaderboard::bubbleSort(int array[], int size)
 
 			// compare two adjacent elements
 			// change > to < to sort in descending order
-			if (array[i] > array[i + 1]) {
+			if (array[i] < array[i + 1]) {
 
 				// swapping occurs if elements
 				// are not in the intended order

@@ -626,6 +626,13 @@ void ModuleScene::debug()
 	}
 	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)	// delete after
 	{
+		if (App->scene_lead->leaderboard[9] < App->player->score)
+		{
+			App->scene_lead->leaderboard[9] = App->player->score;
+
+		}
+
+		App->scene_lead->currentScore = App->player->score;
 		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_lead, 0);
 	}
 

@@ -24,17 +24,17 @@ https://github.com/lSara-MM/PinballQuokka
 
 * God Mode -> F1
 
-* _ -> F2
+* Spawn ball at mouse position -> F2
 
 * Instant Lose -> F3
 
 * _ -> F4
 
-* Score++ -> F5
+* Change Gravity -> F5 & (0-9)
 
-* Spawn ball at mouse position -> F6
+* Change & show fps -> F6 & (0-9)
 
-* _ -> F7
+* Change Bouncing coefficient -> F7
 
 * _  -> F8
 

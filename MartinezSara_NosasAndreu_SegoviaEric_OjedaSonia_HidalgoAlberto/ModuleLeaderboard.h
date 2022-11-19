@@ -36,9 +36,12 @@ private:
 	int titleFont;
 	int subtitleFont;
 
+	// Ranks
 	Uint32 startTime = 0;
 	uint dTime;
+	int randNum;
+	
+	int prevScore[2];
 
-	// Ranks
-	int prevScore;
+	SDL_Rect bgColor;
 };
