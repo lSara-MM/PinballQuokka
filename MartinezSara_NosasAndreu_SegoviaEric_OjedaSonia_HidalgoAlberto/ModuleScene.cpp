@@ -295,6 +295,12 @@ bool ModuleScene::Start()
 	PhysBody* Turqupise_Paw = App->physics->CreateBouncyCircle(363, 198, 31, 1.2f, App->physics->STATIC, ColliderType::TURQUOISE_PAW);
 	PhysBody* Pink_Paw = App->physics->CreateBouncyCircle(252, 256, 31, 1.2f, App->physics->STATIC, ColliderType::PINK_PAW);
 
+	circles.add(Purple_Paw);
+	circles.add(Green_Paw);
+	circles.add(Turqupise_Paw);
+	circles.add(Pink_Paw);
+
+
 	chains.add(App->physics->CreateRectangleSensor(280, 380, 40, 1, ColliderType::OVAL));//sensor típic passar carril sumar punts, animació especial?
 	chains.add(App->physics->CreateRectangleSensor(222, 380, 40, 1, ColliderType::OVAL));
 
@@ -334,8 +340,39 @@ bool ModuleScene::CleanUp()
 	turquoiseP = false;
 	pinkP = false;
 
+	p2List_item<PhysBody*>* circleItem;
+
+	circleItem = circles.start;
+
+	while (circleItem != NULL)
+	{
+		if (circleItem->data != NULL)
+		{					  
+			delete circleItem->data;
+			circleItem->data = NULL;
+		}
+		circleItem = circleItem->next;
+	}
+
+	p2List_item<PhysBody*>* chianItem;
+
+	chianItem = chains.start;
+
+	while (chianItem != NULL)
+	{
+		if (chianItem->data != NULL)
+		{
+			delete chianItem->data;
+			chianItem->data = NULL;
+		}
+		chianItem = chianItem->next;
+	}
+
+	circles.clear();
+	chains.clear();
+
 	App->player->Disable();
-	//App->physics->Disable();
+	
 	return true;
 }
 
