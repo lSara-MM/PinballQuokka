@@ -16,8 +16,6 @@
 using namespace std;
 #include <sstream>
 
-#include <stdlib.h> 
-
 #include "p2List.h"
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -398,87 +396,30 @@ bool ModuleScene::CleanUp()
 	turquoiseP = false;
 	pinkP = false;
 
-	
-	if (b1->body->GetFixtureList())
-	{
-		b1->body->DestroyFixture(b1->body->GetFixtureList());
-	}
+
+	if (b1->body->GetFixtureList()) { b1->body->DestroyFixture(b1->body->GetFixtureList()); }
+	if (b2->body->GetFixtureList()) { b2->body->DestroyFixture(b2->body->GetFixtureList()); }
+	if (b3->body->GetFixtureList()) { b3->body->DestroyFixture(b3->body->GetFixtureList()); }
+	if (b4->body->GetFixtureList()) { b4->body->DestroyFixture(b4->body->GetFixtureList()); }
+	if (b5->body->GetFixtureList()) { b5->body->DestroyFixture(b5->body->GetFixtureList()); }
+	if (b6->body->GetFixtureList()) { b6->body->DestroyFixture(b6->body->GetFixtureList()); }
+	if (b7->body->GetFixtureList()) { b7->body->DestroyFixture(b7->body->GetFixtureList()); }
+	if (b8->body->GetFixtureList()) { b8->body->DestroyFixture(b8->body->GetFixtureList()); }
+	if (b9->body->GetFixtureList()) { b9->body->DestroyFixture(b9->body->GetFixtureList()); }
+	if (b10->body->GetFixtureList()) { b10->body->DestroyFixture(b10->body->GetFixtureList()); }
+	if (b11->body->GetFixtureList()) { b11->body->DestroyFixture(b11->body->GetFixtureList()); }
+	if (b12->body->GetFixtureList()) { b12->body->DestroyFixture(b12->body->GetFixtureList()); }
+
+	if (backGround->body->GetFixtureList()) { backGround->body->DestroyFixture(backGround->body->GetFixtureList()); }
+	if (sensor_1->body->GetFixtureList()) { sensor_1->body->DestroyFixture(sensor_1->body->GetFixtureList()); }
+	if (sensor_2->body->GetFixtureList()) { sensor_2->body->DestroyFixture(sensor_2->body->GetFixtureList()); }
+
+	if (bola->body->GetFixtureList()) { bola->body->DestroyFixture(bola->body->GetFixtureList()); }
 
 
-	if (b2->body->GetFixtureList())
-	{
-		b2->body->DestroyFixture(b2->body->GetFixtureList());
-	}
-		
-	if (b3->body->GetFixtureList())
-	{
-		b3->body->DestroyFixture(b3->body->GetFixtureList());
-	}
-
-	if (b4->body->GetFixtureList())
-	{
-		b4->body->DestroyFixture(b4->body->GetFixtureList());
-	}
-
-	if (b5->body->GetFixtureList())
-	{
-		b5->body->DestroyFixture(b5->body->GetFixtureList());
-	}
-
-	if (b6->body->GetFixtureList())
-	{
-		b6->body->DestroyFixture(b6->body->GetFixtureList());
-	}
-
-	if (b7->body->GetFixtureList())
-	{
-		b7->body->DestroyFixture(b7->body->GetFixtureList());
-	}
-
-	if (b8->body->GetFixtureList())
-	{
-		b8->body->DestroyFixture(b8->body->GetFixtureList());
-	}
-
-	if (b9->body->GetFixtureList())
-	{
-		b9->body->DestroyFixture(b9->body->GetFixtureList());
-	}
-
-	if (b10->body->GetFixtureList())
-	{
-		b10->body->DestroyFixture(b10->body->GetFixtureList());
-	}
-
-	if (b11->body->GetFixtureList())
-	{
-		b11->body->DestroyFixture(b11->body->GetFixtureList());
-	}
-
-	if (b12->body->GetFixtureList())
-	{
-		b12->body->DestroyFixture(b12->body->GetFixtureList());
-	}
-
-	if (backGround->body->GetFixtureList())
-	{
-		backGround->body->DestroyFixture(backGround->body->GetFixtureList());
-	}
-
-	if (sensor_1->body->GetFixtureList())
-	{
-		sensor_1->body->DestroyFixture(sensor_1->body->GetFixtureList());
-	}
-
-	if (sensor_2->body->GetFixtureList())
-	{
-		sensor_2->body->DestroyFixture(sensor_2->body->GetFixtureList());
-	}
-
-	if (bola->body->GetFixtureList())
-	{
-		bola->body->DestroyFixture(bola->body->GetFixtureList());
-	}
+	circles.~p2List();
+	slingershots.~p2List();
+	chains.~p2List();
 
 	App->player->Disable();
 	return true;
@@ -500,7 +441,6 @@ update_status ModuleScene::Update()
 	{
 		int x, y;
 		c->data->GetPosition(x, y);
-		//App->renderer->Blit(rick, x, y, NULL, 1.0f, c->data->GetRotation());
 		c = c->next;
 	}
 
