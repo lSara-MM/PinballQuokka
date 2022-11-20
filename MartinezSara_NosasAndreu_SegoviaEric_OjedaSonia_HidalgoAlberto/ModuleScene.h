@@ -61,6 +61,8 @@ public:
 	bool normGrav = 0;
 	bool lifeLose;
 
+	bool pause;
+
 	//Audio
 
 	int audiohit; 
