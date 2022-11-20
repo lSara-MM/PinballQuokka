@@ -161,24 +161,15 @@ update_status ModulePlayer::Update()
 		rect->body->ApplyForce(b2Vec2(2, -2), b2Vec2(0, -5), true);
 	}
 
-
-
-
-
-
-
 	//App->renderer->Blit(textureFlipers, fliperD.x+50, fliperD.y-50, NULL, 0.3F, NULL, rect->GetRotation(), NULL, NULL, SDL_FLIP_HORIZONTAL);
 	App->renderer->Blit(textureFlipers, fliperD.x - 55 + (sin(rect->body->GetAngle()) * 5), fliperD.y - 20 - (sin(rect->body->GetAngle()) * 75), NULL, 0.3F, NULL, rect->GetRotation(), NULL, NULL, SDL_FLIP_HORIZONTAL); //Posicio neutral cuando angulo=0 (-70,-20)
-	
-
 	App->renderer->Blit(textureFlipers,fliperI.x-70 + (sin(rect2->body->GetAngle()) * 5), fliperI.y-20-(sin(rect2->body->GetAngle())*75), NULL, 0.3F, NULL, rect2->GetRotation(), NULL, NULL, SDL_FLIP_NONE); //Posicio neutral cuando angulo=0 (-70,-20)
-	
 
 	// strings to const char*
 	string s_score = std::to_string(score);
 	const char* ch_score = s_score.c_str();
-	App->renderer->BlitText(120, 15, scoreFont, "Score:");
-	App->renderer->BlitText(300, 15, scoreFont, ch_score);
+	App->renderer->BlitText(170, 10, scoreFont, "Score:");
+	App->renderer->BlitText(360, 10, scoreFont, ch_score);
 
 	return UPDATE_CONTINUE;
 }

@@ -48,8 +48,9 @@ bool ModuleScene::Start()
 	map = App->textures->Load("pinball/muelle.png");
 
 	fondo = App->textures->Load("pinball/Pinball2.png");
-	//texLoseCat = App->textures->Load("pinball/.png");
-	bgColor = { 0, 0, SCREEN_WIDTH * SCREEN_SIZE, SCREEN_HEIGHT * SCREEN_SIZE };
+	texLoseCat = App->textures->Load("pinball/loseBg.png");
+	char lookupTable2[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789   .,:!?()-" };
+	subtitleFont = App->renderer->LoadFont("Pinball/font_CatPaw32.png", lookupTable2, 6, 13); // 6 = rows 13 = columns
 
 	int Fondo[112] = {
     571, 821,
@@ -391,6 +392,8 @@ bool ModuleScene::CleanUp()
 	App->textures->Unload(map);
 	App->textures->Unload(fondo);
 
+	App->renderer->UnLoadFont(subtitleFont);
+
 	greenP = false;
 	purpleP = false;
 	turquoiseP = false;
@@ -485,7 +488,6 @@ update_status ModuleScene::Update()
 	}
 
 	// Ball render
-
 	int ballX, ballY;
 	circles.getLast()->data->GetPosition(ballX, ballY);
 	App->renderer->Blit(ball, ballX, ballY, NULL, 1, 1.0f, circles.getLast()->data->GetRotation());
@@ -504,7 +506,7 @@ update_status ModuleScene::Update()
 
 
 	// Lifes left
-	if (App->player->numBalls == 0 && !App->physics->debug)
+	if (App->player->numBalls == 0)
 		loseGame();
 	if (App->player->numBalls >= 1)
 		App->renderer->Blit(ball, 10, 10);
@@ -626,7 +628,8 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 		case ColliderType::BELL:
 			LOG("Collider bell");
-			lifeLose = true;
+			if (!App->physics->debug)
+				lifeLose = true;
 
 			//WHATEVER
 			break;
@@ -653,16 +656,19 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 bool ModuleScene::loseGame()
 {
-	//App->physics->world->DestroyBody(circles.getLast()->data->body);
-	//gameOver = true;
-	
-	App->player->Disable();
-	App->renderer->DrawQuad(bgColor, 255, 255, 255);
+	App->audio->PauseMusic();
+	App->renderer->Blit(texLoseCat, 0, 0);
+
+	string s_num = std::to_string(App->player->score);
+	const char* ch_num = s_num.c_str();
+	App->renderer->BlitText(120, 100, subtitleFont, "Score: ");
+	App->renderer->BlitText(300, 100, subtitleFont, ch_num);
+
 
 	if (App->scene_lead->leaderboard[9] < App->player->score) { App->scene_lead->leaderboard[9] = App->player->score; }
 	App->scene_lead->currentScore = App->player->score;
 
-	// add losing screen
+	App->player->Disable();
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
 		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_intro, 90);
@@ -682,8 +688,7 @@ void ModuleScene::loseLife() {
 
 		lifeLose = false;
 		LOG("Life lost!");
-	}
-	
+	}	
 }
 
 void ModuleScene::debug()
@@ -704,7 +709,7 @@ void ModuleScene::debug()
 	{
 		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_intro, 0);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)	// delete after
+	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)
 	{
 		if (App->scene_lead->leaderboard[9] < App->player->score) { App->scene_lead->leaderboard[9] = App->player->score; }
 
@@ -732,6 +737,8 @@ void ModuleScene::debug()
 	// Insta lose
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
+		App->audio->PlayFx(audiomiau);
+		App->physics->world->DestroyBody(circles.getLast()->data->body);
 		App->player->numBalls = 0;
 		loseGame();
 	}
@@ -744,8 +751,8 @@ void ModuleScene::debug()
 
 	string gravity = std::to_string((int)App->physics->world->GetGravity().y);
 	const char* g = gravity.c_str();
-	App->renderer->BlitText(390, 53, App->scene_lead->titleFont, "GRAVITY ", 0.4f);
-	App->renderer->BlitText(480, 53, App->scene_lead->titleFont, ("%.2f; ", g), 0.4f);
+	App->renderer->BlitText(450, 53, subtitleFont, "GRAVITY ", 0.4f);
+	App->renderer->BlitText(540, 53, subtitleFont, ("%.2f; ", g), 0.4f);
 
 	// Gravity change
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
@@ -756,7 +763,7 @@ void ModuleScene::debug()
 	{
 		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
 		{
-			App->physics->world->SetGravity(b2Vec2(GRAVITY_X, -5));
+			App->physics->world->SetGravity(b2Vec2(GRAVITY_X, GRAVITY_Y));
 			grav = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
@@ -804,8 +811,8 @@ void ModuleScene::debug()
 	// FPS Change
 	string s_num = std::to_string((int)frames);
 	const char* ch_num = s_num.c_str();
-	App->renderer->BlitText(45, 54, App->scene_lead->titleFont, "FPS", 0.4f);
-	App->renderer->BlitText(95, 54, App->scene_lead->titleFont, ch_num, 0.4f);
+	App->renderer->BlitText(90, 54, subtitleFont, "FPS", 0.4f);
+	App->renderer->BlitText(130, 54, subtitleFont, ch_num, 0.4f);
 
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
 		fps = true;
@@ -858,8 +865,8 @@ void ModuleScene::debug()
 
 	string bouncing = std::to_string(App->scene->bounce);
 	const char* b = bouncing.c_str();
-	App->renderer->BlitText(150, 53, App->scene_lead->titleFont, "BOUNCINESS", 0.4f);
-	App->renderer->BlitText(280, 53, App->scene_lead->titleFont, ("%.2f; ", b), 0.4f);
+	App->renderer->BlitText(200, 53, subtitleFont, "BOUNCINESS", 0.4f);
+	App->renderer->BlitText(320, 53, subtitleFont, ("%.2f; ", b), 0.4f);
 
 	// Bouncing coefficient
 	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {
@@ -914,7 +921,7 @@ void ModuleScene::debug()
 		b2->body->GetFixtureList()->SetRestitution(bounce);
 		b3->body->GetFixtureList()->SetRestitution(bounce);
 		b4->body->GetFixtureList()->SetRestitution(bounce);
-		/*b5->body->GetFixtureList()->SetRestitution(bounce);//crec que aquests no haurien de fer bounce
+		/*b5->body->GetFixtureList()->SetRestitution(bounce); //crec que aquests no haurien de fer bounce
 		b6->body->GetFixtureList()->SetRestitution(bounce);
 		b7->body->GetFixtureList()->SetRestitution(bounce);*/
 		b8->body->GetFixtureList()->SetRestitution(bounce);

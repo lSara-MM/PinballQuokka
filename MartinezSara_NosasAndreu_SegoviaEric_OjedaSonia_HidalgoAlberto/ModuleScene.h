@@ -50,7 +50,7 @@ private:
 	SDL_Texture* map;
 
 	SDL_Texture* texLoseCat;
-	SDL_Rect bgColor;
+	int subtitleFont;
 
 	// FX
 	uint bonus_fx;
