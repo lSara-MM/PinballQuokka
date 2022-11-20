@@ -38,6 +38,8 @@ bool ModuleScene::Start()
 	bool ret = true;
 	App->physics->Enable();
 	App->player->Enable();
+
+	lose = true; 
 	
 	// Set camera position
 	App->renderer->camera.x = App->renderer->camera.y = 0;

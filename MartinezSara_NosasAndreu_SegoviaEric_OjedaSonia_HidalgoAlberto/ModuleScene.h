@@ -58,7 +58,7 @@ private:
 	int audioimpact;
 	int audiomiau; 
 	int audiolose; 
-	bool lose = true;
+	bool lose;
 
 
 	// Combo
