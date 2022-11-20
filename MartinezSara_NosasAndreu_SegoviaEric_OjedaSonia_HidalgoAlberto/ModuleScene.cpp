@@ -38,7 +38,7 @@ bool ModuleScene::Start()
 	bool ret = true;
 	App->physics->Enable();
 	App->player->Enable();
-
+	
 	// Set camera position
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
@@ -185,14 +185,14 @@ bool ModuleScene::Start()
 	};
 
 	int Triangle[16] = {
-	192, 646,
-	240, 699,
-	240, 708,
-	233, 712,
-	186, 697,
-	181, 692,
-	182, 651,
-	186, 646
+	192 + 5, 646,
+	240 + 5, 699,
+	240 + 5, 708,
+	233 + 5, 712,
+	186 + 5, 697,
+	181 + 5, 692,
+	182 + 5, 651,
+	186 + 5, 646
 	};
 
 	int Triangle2[16] = {
@@ -373,6 +373,7 @@ bool ModuleScene::Start()
 	audiohit = App->audio->LoadFx("pinball/hit.ogg");
 	audioimpact = App->audio->LoadFx("pinball/impact.ogg");
 	audiomiau = App->audio->LoadFx("pinball/meow.ogg");
+	audiolose = App->audio->LoadFx("pinball/gameOver.ogg");
 
 	greenP = false;
 	purpleP = false; 
@@ -380,6 +381,7 @@ bool ModuleScene::Start()
 	pinkP = false;
 	lifeLose = false;
 	godMode = false;
+	retry = false;
 	return ret;
 }
 
@@ -657,12 +659,50 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 bool ModuleScene::loseGame()
 {
 	App->audio->PauseMusic();
+	if (lose == true) {
+		App->audio->PlayFx(audiolose);
+		lose = false;
+	}
 	App->renderer->Blit(texLoseCat, 0, 0);
 
 	string s_num = std::to_string(App->player->score);
 	const char* ch_num = s_num.c_str();
 	App->renderer->BlitText(120, 100, subtitleFont, "Score: ");
 	App->renderer->BlitText(300, 100, subtitleFont, ch_num);
+	
+	bGoRanks = { 50, 200, 250, 40};
+	bRetry = { 350, 200, 200, 40 };
+
+	// retry
+	if (retry == false)
+	{
+		App->renderer->DrawQuad(bGoRanks, 60, 100, 255, 100);
+		App->renderer->DrawQuad(bRetry, 255, 255, 255, 70);
+	}
+	else
+	{
+		App->renderer->DrawQuad(bGoRanks, 255, 255, 255, 70);
+		App->renderer->DrawQuad(bRetry, 60, 100, 255, 100);
+	}
+
+	App->renderer->BlitText(55, 208, subtitleFont, "Leaderboard", 0.7f);
+	App->renderer->BlitText(370, 204, subtitleFont, "Retry");
+
+	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN && retry == false)
+	{
+		App->fade->FadeToBlack(this, (Module*)App->scene_lead, 90);
+	}
+	// non retry
+	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN && retry == true)
+	{
+		App->fade->FadeToBlack(this, (Module*)App->scene, 90);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN ||
+		App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+		retry = !retry;
+
+
 
 
 	if (App->scene_lead->leaderboard[9] < App->player->score) { App->scene_lead->leaderboard[9] = App->player->score; }
