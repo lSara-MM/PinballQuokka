@@ -5,18 +5,18 @@ https://github.com/lSara-MM/PinballQuokka
 
 ## Description
 
-Cat Ball is game based on pintball, were the theme is cats. With some cute animations and physics engine, we arrive to have a simple but
-cool Pintball.
+Cat Ball is game based on pinball, were the theme is cats. With some cute animations and physics engine, we arrive to have a simple but
+cool Pinball.
 
 ## Controls
 
 ### Player
 
-* Right Flipper -> D / Right arrow
+* Right Flipper -> A / Right arrow
 
-* Left Flipper -> A / Left arrow
+* Left Flipper -> D / Left arrow
 
-* Kicker -> Space/ Down arrow
+* Kicker -> Space / Down arrow
 
 ### Menus
 
@@ -30,17 +30,15 @@ cool Pintball.
 
 * Instant Lose -> F3
 
-* _ -> F4
+* Score++ -> F4
 
-* Change Gravity -> F5 & (0-9)
+* Change Gravity -> F5 & (0-9) 'Q' to reset
 
-* Change fps -> F6 & (0-9)
+* Change fps -> F6 & (0-9) 'Q' to reset
 
-* Change Bouncing coefficient -> F7 (0-9)
+* Change Bouncing coefficient -> F7 (0-9) 'Q' to reset
 
 * Debug Mode on/off -> F8
-
-* _  -> F9
 
 
 ## Quokka Stu(d)i(os) Members
@@ -50,6 +48,7 @@ cool Pintball.
 * [Andreu Nosàs Soler](https://github.com/AndyCubico)
 * [Alberto Hidalgo García](https://github.com/TheimerTR)
 * [Éric Segovia Baena](https://github.com/Icefenix7198)
+
 
 ## License
 

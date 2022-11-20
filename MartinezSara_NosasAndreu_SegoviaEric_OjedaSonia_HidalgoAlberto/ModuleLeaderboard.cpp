@@ -57,7 +57,6 @@ bool ModuleLeaderboard::Start()
 	texLurkingCat = App->textures->Load("pinball/ss_LurkingCat.png");
 	bgColor = { 0, 0, SCREEN_WIDTH * SCREEN_SIZE, SCREEN_HEIGHT * SCREEN_SIZE };
 
-
 	// Load Font
 	char lookupTable1[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789   .,:!?()-" };
 	titleFont = App->renderer->LoadFont("Pinball/font_QuietMeows.png", lookupTable1, 4, 13); // 4 = rows 13 = columns

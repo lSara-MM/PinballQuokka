@@ -146,7 +146,7 @@ update_status ModulePlayer::Update()
 	jointMuelle->SetLimits(-compresion / 2, compresion);
 
 
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT && compresion <= 4)
+	if ((App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) && compresion <= 4)
 	{
 		//setearlo
 		SpringReleased = false;
@@ -160,20 +160,20 @@ update_status ModulePlayer::Update()
 		jointMuelle->SetLimits(compresion / 2, 2*compresion);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP && compresion >= 0)
+	if ((App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP) && compresion >= 0)
 	{
 		SpringReleased = true;
 		spring->body->ApplyForce(b2Vec2(/*-MaxLength / 2*/ 0, -compresion * compresion * 55), b2Vec2(0, 0), true);
 	}
-	App->renderer->Blit(textureMuelle, springData.x - 25, springData.y - 15, NULL, 0.4F); //Al convertir de metros a pixeles hay cierto error de redondeo asi que ponemos el -25 y el -15
+	App->renderer->Blit(textureMuelle, springData.x - 25, springData.y - 15, NULL, 0.4F);
+
 
 	//FLIPERS
-
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		rect2->body->ApplyForce(b2Vec2(-2, -3), b2Vec2(0, -5), true);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 		rect->body->ApplyForce(b2Vec2(2, -3), b2Vec2(0, -5), true);
 	}
 
