@@ -66,6 +66,9 @@ This project is licensed under an unmodified MIT license, which is an OSI-certif
 *Intro Cat by: Denys Zavalii
 -https://lottiefiles.com/46472-lurking-cat
 
+*Lose background Cat by: opch.vector
+-https://www.freepik.com/free-vector/playful-cute-cats-flat-item-set-cartoon-fluffy-kitties-kittens-tabbies-sitting-playing-lying-sleeping-isolated-vector-illustration-collection-pets-animals-concept_11671933.htm#query=cat&position=0&from_view=search&track=sph
+
 Fonts (https://www.1001freefonts.com/animal-fonts.php)
 Cat-Paw by beary
 Quiet-Meows by Darrell Flood
