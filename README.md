@@ -57,9 +57,14 @@ This project is licensed under an unmodified MIT license, which is an OSI-certif
 *Yarn icons by: Freepik
 -https://www.flaticon.com/free-icons/yarn
 
-*Lurking black cat by: Tom Fabre
-https://lottiefiles.com/78625-le-petit-chat-cat-noir
+*Intro background by: Freepik
+-https://www.freepik.com/free-vector/hand-drawn-abstract-shapes-background_17865744.htm
 
+*Lurking black cat by: Tom Fabre
+-https://lottiefiles.com/78625-le-petit-chat-cat-noir
+
+*Intro Cat by: Denys Zavalii
+-https://lottiefiles.com/46472-lurking-cat
 
 Fonts (https://www.1001freefonts.com/animal-fonts.php)
 Cat-Paw by beary

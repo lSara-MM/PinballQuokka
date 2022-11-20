@@ -11,7 +11,6 @@
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
 
-#include "Animation.h"
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -410,9 +409,7 @@ update_status ModuleScene::Update()
 	//App->renderer->Blit(map,0,0);
 	
 	debug();
-
 	loseLife();
-
 
 	//Slingershot
 	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
@@ -489,7 +486,7 @@ update_status ModuleScene::Update()
 
 
 	// Lifes left
-	if (App->player->numBalls == 0 && !App->physics->debug)
+	if (App->player->numBalls == 0)
 		loseGame();
 	if (App->player->numBalls >= 1)
 		App->renderer->Blit(ball, 10, 10);
