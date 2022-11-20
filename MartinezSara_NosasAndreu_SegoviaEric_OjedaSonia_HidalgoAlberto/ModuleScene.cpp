@@ -370,6 +370,7 @@ bool ModuleScene::Start()
 
 	// Audio
 	audiohit = App->audio->LoadFx("pinball/hit.ogg");
+	audioimpact = App->audio->LoadFx("pinball/impact.ogg");
 
 	greenP = false;
 	purpleP = false; 
@@ -525,6 +526,7 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	{
 		case ColliderType::PLATFORM:
 			LOG("Collider platform");
+			
 			//WHATEVER
 			break;
 
@@ -537,6 +539,7 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		case ColliderType::ORANGE_BUMPER:
 			LOG("Collider orange bumper");
 			App->player->score += 100;
+			App->audio->PlayFx(audioimpact);
 			//WHATEVER
 			break;
 
@@ -632,6 +635,7 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 			break;
 
 		case ColliderType::SLINGERSHOT:
+			App->audio->PlayFx(audioimpact);
 			LOG("Collider slingershot");
 			//WHATEVER
 			break;

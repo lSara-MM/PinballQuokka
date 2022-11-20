@@ -54,6 +54,8 @@ private:
 
 	// FX
 	uint bonus_fx;
+	int audiohit;
+	int audioimpact;
 
 	// Combo
 	bool greenP, purpleP, turquoiseP, pinkP;
@@ -67,7 +69,7 @@ private:
 	bool lifeLose;
 
 	//Audio
-	int audiohit; 
+	
 
 	PhysBody* b1;
 	PhysBody* b2;
