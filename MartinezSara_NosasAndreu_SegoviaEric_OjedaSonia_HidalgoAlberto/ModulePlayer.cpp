@@ -105,7 +105,7 @@ bool ModulePlayer::CleanUp()
 	}
 	
 
-	//App->renderer->UnLoadFont(scoreFont);
+	App->renderer->UnLoadFont(scoreFont);
 	return true;	
 }
 
