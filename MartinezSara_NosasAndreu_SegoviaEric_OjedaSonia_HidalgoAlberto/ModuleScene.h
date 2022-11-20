@@ -61,7 +61,7 @@ private:
 
 	// Bounce valor
 
-	float bounce = 1.2f;
+	float bounce = 0.6f;
 
 	bool grav = false;
 	bool fps = false;

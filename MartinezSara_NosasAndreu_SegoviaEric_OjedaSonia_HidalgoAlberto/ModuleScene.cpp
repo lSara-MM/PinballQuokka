@@ -10,6 +10,13 @@
 #include "ModuleLeaderboard.h"
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
+#include "ModuleLeaderboard.h"
+
+#include <iostream>
+using namespace std;
+#include <sstream>
+
+#include <stdlib.h> 
 
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -412,15 +419,15 @@ update_status ModuleScene::Update()
 	loseLife();
 
 	//Slingershot
-	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
+	//if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
 
-		int triangle[6] = {
-				0, 0,
-				400, 0,
-				200, 200,//valors arbirtaris, canviar en funció mapa
-		};
-		slingershots.add(App->physics->CreateBouncyChain(App->input->GetMouseX(), App->input->GetMouseY(), triangle, 6, 2.0, App->physics->STATIC, ColliderType::UNKNOWN));
-	}
+	//	int triangle[6] = {
+	//			0, 0,
+	//			400, 0,
+	//			200, 200,//valors arbirtaris, canviar en funció mapa
+	//	};
+	//	slingershots.add(App->physics->CreateBouncyChain(App->input->GetMouseX(), App->input->GetMouseY(), triangle, 6, 2.0, App->physics->STATIC, ColliderType::UNKNOWN));
+	//}
 	
 	// Prepare for raycast ------------------------------------------------------
 	
@@ -719,6 +726,11 @@ void ModuleScene::debug()
 		App->player->score++;
 	}
 
+	string gravity = std::to_string((int)App->physics->world->GetGravity().y);
+	const char* g = gravity.c_str();
+	App->renderer->BlitText(390, 53, App->scene_lead->titleFont, "GRAVITY ", 0.4f);
+	App->renderer->BlitText(480, 53, App->scene_lead->titleFont, ("%.2f; ", g), 0.4f);
+
 	// Gravity change
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
 		grav = true;
@@ -774,6 +786,12 @@ void ModuleScene::debug()
 	}
 
 	// FPS Change
+
+	string s_num = std::to_string((int)frames);
+	const char* ch_num = s_num.c_str();
+	App->renderer->BlitText(45, 54, App->scene_lead->titleFont, "FPS", 0.4f);
+	App->renderer->BlitText(95, 54, App->scene_lead->titleFont, ch_num, 0.4f);
+
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
 		fps = true;
 		LOG("frames %f", frames);
@@ -823,6 +841,11 @@ void ModuleScene::debug()
 		}
 	}
 
+	string bouncing = std::to_string(App->scene->bounce);
+	const char* b = bouncing.c_str();
+	App->renderer->BlitText(150, 53, App->scene_lead->titleFont, "BOUNCINESS", 0.4f);
+	App->renderer->BlitText(280, 53, App->scene_lead->titleFont, ("%.2f; ", b), 0.4f);
+
 	// Bouncing coefficient
 	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {
 		boing = true;
@@ -836,39 +859,39 @@ void ModuleScene::debug()
 			boing = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
-			App->scene->bounce = 1;
+			App->scene->bounce = 0.3;
 			boing = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
-			App->scene->bounce = 2;
+			App->scene->bounce = 0.6;
 			boing = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
-			App->scene->bounce = 3;
+			App->scene->bounce = 0.9;
 			boing = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
-			App->scene->bounce = 4;
+			App->scene->bounce = 1.2;
 			fps = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN) {
-			App->scene->bounce = 5;
+			App->scene->bounce = 1.5;
 			boing = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN) {
-			App->scene->bounce = 6;
+			App->scene->bounce = 1.8;
 			boing = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN) {
-			App->scene->bounce = 7;
+			App->scene->bounce = 2.1;
 			boing = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
-			App->scene->bounce = 8;
+			App->scene->bounce = 2.4;
 			boing = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN) {
-			App->scene->bounce = 9;
+			App->scene->bounce = 2.7;
 			boing = false;
 		}
 

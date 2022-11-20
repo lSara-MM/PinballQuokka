@@ -43,14 +43,14 @@ bool ModulePlayer::Start()
 	//PALAS
 
 	circle = App->physics->CreateCircle(300, 790, 2, App->physics->STATIC, ColliderType::UNKNOWN);
-	rect = App->physics->CreateRectangle(300, 790, 50, 10, App->physics->DYNAMIC, ColliderType::UNKNOWN);
+	rect = App->physics->CreateRectangle(300, 790, 35, 10, App->physics->DYNAMIC, ColliderType::UNKNOWN);
 
 	Vec1 = { 0.50, 0 };
 	App->physics->CreateRevoluteJoint(rect, Vec1, circle, Vec2, 33.0f);
 	Vec1 = { -0.50, 0 };
 
 	circle2 = App->physics->CreateCircle(196, 790, 2, App->physics->STATIC, ColliderType::UNKNOWN);
-	rect2 = App->physics->CreateRectangle(196, 790, 50, 10, App->physics->DYNAMIC, ColliderType::UNKNOWN);
+	rect2 = App->physics->CreateRectangle(196, 790, 35, 10, App->physics->DYNAMIC, ColliderType::UNKNOWN);
 
 	App->physics->CreateRevoluteJoint(rect2, Vec1, circle2, Vec2, 33.0f);
 	textureFlipers= App->textures->Load("pinball/fliper.png");
@@ -152,12 +152,13 @@ update_status ModulePlayer::Update()
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
 		rect->body->ApplyForce(b2Vec2(2, -2), b2Vec2(0, -5), true);
 	}
+
 	int x, y;
 	rect->GetPosition(x,y);
-	App->renderer->Blit(textureFlipers, x, y, NULL, 0.3F, NULL, rect->GetRotation(), NULL, NULL, SDL_FLIP_HORIZONTAL);
+	App->renderer->Blit(textureFlipers, x - 10, y, NULL, 0.3F, NULL, rect->GetRotation(), NULL, NULL, SDL_FLIP_HORIZONTAL);
 
 	rect2->GetPosition(x, y);
-	App->renderer->Blit(textureFlipers, x, y-25, NULL, 0.3F, NULL, rect2->GetRotation(), NULL, NULL, SDL_FLIP_NONE);
+	App->renderer->Blit(textureFlipers, x, y - 33, NULL, 0.3F, NULL, rect2->GetRotation(), NULL, NULL, SDL_FLIP_NONE);
 
 
 	if (App->scene->gameOver == false)
