@@ -18,6 +18,7 @@ using namespace std;
 
 #include <stdlib.h> 
 
+#include "p2List.h"
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -35,6 +36,9 @@ bool ModuleScene::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 	App->physics->Enable();
+	App->physics->world->SetGravity(b2Vec2(GRAVITY_X, -GRAVITY_Y));
+	frames = FRAMES;
+	bounce = BOUNCE;
 	App->player->Enable();
 
 	lose = true; 

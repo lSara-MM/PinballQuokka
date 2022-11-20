@@ -54,7 +54,6 @@ bool ModuleLeaderboard::Start()
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
 	// Load textures
-	//bgTexture = App->textures->Load("pinball/map.png");
 	texLurkingCat = App->textures->Load("pinball/ss_LurkingCat.png");
 	bgColor = { 0, 0, SCREEN_WIDTH * SCREEN_SIZE, SCREEN_HEIGHT * SCREEN_SIZE };
 
