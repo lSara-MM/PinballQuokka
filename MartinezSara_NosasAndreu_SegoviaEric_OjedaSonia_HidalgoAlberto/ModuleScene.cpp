@@ -339,7 +339,7 @@ bool ModuleScene::Start()
 	//circles.add(App->physics->CreateBouncyCircle(379, 554, 19, bounce, App->physics->STATIC, ColliderType::CHEEK));
 	//circles.add(App->physics->CreateBouncyCircle(128, 554, 19, bounce, App->physics->STATIC, ColliderType::CHEEK));
 
-	Purple_Paw = App->physics->CreateBouncyCircle(60, 495, 28, bounce, App->physics->STATIC, ColliderType::PURPLE_PAW);
+	Purple_Paw = App->physics->CreateBouncyCircle(47, 490, 28, bounce, App->physics->STATIC, ColliderType::PURPLE_PAW);
 	Green_Paw = App->physics->CreateBouncyCircle(232, 221, 31, bounce, App->physics->STATIC, ColliderType::GREEN_PAW);
 	Turqupise_Paw = App->physics->CreateBouncyCircle(398, 218, 31, bounce, App->physics->STATIC, ColliderType::TURQUOISE_PAW);
 	Pink_Paw = App->physics->CreateBouncyCircle(316, 145, 31, bounce, App->physics->STATIC, ColliderType::PINK_PAW);
