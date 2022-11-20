@@ -32,8 +32,9 @@ public:
 
 	int leaderboard[10];
 	int currentScore;
-private:
 	int titleFont;
+
+private:
 	int subtitleFont;
 
 	// Ranks
