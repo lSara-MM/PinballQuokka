@@ -127,7 +127,7 @@ update_status ModulePlayer::Update()
 			timer = 100;
 		}
 	}
-	jointMuelle->SetLimits(-compresion / 8, compresion);
+	jointMuelle->SetLimits(-compresion / 2, compresion);
 
 
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT && compresion <= 4)
@@ -140,14 +140,14 @@ update_status ModulePlayer::Update()
 		}
 		//comprimir el muelle
 		compresion += (0.05 - compresion / 160);
-		//LOG("%f", compresion);
-		jointMuelle->SetLimits(compresion / 8, compresion);
+		LOG("%f", compresion);
+		jointMuelle->SetLimits(compresion / 2, 2*compresion);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP && compresion >= 0)
 	{
 		SpringReleased = true;
-		spring->body->ApplyForce(b2Vec2(/*-MaxLength / 2*/ 0, -compresion * compresion * 25), b2Vec2(0, 0), true);
+		spring->body->ApplyForce(b2Vec2(/*-MaxLength / 2*/ 0, -compresion * compresion * 55), b2Vec2(0, 0), true);
 	}
 	App->renderer->Blit(textureMuelle, springData.x - 25, springData.y - 15, NULL, 0.4F); //Al convertir de metros a pixeles hay cierto error de redondeo asi que ponemos el -25 y el -15
 
