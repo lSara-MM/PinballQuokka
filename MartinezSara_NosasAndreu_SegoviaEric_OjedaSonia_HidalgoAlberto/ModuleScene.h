@@ -74,9 +74,10 @@ private:
 	bool fps = false;
 	bool boing = false;
 	bool lifeLose;
+	bool retry;
 
-	//Audio
-	
+	SDL_Rect bRetry;
+	SDL_Rect bGoRanks;
 
 	PhysBody* b1;
 	PhysBody* b2;

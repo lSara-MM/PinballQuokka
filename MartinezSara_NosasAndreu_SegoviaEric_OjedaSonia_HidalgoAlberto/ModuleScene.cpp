@@ -381,6 +381,7 @@ bool ModuleScene::Start()
 	pinkP = false;
 	lifeLose = false;
 	godMode = false;
+	retry = false;
 	return ret;
 }
 
@@ -668,6 +669,40 @@ bool ModuleScene::loseGame()
 	const char* ch_num = s_num.c_str();
 	App->renderer->BlitText(120, 100, subtitleFont, "Score: ");
 	App->renderer->BlitText(300, 100, subtitleFont, ch_num);
+	
+	bGoRanks = { 50, 200, 250, 40};
+	bRetry = { 350, 200, 200, 40 };
+
+	// retry
+	if (retry == false)
+	{
+		App->renderer->DrawQuad(bGoRanks, 60, 100, 255, 100);
+		App->renderer->DrawQuad(bRetry, 255, 255, 255, 70);
+	}
+	else
+	{
+		App->renderer->DrawQuad(bGoRanks, 255, 255, 255, 70);
+		App->renderer->DrawQuad(bRetry, 60, 100, 255, 100);
+	}
+
+	App->renderer->BlitText(55, 208, subtitleFont, "Leaderboard", 0.7f);
+	App->renderer->BlitText(370, 204, subtitleFont, "Retry");
+
+	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN && retry == false)
+	{
+		App->fade->FadeToBlack(this, (Module*)App->scene_lead, 90);
+	}
+	// non retry
+	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN && retry == true)
+	{
+		App->fade->FadeToBlack(this, (Module*)App->scene, 90);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN ||
+		App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+		retry = !retry;
+
+
 
 
 	if (App->scene_lead->leaderboard[9] < App->player->score) { App->scene_lead->leaderboard[9] = App->player->score; }
