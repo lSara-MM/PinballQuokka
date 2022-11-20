@@ -355,7 +355,7 @@ bool ModuleScene::Start()
 	//chains.add(App->physics->CreateRectangleSensor(280, 380, 40, 1, ColliderType::OVAL));//sensor típic passar carril sumar punts, animació especial?
 	chains.add(App->physics->CreateRectangleSensor(318, 537, 40, 1, ColliderType::NOSE));
 
-	chains.add(App->physics->CreateRectangleSensor(250,820, 330, 1, ColliderType::BELL));//"mort jugador"
+	chains.add(App->physics->CreateRectangleSensor(310,850, 350, 1, ColliderType::BELL));//"mort jugador"
 
 	// Create a big red sensor on the bottom of the screen.
 	// This sensor will not make other objects collide with it, but it can tell if it is "colliding" with something else

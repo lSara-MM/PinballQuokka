@@ -44,20 +44,20 @@ bool ModulePlayer::Start()
 	//PALAS
 	
 	//Fliper derecho
-	fliperD.x = 385;
-	fliperD.y = 770;
+	fliperD.x = 380;
+	fliperD.y = 780;
 	circle = App->physics->CreateCircle(fliperD.x, fliperD.y, 2, App->physics->STATIC, ColliderType::UNKNOWN);
-	rect = App->physics->CreateRectangle(fliperD.x, fliperD.y, 50, 10, App->physics->DYNAMIC, ColliderType::UNKNOWN);
+	rect = App->physics->CreateRectangle(fliperD.x, fliperD.y, 55, 10, App->physics->DYNAMIC, ColliderType::UNKNOWN);
 
 	Vec1 = /*{ 0.50, 0 }*/{ 0.50, 0 };
 	App->physics->CreateRevoluteJoint(rect, Vec1, circle, Vec2, 30.0f);
 	Vec1 = { -0.50, 0 };
 
 	//Fliper Izquierdo
-	fliperI.x = 245;
-	fliperI.y = 770;
+	fliperI.x = 250;
+	fliperI.y = 780;
 	circle2 = App->physics->CreateCircle(fliperI.x, fliperI.y, 2, App->physics->STATIC, ColliderType::UNKNOWN);
-	rect2 = App->physics->CreateRectangle(fliperI.x, fliperI.y, 50, 10, App->physics->DYNAMIC, ColliderType::UNKNOWN);
+	rect2 = App->physics->CreateRectangle(fliperI.x, fliperI.y, 55, 10, App->physics->DYNAMIC, ColliderType::UNKNOWN);
 
 
 	App->physics->CreateRevoluteJoint(rect2, Vec1, circle2, Vec2, 30.0f);
@@ -154,16 +154,16 @@ update_status ModulePlayer::Update()
 	//FLIPERS
 
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
-		rect2->body->ApplyForce(b2Vec2(-2, -2), b2Vec2(0, -5), true);
+		rect2->body->ApplyForce(b2Vec2(-2, -3), b2Vec2(0, -5), true);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
-		rect->body->ApplyForce(b2Vec2(2, -2), b2Vec2(0, -5), true);
+		rect->body->ApplyForce(b2Vec2(2, -3), b2Vec2(0, -5), true);
 	}
 
 	//App->renderer->Blit(textureFlipers, fliperD.x+50, fliperD.y-50, NULL, 0.3F, NULL, rect->GetRotation(), NULL, NULL, SDL_FLIP_HORIZONTAL);
-	App->renderer->Blit(textureFlipers, fliperD.x - 55 + (sin(rect->body->GetAngle()) * 5), fliperD.y - 20 - (sin(rect->body->GetAngle()) * 75), NULL, 0.3F, NULL, rect->GetRotation(), NULL, NULL, SDL_FLIP_HORIZONTAL); //Posicio neutral cuando angulo=0 (-70,-20)
-	App->renderer->Blit(textureFlipers,fliperI.x-70 + (sin(rect2->body->GetAngle()) * 5), fliperI.y-20-(sin(rect2->body->GetAngle())*75), NULL, 0.3F, NULL, rect2->GetRotation(), NULL, NULL, SDL_FLIP_NONE); //Posicio neutral cuando angulo=0 (-70,-20)
+	App->renderer->Blit(textureFlipers, fliperD.x - 50 + (sin(rect->body->GetAngle()) * 20), fliperD.y - 20 - (sin(rect->body->GetAngle()) * 75), NULL, 0.3F, NULL, rect->GetRotation(), NULL, NULL, SDL_FLIP_HORIZONTAL); //Posicio neutral cuando angulo=0 (-70,-20)
+	App->renderer->Blit(textureFlipers,fliperI.x-75 + (sin(rect2->body->GetAngle()) * 20), fliperI.y-20-(sin(rect2->body->GetAngle())*75), NULL, 0.3F, NULL, rect2->GetRotation(), NULL, NULL, SDL_FLIP_NONE); //Posicio neutral cuando angulo=0 (-70,-20)
 
 	// strings to const char*
 	string s_score = std::to_string(score);
