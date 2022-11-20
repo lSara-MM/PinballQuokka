@@ -56,12 +56,16 @@ private:
 	uint bonus_fx;
 	int audiohit;
 	int audioimpact;
+	int audiomiau; 
 
 	// Combo
 	bool greenP, purpleP, turquoiseP, pinkP;
 
 	// Bounce valor
 	float bounce = 0.6f;
+
+	//God mode
+	bool godMode;
 
 	bool grav = false;
 	bool fps = false;

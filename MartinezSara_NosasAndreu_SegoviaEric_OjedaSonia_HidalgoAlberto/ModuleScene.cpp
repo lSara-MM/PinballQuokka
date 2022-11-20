@@ -351,8 +351,8 @@ bool ModuleScene::Start()
 	circles.add(Pink_Paw);
 
 
-	chains.add(App->physics->CreateRectangleSensor(280, 380, 40, 1, ColliderType::OVAL));//sensor típic passar carril sumar punts, animació especial?
-	chains.add(App->physics->CreateRectangleSensor(222, 380, 40, 1, ColliderType::OVAL));
+	//chains.add(App->physics->CreateRectangleSensor(280, 380, 40, 1, ColliderType::OVAL));//sensor típic passar carril sumar punts, animació especial?
+	chains.add(App->physics->CreateRectangleSensor(318, 537, 40, 1, ColliderType::NOSE));
 
 	chains.add(App->physics->CreateRectangleSensor(250,820, 330, 1, ColliderType::BELL));//"mort jugador"
 
@@ -371,13 +371,14 @@ bool ModuleScene::Start()
 	// Audio
 	audiohit = App->audio->LoadFx("pinball/hit.ogg");
 	audioimpact = App->audio->LoadFx("pinball/impact.ogg");
+	audiomiau = App->audio->LoadFx("pinball/meow.ogg");
 
 	greenP = false;
 	purpleP = false; 
 	turquoiseP = false; 
 	pinkP = false;
 	lifeLose = false;
-
+	godMode = false;
 	return ret;
 }
 
@@ -527,6 +528,13 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		case ColliderType::PLATFORM:
 			LOG("Collider platform");
 			
+			//WHATEVER
+			break;
+
+		case ColliderType::NOSE:
+			LOG("Collider nose");
+			App->audio->PlayFx(audiomiau);
+
 			//WHATEVER
 			break;
 
@@ -708,9 +716,10 @@ void ModuleScene::debug()
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		App->physics->debug = !App->physics->debug;
+		godMode = !godMode;
 	}
-	if (App->physics->debug) { App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 0)); }
-	if (!App->physics->debug) { App->physics->world->SetGravity(b2Vec2(GRAVITY_X, -GRAVITY_Y)); }
+	if (App->physics->debug && godMode) { App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 0)); }
+	if (!App->physics->debug && !godMode) { App->physics->world->SetGravity(b2Vec2(GRAVITY_X, -GRAVITY_Y)); }
 
 	// Spawn bola donde el mouse
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
@@ -916,4 +925,9 @@ void ModuleScene::debug()
 		Purple_Paw->body->GetFixtureList()->SetRestitution(bounce);
 		Turqupise_Paw->body->GetFixtureList()->SetRestitution(bounce);
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN && !godMode) {
+		App->physics->debug = !App->physics->debug;
+	}
+
 }
