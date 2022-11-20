@@ -61,6 +61,8 @@ public:
 	bool normGrav = 0;
 	bool lifeLose;
 
+	bool pause;
+
 	//Audio
 
 	int audiohit; 
@@ -79,7 +81,5 @@ public:
 	PhysBody* Turqupise_Paw;
 	PhysBody* Green_Paw;
 	PhysBody* Purple_Paw;
-
-	PhysBody* ballPlayer;
 
 };

@@ -334,8 +334,9 @@ bool ModuleScene::Start()
 	//lower_ground_sensor->listener = this;
 	
 	// Ball
-	ballPlayer = App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL);
-	circles.add(ballPlayer);
+
+	circles.add(App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
+
 	circles.getLast()->data->listener = this;
 
 	// Audio
@@ -347,6 +348,8 @@ bool ModuleScene::Start()
 	turquoiseP = false; 
 	pinkP = false;
 	lifeLose = false;
+
+	pause = false;
 	return ret;
 }
 
@@ -407,7 +410,9 @@ update_status ModuleScene::Update()
 	//App->renderer->Blit(map,0,0);
 	
 	debug();
+
 	loseLife();
+
 
 	//Slingershot
 	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
@@ -435,21 +440,8 @@ update_status ModuleScene::Update()
 
 	// All draw functions ------------------------------------------------------
 
-	// Circles
-	p2List_item<PhysBody*>* c = circles.getFirst();
-	while(c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-
-		// If mouse is over this circle, paint the circle's texture
-		if(c->data->Contains(App->input->GetMouseX(), App->input->GetMouseY()))
-			App->renderer->Blit(ball, x, y, NULL, 1.0f, c->data->GetRotation());
-
-		c = c->next;
-	}
-
 	//Slingershots
+	p2List_item<PhysBody*>* c;	
 	c = slingershots.getFirst();
 	while (c != NULL)
 	{
@@ -476,10 +468,14 @@ update_status ModuleScene::Update()
 	}
 
 	// Ball render
-	int ballX, ballY;
-	circles.getLast()->data->GetPosition(ballX, ballY);
-	App->renderer->Blit(ball, ballX, ballY, NULL, 1, 1.0f, circles.getLast()->data->GetRotation());
 
+	if (pause == false)
+	{
+		int ballX, ballY;
+		circles.getLast()->data->GetPosition(ballX, ballY);
+		App->renderer->Blit(ball, ballX, ballY, NULL, 1, 1.0f, circles.getLast()->data->GetRotation());
+	}
+	
 	if (App->player->comboPaws == 4)
 	{
 		App->player->score += 500;
@@ -490,6 +486,17 @@ update_status ModuleScene::Update()
 		pinkP = false;
 		LOG("COMBO! Score: %d", App->player->score);
 	}
+
+
+	// Lifes left
+	if (App->player->numBalls == 0)
+		loseGame();
+	if (App->player->numBalls >= 1)
+		App->renderer->Blit(ball, 10, 10);
+	if (App->player->numBalls >= 2)
+		App->renderer->Blit(ball, 10, 50);
+	if (App->player->numBalls == 3)
+		App->renderer->Blit(ball, 10, 90);
 
 	// Keep playing
 	return UPDATE_CONTINUE;
@@ -595,7 +602,6 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 		case ColliderType::BELL:
 			LOG("Collider bell");
-			App->player->numBalls--;
 			lifeLose = true;
 
 			//WHATEVER
@@ -622,17 +628,17 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 bool ModuleScene::loseGame()
 {
-	for (int i = 0; i < 10; i++)
-	{
-		if (App->scene_lead->leaderboard[i] < App->player->score)
-		{
-			App->scene_lead->leaderboard[i] = App->player->score;
-			break;
-		}
-	}
+	//App->physics->world->DestroyBody(circles.getLast()->data->body);
+	pause = true;
 
+	if (App->scene_lead->leaderboard[9] < App->player->score) { App->scene_lead->leaderboard[9] = App->player->score; }
 	App->scene_lead->currentScore = App->player->score;
-	App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_intro, 90);
+
+	// add losing screen
+	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+	{
+		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_intro, 90);
+	}
 
 	return true;
 }
@@ -672,16 +678,15 @@ void ModuleScene::debug()
 	}
 	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)	// delete after
 	{
-		if (App->scene_lead->leaderboard[9] < App->player->score)
-		{
-			App->scene_lead->leaderboard[9] = App->player->score;
-
-		}
+		if (App->scene_lead->leaderboard[9] < App->player->score) { App->scene_lead->leaderboard[9] = App->player->score; }
 
 		App->scene_lead->currentScore = App->player->score;
 		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_lead, 0);
 	}
-
+	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)	// delete after
+	{
+		pause = true;
+	}
 
 	// GodMode
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
@@ -702,7 +707,7 @@ void ModuleScene::debug()
 	// Spawn bola donde el mouse
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
-		circles.getLast()->data->body->DestroyFixture(circles.getLast()->data->body->GetFixtureList());
+		App->physics->world->DestroyBody(circles.getLast()->data->body);
 		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 16, App->physics->DYNAMIC, ColliderType::BALL));
 		circles.getLast()->data->listener = this;
 	}
