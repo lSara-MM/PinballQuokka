@@ -75,6 +75,10 @@ bool ModuleSceneIntro::CleanUp()
 	// Clear fonts
 	App->renderer->UnLoadFont(titleFont);
 	App->renderer->UnLoadFont(subtitleFont);
+
+	//Clear textures
+	App->textures->Unload(bgTexture);
+	App->textures->Unload(texPlayCat);
 	return true;
 }
 
