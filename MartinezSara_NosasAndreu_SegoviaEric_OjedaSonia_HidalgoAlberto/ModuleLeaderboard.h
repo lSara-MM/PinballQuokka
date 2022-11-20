@@ -19,8 +19,6 @@ public:
 	void ranks();
 	void bubbleSort(int array[], int size);
 public:
-
-	
 	// Textures
 	Animation animLurkingCat;
 	SDL_Texture* texLurkingCat;
@@ -38,6 +36,5 @@ private:
 	int randNum;
 	
 	int prevScore[2];
-
 	SDL_Rect bgColor;
 };
