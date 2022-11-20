@@ -365,7 +365,7 @@ bool ModuleScene::Start()
 	//lower_ground_sensor->listener = this;
 	
 	// Ball
-	circles.add(App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
+	circles.add(App->physics->CreateCircle(550, 685, 16, App->physics->DYNAMIC, ColliderType::BALL));
 	circles.getLast()->data->listener = this;
 
 	// Audio
@@ -677,7 +677,7 @@ void ModuleScene::loseLife() {
 		App->player->numBalls--;
 
 		circles.getLast()->data->body->DestroyFixture(circles.getLast()->data->body->GetFixtureList());
-		circles.add(App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
+		circles.add(App->physics->CreateCircle(550, 685, 16, App->physics->DYNAMIC, ColliderType::BALL));
 		circles.getLast()->data->listener = this;
 
 		lifeLose = false;
