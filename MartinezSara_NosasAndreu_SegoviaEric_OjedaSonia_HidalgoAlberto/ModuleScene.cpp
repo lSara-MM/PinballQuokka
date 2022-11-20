@@ -47,251 +47,271 @@ bool ModuleScene::Start()
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 	map = App->textures->Load("pinball/muelle.png");
 
-	fondo = App->textures->Load("pinball/Fondo2.png");
+	fondo = App->textures->Load("pinball/Pinball2.png");
 	//texLoseCat = App->textures->Load("pinball/.png");
 	bgColor = { 0, 0, SCREEN_WIDTH * SCREEN_SIZE, SCREEN_HEIGHT * SCREEN_SIZE };
 
-	int Fondo[122] = {
-	504, 825,
-	503, 146,
-	502, 136,
-	497, 122,
-	490, 112,
-	482, 102,
-	472, 92,
-	460, 83,
-	448, 77,
-	429, 70,
-	419, 68,
-	142, 68,
-	127, 72,
-	111, 77,
-	95, 86,
+	int Fondo[112] = {
+    571, 821,
+	571, 143,
+	569, 133,
+	564, 122,
+	555, 110,
+	544, 97,
+	531, 86,
+	515, 78,
+	497, 71,
+	489, 69,
+	208, 68,
+	183, 69,
+	151, 74,
+	128, 78,
+	104, 84,
 	83, 93,
-	68, 104,
-	56, 115,
-	46, 125,
-	39, 135,
-	32, 153,
-	32, 410,
-	37, 417,
-	48, 429,
-	60, 440,
-	74, 452,
-	85, 459,
-	92, 464,
-	98, 474,
-	101, 480,
-	101, 489,
-	95, 496,
-	84, 499,
-	72, 499,
-	56, 495,
-	40, 487,
-	32, 483,
-	32, 777,
-	34, 784,
-	38, 796,
-	44, 802,
-	51, 808,
-	60, 815,
-	72, 821,
-	97, 832,
-	129, 844,
-	188, 850,
-	272, 850,
-	362, 848,
-	411, 826,
-	422, 818,
-	431, 814,
-	440, 807,
-	448, 794,
-	453, 781,
-	455, 773,
-	455, 252,
-	457, 247,
-	462, 246,
-	466, 250,
-	467, 826
+	63, 107,
+	40, 130,
+	22, 161,
+	13, 186,
+	7, 222,
+	6, 250,
+	6, 286,
+	6, 320,
+	9, 352,
+	18, 374,
+	18, 505,
+	101, 574,
+	101, 780,
+	105, 791,
+	112, 803,
+	126, 813,
+	132, 817,
+	157, 862,
+	171, 882,
+	288, 886,
+	354, 884,
+	457, 888,
+	490, 818,
+	500, 813,
+	511, 803,
+	517, 791,
+	523, 776,
+	523, 480,
+	488, 491,
+	480, 488,
+	475, 482,
+	474, 473,
+	479, 467,
+	523, 452,
+	523, 193,
+	527, 189,
+	532, 189,
+	535, 194,
+	535, 868,
+	574, 868
 	};
 
 	int Oreja[44] = {
-	171, 310,
-	151, 292,
-	134, 280,
-	119, 277,
-	108, 280,
-	102, 287,
-	100, 296,
-	100, 377,
-	101, 387,
-	106, 394,
-	116, 398,
-	125, 397,
-	135, 391,
-	140, 384,
-	141, 379,
-	143, 353,
-	146, 345,
-	150, 338,
-	156, 331,
-	164, 328,
-	170, 323,
-	171, 316
+    171 + 50, 310,
+	151 + 50, 292,
+	134 + 50, 280,
+	119 + 50, 277,
+	108 + 50, 280,
+	102 + 50, 287,
+	100 + 50, 296,
+	100 + 50, 377,
+	101 + 50, 387,
+	106 + 50, 394,
+	116 + 50, 398,
+	125 + 50, 397,
+	135 + 50, 391,
+	140 + 50, 384,
+	141 + 50, 379,
+	143 + 50, 353,
+	146 + 50, 345,
+	150 + 50, 338,
+	156 + 50, 331,
+	164 + 50, 328,
+	170 + 50, 323,
+	171 + 50, 316
 	};
 
 	int Oreja2[48] = {
-	329, 308,
-	344, 295,
-	360, 283,
-	369, 278,
-	379, 277,
-	386, 278,
-	392, 282,
-	397, 290,
-	399, 296,
-	400, 380,
-	398, 387,
-	392, 394,
-	383, 398,
-	374, 398,
-	365, 393,
-	359, 386,
-	357, 380,
-	356, 356,
-	353, 346,
-	348, 338,
-	341, 331,
-	333, 327,
-	328, 322,
-	327, 316
+	329 + 82, 308,
+	344 + 82, 295,
+	360 + 82, 283,
+	369 + 82, 278,
+	379 + 82, 277,
+	386 + 82, 278,
+	392 + 82, 282,
+	397 + 82, 290,
+	399 + 82, 296,
+	400 + 82, 380,
+	398 + 82, 387,
+	392 + 82, 394,
+	383 + 82, 398,
+	374 + 82, 398,
+	365 + 82, 393,
+	359 + 82, 386,
+	357 + 82, 380,
+	356 + 82, 356,
+	353 + 82, 346,
+	348 + 82, 338,
+	341 + 82, 331,
+	333 + 82, 327,
+	328 + 82, 322,
+	327 + 82, 316
 	};
 
 	int Barra[14] = {
-	413, 646,
-	413, 739,
-	302, 779,
-	307, 795,
-	422, 760,
-	421, 646,
-	417, 642
+	489, 646,
+	489, 760,
+	391, 783,
+	384, 767,
+	481, 739,
+	481, 645,
+	485, 642
 	};
+
 
 	int Barra2[14] = {
-	73, 647,
-	73, 760,
-	187, 796,
-	195, 778,
-	81, 739,
-	81, 647,
-	77, 642
+	141, 645,
+	141, 760,
+	235, 786,
+	243, 768,
+	149, 739,
+	149, 646,
+	145, 642
 	};
 
-	int Triangle[20] = {
-	132, 646,
-	200, 703,
-	201, 708,
-	199, 715,
-	193, 719,
-	124, 703,
-	119, 698,
-	119, 654,
-	121, 649,
-	126, 646
+	int Triangle[16] = {
+	192, 646,
+	240, 699,
+	240, 708,
+	233, 712,
+	186, 697,
+	181, 692,
+	182, 651,
+	186, 646
 	};
 
-	int Triangle2[20] = {
-	363, 647,
-	295, 701,
-	294, 706,
-	295, 711,
-	302, 716,
-	372, 702,
-	376, 699,
-	377, 693,
-	376, 650,
-	370, 646
+	int Triangle2[16] = {
+	437, 648,
+	392, 696,
+	392, 705,
+	397, 709,
+	443, 697,
+	447, 691,
+	446, 649,
+	441, 645
 	};
 
 	int Oval[40] = {
-	193, 334,
-	190, 338,
-	188, 346,
-	187, 356,
-	186, 367,
-	186, 380,
-	186, 394,
-	187, 407,
-	188, 416,
-	189, 422,
-	193, 429,
-	196, 424,
-	198, 418,
-	200, 407,
-	201, 395,
-	201, 379,
-	201, 367,
-	200, 355,
-	199, 345,
-	197, 339
+	193 + 66, 334,
+	190 + 66, 338,
+	188 + 66, 346,
+	187 + 66, 356,
+	186 + 66, 367,
+	186 + 66, 380,
+	186 + 66, 394,
+	187 + 66, 407,
+	188 + 66, 416,
+	189 + 66, 422,
+	193 + 66, 429,
+	196 + 66, 424,
+	198 + 66, 418,
+	200 + 66, 407,
+	201 + 66, 395,
+	201 + 66, 379,
+	201 + 66, 367,
+	200 + 66, 355,
+	199 + 66, 345,
+	197 + 66, 339
 	};
 
 	int Oval2[40] = {
-	193 + 58, 334,
-	190 + 58, 338,
-	188 + 58, 346,
-	187 + 58, 356,
-	186 + 58, 367,
-	186 + 58, 380,
-	186 + 58, 394,
-	187 + 58, 407,
-	188 + 58, 416,
-	189 + 58, 422,
-	193 + 58, 429,
-	196 + 58, 424,
-	198 + 58, 418,
-	200 + 58, 407,
-	201 + 58, 395,
-	201 + 58, 379,
-	201 + 58, 367,
-	200 + 58, 355,
-	199 + 58, 345,
-	197 + 58, 339
+	193 + 58 + 66, 334,
+	190 + 58 + 66, 338,
+	188 + 58 + 66, 346,
+	187 + 58 + 66, 356,
+	186 + 58 + 66, 367,
+	186 + 58 + 66, 380,
+	186 + 58 + 66, 394,
+	187 + 58 + 66, 407,
+	188 + 58 + 66, 416,
+	189 + 58 + 66, 422,
+	193 + 58 + 66, 429,
+	196 + 58 + 66, 424,
+	198 + 58 + 66, 418,
+	200 + 58 + 66, 407,
+	201 + 58 + 66, 395,
+	201 + 58 + 66, 379,
+	201 + 58 + 66, 367,
+	200 + 58 + 66, 355,
+	199 + 58 + 66, 345,
+	197 + 58 + 66, 339
 	};
 
 	int Oval3[40] = {
-	193 + 58 + 57, 334,
-	190 + 58 + 57, 338,
-	188 + 58 + 57, 346,
-	187 + 58 + 57, 356,
-	186 + 58 + 57, 367,
-	186 + 58 + 57, 380,
-	186 + 58 + 57, 394,
-	187 + 58 + 57, 407,
-	188 + 58 + 57, 416,
-	189 + 58 + 57, 422,
-	193 + 58 + 57, 429,
-	196 + 58 + 57, 424,
-	198 + 58 + 57, 418,
-	200 + 58 + 57, 407,
-	201 + 58 + 57, 395,
-	201 + 58 + 57, 379,
-	201 + 58 + 57, 367,
-	200 + 58 + 57, 355,
-	199 + 58 + 57, 345,
-	197 + 58 + 57, 339
+	193 + 58 + 57 + 66, 334,
+	190 + 58 + 57 + 66, 338,
+	188 + 58 + 57 + 66, 346,
+	187 + 58 + 57 + 66, 356,
+	186 + 58 + 57 + 66, 367,
+	186 + 58 + 57 + 66, 380,
+	186 + 58 + 57 + 66, 394,
+	187 + 58 + 57 + 66, 407,
+	188 + 58 + 57 + 66, 416,
+	189 + 58 + 57 + 66, 422,
+	193 + 58 + 57 + 66, 429,
+	196 + 58 + 57 + 66, 424,
+	198 + 58 + 57 + 66, 418,
+	200 + 58 + 57 + 66, 407,
+	201 + 58 + 57 + 66, 395,
+	201 + 58 + 57 + 66, 379,
+	201 + 58 + 57 + 66, 367,
+	200 + 58 + 57 + 66, 355,
+	199 + 58 + 57 + 66, 345,
+	197 + 58 + 57 + 66, 339
 
 	};
 
-	chains.add(App->physics->CreateChain(0, 0, Fondo, 122, App->physics->STATIC, ColliderType::PLATFORM));
+	int tail[48] = {
+    125, 115,
+    87, 153,
+    71, 183,
+    58, 220,
+    52, 248,
+    51, 289,
+    56, 325,
+    65, 358,
+    77, 386,
+    101, 417,
+    134, 450,
+    160, 468,
+    153, 458,
+    131, 441,
+    106, 417,
+    84, 390,
+    71, 362,
+    61, 329,
+    55, 295,
+    55, 256,
+    59, 230,
+    69, 196,
+    84, 164,
+    104, 139
+	};
+
+
+	chains.add(App->physics->CreateChain(0, 0, Fondo, 112, App->physics->STATIC, ColliderType::PLATFORM));
 
 	b1 =  App->physics->CreateBouncyChain(0, 0, Oreja, 44, bounce, App->physics->STATIC, ColliderType::EARS);
 	chains.add(b1);
 	b2 = App->physics->CreateBouncyChain(0, 0, Oreja2, 48, bounce, App->physics->STATIC, ColliderType::EARS);
 	chains.add(b2);
-	b3 = App->physics->CreateBouncyChain(0, 0, Triangle, 20, bounce, App->physics->STATIC, ColliderType::ORANGE_BUMPER);
+	b3 = App->physics->CreateBouncyChain(0, 0, Triangle, 16, bounce, App->physics->STATIC, ColliderType::ORANGE_BUMPER);
 	chains.add(b3);
-	b4 = App->physics->CreateBouncyChain(0, 0, Triangle2, 20, bounce, App->physics->STATIC, ColliderType::ORANGE_BUMPER);
+	b4 = App->physics->CreateBouncyChain(0, 0, Triangle2, 16, bounce, App->physics->STATIC, ColliderType::ORANGE_BUMPER);
 	chains.add(b4);
 	b5 = App->physics->CreateChain(0, 0, Oval, 40, App->physics->STATIC, ColliderType::OVAL);//crec que aquests no haurien de fer bounce
 	chains.add(b5);
@@ -299,9 +319,11 @@ bool ModuleScene::Start()
 	chains.add(b6);
 	b7 = App->physics->CreateChain(0, 0, Oval3, 40, App->physics->STATIC, ColliderType::OVAL);
 	chains.add(b7);
-	b8 = App->physics->CreateBouncyCircle(379, 554, 19, bounce, App->physics->STATIC, ColliderType::CHEEK);
+	b10 = App->physics->CreateChain(0, 0, tail, 48, App->physics->STATIC, ColliderType::PLATFORM);
+	chains.add(b10);
+	b8 = App->physics->CreateBouncyCircle(447, 554, 19, bounce, App->physics->STATIC, ColliderType::CHEEK);
 	chains.add(b8);
-	b9 = App->physics->CreateBouncyCircle(128, 554, 19, bounce, App->physics->STATIC, ColliderType::CHEEK);
+	b9 = App->physics->CreateBouncyCircle(196, 554, 19, bounce, App->physics->STATIC, ColliderType::CHEEK);
 	chains.add(b9);
 
 	//chains.add(App->physics->CreateBouncyChain(0, 0, Oreja, 44, bounce, App->physics->STATIC, ColliderType::EARS));
@@ -317,10 +339,10 @@ bool ModuleScene::Start()
 	//circles.add(App->physics->CreateBouncyCircle(379, 554, 19, bounce, App->physics->STATIC, ColliderType::CHEEK));
 	//circles.add(App->physics->CreateBouncyCircle(128, 554, 19, bounce, App->physics->STATIC, ColliderType::CHEEK));
 
-	Purple_Paw = App->physics->CreateBouncyCircle(252, 136, 31, bounce, App->physics->STATIC, ColliderType::PURPLE_PAW);
-	Green_Paw = App->physics->CreateBouncyCircle(143, 198, 31, bounce, App->physics->STATIC, ColliderType::GREEN_PAW);
-	Turqupise_Paw = App->physics->CreateBouncyCircle(363, 198, 31, bounce, App->physics->STATIC, ColliderType::TURQUOISE_PAW);
-	Pink_Paw = App->physics->CreateBouncyCircle(252, 256, 31, bounce, App->physics->STATIC, ColliderType::PINK_PAW);
+	Purple_Paw = App->physics->CreateBouncyCircle(60, 495, 28, bounce, App->physics->STATIC, ColliderType::PURPLE_PAW);
+	Green_Paw = App->physics->CreateBouncyCircle(232, 221, 31, bounce, App->physics->STATIC, ColliderType::GREEN_PAW);
+	Turqupise_Paw = App->physics->CreateBouncyCircle(398, 218, 31, bounce, App->physics->STATIC, ColliderType::TURQUOISE_PAW);
+	Pink_Paw = App->physics->CreateBouncyCircle(316, 145, 31, bounce, App->physics->STATIC, ColliderType::PINK_PAW);
 
 
 	circles.add(Purple_Paw);
