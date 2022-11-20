@@ -38,7 +38,7 @@ bool ModuleScene::Start()
 	bool ret = true;
 	App->physics->Enable();
 	App->player->Enable();
-
+	
 	// Set camera position
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
@@ -185,14 +185,14 @@ bool ModuleScene::Start()
 	};
 
 	int Triangle[16] = {
-	192, 646,
-	240, 699,
-	240, 708,
-	233, 712,
-	186, 697,
-	181, 692,
-	182, 651,
-	186, 646
+	192 + 5, 646,
+	240 + 5, 699,
+	240 + 5, 708,
+	233 + 5, 712,
+	186 + 5, 697,
+	181 + 5, 692,
+	182 + 5, 651,
+	186 + 5, 646
 	};
 
 	int Triangle2[16] = {
@@ -373,6 +373,7 @@ bool ModuleScene::Start()
 	audiohit = App->audio->LoadFx("pinball/hit.ogg");
 	audioimpact = App->audio->LoadFx("pinball/impact.ogg");
 	audiomiau = App->audio->LoadFx("pinball/meow.ogg");
+	audiolose = App->audio->LoadFx("pinball/gameOver.ogg");
 
 	greenP = false;
 	purpleP = false; 
@@ -657,6 +658,10 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 bool ModuleScene::loseGame()
 {
 	App->audio->PauseMusic();
+	if (lose == true) {
+		App->audio->PlayFx(audiolose);
+		lose = false;
+	}
 	App->renderer->Blit(texLoseCat, 0, 0);
 
 	string s_num = std::to_string(App->player->score);

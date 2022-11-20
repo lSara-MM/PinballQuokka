@@ -57,6 +57,9 @@ private:
 	int audiohit;
 	int audioimpact;
 	int audiomiau; 
+	int audiolose; 
+	bool lose = true;
+
 
 	// Combo
 	bool greenP, purpleP, turquoiseP, pinkP;
