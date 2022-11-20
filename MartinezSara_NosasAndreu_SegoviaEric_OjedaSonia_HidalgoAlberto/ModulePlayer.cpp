@@ -41,8 +41,6 @@ bool ModulePlayer::Start()
 
 
 	//PALAS
-
-<<<<<<< Updated upstream
 	circle = App->physics->CreateCircle(300, 790, 2, App->physics->STATIC, ColliderType::UNKNOWN);
 	rect = App->physics->CreateRectangle(300, 790, 35, 10, App->physics->DYNAMIC, ColliderType::UNKNOWN);
 
@@ -52,7 +50,7 @@ bool ModulePlayer::Start()
 
 	circle2 = App->physics->CreateCircle(196, 790, 2, App->physics->STATIC, ColliderType::UNKNOWN);
 	rect2 = App->physics->CreateRectangle(196, 790, 35, 10, App->physics->DYNAMIC, ColliderType::UNKNOWN);
-=======
+
 	//Fliper derecho
 	fliperD.x = 300;
 	fliperD.y = 790;
@@ -68,7 +66,6 @@ bool ModulePlayer::Start()
 	fliperI.y = 790;
 	circle2 = App->physics->CreateCircle(fliperI.x, fliperI.y, 2, App->physics->STATIC, ColliderType::UNKNOWN);
 	rect2 = App->physics->CreateRectangle(fliperI.x, fliperI.y, 50, 10, App->physics->DYNAMIC, ColliderType::UNKNOWN);
->>>>>>> Stashed changes
 
 	App->physics->CreateRevoluteJoint(rect2, Vec1, circle2, Vec2, 30.0f);
 	textureFlipers= App->textures->Load("pinball/fliper.png");
@@ -172,7 +169,6 @@ update_status ModulePlayer::Update()
 	}
 
 	int x, y;
-<<<<<<< Updated upstream
 	rect->GetPosition(x, y);
 	App->renderer->Blit(textureFlipers, x - 10, y, NULL, 0.3F, NULL, rect->GetRotation(), NULL, NULL, SDL_FLIP_HORIZONTAL);
 
@@ -180,15 +176,13 @@ update_status ModulePlayer::Update()
 	App->renderer->Blit(textureFlipers, x, y - 33, NULL, 0.3F, NULL, rect2->GetRotation(), NULL, NULL, SDL_FLIP_NONE);
 
 
-
-=======
 	rect->GetPosition(x,y);
 	App->renderer->Blit(textureFlipers, fliperD.x+50, fliperD.y-50, NULL, 0.3F, NULL, rect->GetRotation(), NULL, NULL, SDL_FLIP_HORIZONTAL);
 
 	rect2->GetPosition(x, y);
 	App->renderer->Blit(textureFlipers,fliperI.x-80, fliperI.y-20-(sin(rect2->GetRotation())*75), NULL, 0.3F, NULL, rect2->GetRotation(), NULL, NULL, SDL_FLIP_NONE); //Posicio neutral cuando angulo=0 (-80,-20)
 	
->>>>>>> Stashed changes
+
 	// strings to const char*
 	string s_score = std::to_string(score);
 	const char* ch_score = s_score.c_str();

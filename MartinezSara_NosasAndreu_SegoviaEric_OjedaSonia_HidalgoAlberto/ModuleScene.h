@@ -67,7 +67,6 @@ private:
 	bool lifeLose;
 
 	//Audio
-
 	int audiohit; 
 
 	PhysBody* b1;
