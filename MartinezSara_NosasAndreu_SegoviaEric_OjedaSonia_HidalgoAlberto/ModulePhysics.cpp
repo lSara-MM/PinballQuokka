@@ -213,34 +213,60 @@ update_status ModulePhysics::PostUpdate()
 
 	// TODO 3: If the player keeps pressing the mouse button, update
 	// target position and draw a red line between both anchor points
+	
 	if (mouse_body != nullptr && mouse_joint != nullptr)
 	{
-		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
+		if (App->physics->debug)
 		{
-			// Get new mouse position and re-target mouse_joint there
-			b2Vec2 mousePosition;
-			mousePosition.x = PIXEL_TO_METERS(App->input->GetMouseX());
-			mousePosition.y = PIXEL_TO_METERS(App->input->GetMouseY());
-			mouse_joint->SetTarget(mousePosition);
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
+			{
+				// Get new mouse position and re-target mouse_joint there
+				b2Vec2 mousePosition;
+				mousePosition.x = PIXEL_TO_METERS(App->input->GetMouseX());
+				mousePosition.y = PIXEL_TO_METERS(App->input->GetMouseY());
+				mouse_joint->SetTarget(mousePosition);
 
-			// Draw a red line between both anchor points
-			App->renderer->DrawLine(METERS_TO_PIXELS(mouse_body->GetPosition().x), METERS_TO_PIXELS(mouse_body->GetPosition().y), App->input->GetMouseX(), App->input->GetMouseY(), 255, 0, 0);
+				// Draw a red line between both anchor points
+				App->renderer->DrawLine(METERS_TO_PIXELS(mouse_body->GetPosition().x), METERS_TO_PIXELS(mouse_body->GetPosition().y), App->input->GetMouseX(), App->input->GetMouseY(), 255, 0, 0);
+			}
 		}
-	}
 
-	// TODO 4: If the player releases the mouse button, destroy the joint
-	if (mouse_body != nullptr && mouse_joint != nullptr)
-	{
 		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP)
 		{
+			LOG("Borra");
 			// Tell Box2D to destroy the mouse_joint
 			world->DestroyJoint(mouse_joint);
 
 			// DO NOT FORGET THIS! We need it for the "if (mouse_body != nullptr && mouse_joint != nullptr)"
-			mouse_joint = nullptr; 
+			mouse_joint = nullptr;
 			mouse_body = nullptr;
 		}
 	}
+
+	if (!debug)
+	{
+		LOG("Borra");
+		// Tell Box2D to destroy the mouse_joint
+		world->DestroyJoint(mouse_joint);
+
+		// DO NOT FORGET THIS! We need it for the "if (mouse_body != nullptr && mouse_joint != nullptr)"
+		mouse_joint = nullptr;
+		mouse_body = nullptr;
+	}
+
+		// TODO 4: If the player releases the mouse button, destroy the joint
+		//if (mouse_body != nullptr && mouse_joint != nullptr)
+		//{
+		//	if (!App->physics->debug)
+		//	{
+		//		// Tell Box2D to destroy the mouse_joint
+		//		world->DestroyJoint(mouse_joint);
+
+		//		// DO NOT FORGET THIS! We need it for the "if (mouse_body != nullptr && mouse_joint != nullptr)"
+		//		mouse_joint = nullptr;
+		//		mouse_body = nullptr;
+		//	}
+		//}
 
 	// Keep playing
 	return UPDATE_CONTINUE;
