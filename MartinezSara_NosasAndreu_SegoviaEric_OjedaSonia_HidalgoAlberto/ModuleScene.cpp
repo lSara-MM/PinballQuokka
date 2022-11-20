@@ -378,7 +378,7 @@ bool ModuleScene::Start()
 	turquoiseP = false; 
 	pinkP = false;
 	lifeLose = false;
-
+	godMode = false;
 	return ret;
 }
 
@@ -716,9 +716,10 @@ void ModuleScene::debug()
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		App->physics->debug = !App->physics->debug;
+		godMode = !godMode;
 	}
-	if (App->physics->debug) { App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 0)); }
-	if (!App->physics->debug) { App->physics->world->SetGravity(b2Vec2(GRAVITY_X, -GRAVITY_Y)); }
+	if (App->physics->debug && godMode) { App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 0)); }
+	if (!App->physics->debug && !godMode) { App->physics->world->SetGravity(b2Vec2(GRAVITY_X, -GRAVITY_Y)); }
 
 	// Spawn bola donde el mouse
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
@@ -924,4 +925,9 @@ void ModuleScene::debug()
 		Purple_Paw->body->GetFixtureList()->SetRestitution(bounce);
 		Turqupise_Paw->body->GetFixtureList()->SetRestitution(bounce);
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN && !godMode) {
+		App->physics->debug = !App->physics->debug;
+	}
+
 }

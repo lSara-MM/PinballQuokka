@@ -64,6 +64,9 @@ private:
 	// Bounce valor
 	float bounce = 0.6f;
 
+	//God mode
+	bool godMode;
+
 	bool grav = false;
 	bool fps = false;
 	bool boing = false;
