@@ -112,7 +112,7 @@ bool ModulePlayer::CleanUp()
 	}
 	
 
-	//App->renderer->UnLoadFont(scoreFont);
+	App->renderer->UnLoadFont(scoreFont);
 	return true;	
 }
 
@@ -159,7 +159,6 @@ update_status ModulePlayer::Update()
 	App->renderer->Blit(textureMuelle, springData.x - 25, springData.y - 15, NULL, 0.4F); //Al convertir de metros a pixeles hay cierto error de redondeo asi que ponemos el -25 y el -15
 
 	//FLIPERS
-
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
 		rect2->body->ApplyForce(b2Vec2(-2, -2), b2Vec2(0, -5), true);
 	}

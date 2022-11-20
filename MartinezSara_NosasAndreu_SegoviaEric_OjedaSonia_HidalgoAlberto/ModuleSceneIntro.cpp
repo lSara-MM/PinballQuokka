@@ -101,8 +101,8 @@ update_status ModuleSceneIntro::Update()
 	// Render 
 	App->renderer->Blit(bgTexture, 0, 0);
 
-	App->renderer->BlitText(45, 30, titleFont, "CATBALL");
-	App->renderer->BlitText(90, 110, subtitleFont, "by Quokka Stu(d)i(os)", 0.5f);
+	App->renderer->BlitText(90, 30, titleFont, "CATBALL");
+	App->renderer->BlitText(145, 110, subtitleFont, "by Quokka Stu(d)i(os)", 0.5f);
 
 		// Animation
 	animPlayCat.Update();
@@ -111,8 +111,8 @@ update_status ModuleSceneIntro::Update()
 		// Blinking text
 	if (dTime < 1500)
 	{
-		App->renderer->BlitText(85, 650, subtitleFont, "Press ENTER");
-		App->renderer->BlitText(120, 690, subtitleFont, "to start");
+		App->renderer->BlitText(110, 650, subtitleFont, "Press ENTER");
+		App->renderer->BlitText(150, 690, subtitleFont, "to start");
 	}
 	if (dTime > 2500) { startTime = SDL_GetTicks(); }
 	
