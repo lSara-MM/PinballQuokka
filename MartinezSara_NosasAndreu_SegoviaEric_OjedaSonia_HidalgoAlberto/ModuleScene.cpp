@@ -385,7 +385,7 @@ bool ModuleScene::CleanUp()
 	App->textures->Unload(ball);
 	App->textures->Unload(fondo);
 	App->textures->Unload(map);
-	App->textures->Unload(fondo);
+	App->textures->Unload(texLoseCat);
 
 	App->renderer->UnLoadFont(subtitleFont);
 	

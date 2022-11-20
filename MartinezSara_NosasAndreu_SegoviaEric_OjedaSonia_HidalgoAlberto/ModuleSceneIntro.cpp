@@ -38,7 +38,7 @@ ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Modul
 
 ModuleSceneIntro::~ModuleSceneIntro()
 {
-	// You should do some memory cleaning here, if required
+
 }
 
 bool ModuleSceneIntro::Start()

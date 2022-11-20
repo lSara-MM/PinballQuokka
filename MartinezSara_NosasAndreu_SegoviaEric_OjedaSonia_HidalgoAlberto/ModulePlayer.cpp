@@ -104,7 +104,8 @@ bool ModulePlayer::CleanUp()
 		circle2->body->DestroyFixture(circle2->body->GetFixtureList());
 	}
 	
-
+	App->textures->Unload(textureFlipers);
+	App->textures->Unload(textureMuelle);
 	App->renderer->UnLoadFont(scoreFont);
 	return true;	
 }
