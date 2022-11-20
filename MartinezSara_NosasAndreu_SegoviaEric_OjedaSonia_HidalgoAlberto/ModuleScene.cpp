@@ -533,10 +533,10 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 				App->player->comboPaws++;
 				greenP = true;
 			}
-			else if (pinkP == true)
+			else if (greenP == true)
 			{
 				App->player->comboPaws--;
-				pinkP = false;
+				greenP = false;
 			}
 			//WHATEVER
 			break;
@@ -550,10 +550,10 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 				App->player->comboPaws++;
 				purpleP = true;
 			}
-			else if (pinkP == true)
+			else if (purpleP == true)
 			{
 				App->player->comboPaws--;
-				pinkP = false;
+				purpleP = false;
 			}
 			//WHATEVER
 			break;
@@ -566,10 +566,10 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 				App->player->comboPaws++;
 				turquoiseP = true;
 			}
-			else if (pinkP == true)
+			else if (turquoiseP == true)
 			{
 				App->player->comboPaws--;
-				pinkP = false;
+				turquoiseP = false;
 			}
 			//WHATEVER
 			break;
