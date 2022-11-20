@@ -415,6 +415,58 @@ bool ModuleScene::CleanUp()
 
 	if (bola->body->GetFixtureList()) { bola->body->DestroyFixture(bola->body->GetFixtureList()); }
 
+
+	delete b1;
+	delete b2;
+	delete b3;
+	delete b4;
+	delete b5;
+	delete b6;
+	delete b7;
+	delete b8;
+	delete b9;
+	delete b10;
+
+
+	delete backGround;
+	delete b11;
+	delete b12;
+	delete sensor_1;
+	delete sensor_2;
+	delete bola;
+
+
+	delete Pink_Paw;
+	delete Turqupise_Paw;
+	delete Green_Paw;
+	delete Purple_Paw;
+
+	b1 = nullptr;
+	b2 = nullptr;
+	b3 = nullptr;
+	b4 = nullptr;
+	b5 = nullptr;
+	b6 = nullptr;
+	b7 = nullptr;
+	b8 = nullptr;
+	b9 = nullptr;
+	b10 = nullptr;
+
+
+	backGround = nullptr;
+	b11 = nullptr;
+	b12 = nullptr;
+	sensor_1 = nullptr;
+	sensor_2 = nullptr;
+	bola = nullptr;
+
+
+	Pink_Paw = nullptr;
+	Turqupise_Paw = nullptr;
+	Green_Paw = nullptr;
+	Purple_Paw = nullptr;
+
+	//
 	circles.~p2List();
 	slingershots.~p2List();
 	chains.~p2List();
@@ -476,8 +528,6 @@ update_status ModuleScene::Update()
 
 void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
-
-
 	switch (bodyB->ctype)
 	{
 		case ColliderType::PLATFORM:
@@ -514,47 +564,36 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 				App->player->comboPaws++;
 				greenP = true;
 			}
-		
 			break;
 		
 		case ColliderType::PURPLE_PAW:
 			LOG("Collider purple paw");
 			App->player->score += 150;
 			App->audio->PlayFx(audiohit);
-			if (purpleP == false)
-			{
-				App->player->comboPaws++;
-				purpleP = true;
-			}
+			App->player->comboPaws++;
 			break;
+
 		case ColliderType::TURQUOISE_PAW:
 			LOG("Collider turquoise paw");
 			if (App->player->numBalls != 0) { App->player->score += 150; }
 			App->audio->PlayFx(audiohit);
-			if (turquoiseP == false)
-			{
-				App->player->comboPaws++;
-				turquoiseP = true;
-			}
-	
+			App->player->comboPaws++;
 			break;
 
 		case ColliderType::PINK_PAW:
 			LOG("Collider pink paw");
 			if (App->player->numBalls != 0) { App->player->score += 150; }
 			App->audio->PlayFx(audiohit);
-			if (pinkP == false)
-			{
-				App->player->comboPaws++;
-				pinkP = true;
-			}
-		
+			App->player->comboPaws++;
 			break;
 
 		case ColliderType::BELL:
 			LOG("Collider bell");
 			if (!App->physics->debug)
+			{
 				lifeLose = true;
+				App->player->comboPaws = 0;
+			}
 			break;
 
 		case ColliderType::CHEEK:
