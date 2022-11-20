@@ -48,6 +48,8 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
+	//Music
+	App->audio->PlayMusic("pinball/Music.ogg");
 
 	// Set camera position
 	App->renderer->camera.x = App->renderer->camera.y = 0;
