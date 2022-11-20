@@ -90,6 +90,15 @@ private:
 	PhysBody* b9;
 	PhysBody* b10;
 
+
+	PhysBody* backGround;
+	PhysBody* b11;
+	PhysBody* b12;
+	PhysBody* sensor_1;
+	PhysBody* sensor_2;
+	PhysBody* bola;
+	
+
 	PhysBody* Pink_Paw;
 	PhysBody* Turqupise_Paw;
 	PhysBody* Green_Paw;

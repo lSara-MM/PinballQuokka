@@ -305,8 +305,8 @@ bool ModuleScene::Start()
     104, 139
 	};
 
-
-	chains.add(App->physics->CreateChain(0, 0, Fondo, 112, App->physics->STATIC, ColliderType::PLATFORM));
+	backGround = App->physics->CreateChain(0, 0, Fondo, 112, App->physics->STATIC, ColliderType::PLATFORM);
+	chains.add(backGround);
 
 	b1 =  App->physics->CreateBouncyChain(0, 0, Oreja, 44, bounce, App->physics->STATIC, ColliderType::EARS);
 	chains.add(b1);
@@ -331,8 +331,10 @@ bool ModuleScene::Start()
 
 	//chains.add(App->physics->CreateBouncyChain(0, 0, Oreja, 44, bounce, App->physics->STATIC, ColliderType::EARS));
 	//chains.add(App->physics->CreateBouncyChain(0, 0, Oreja2, 48, bounce, App->physics->STATIC, ColliderType::EARS));
-	chains.add(App->physics->CreateChain(0, 0, Barra, 14, App->physics->STATIC, ColliderType::ROD));
-	chains.add(App->physics->CreateChain(0, 0, Barra2, 14, App->physics->STATIC, ColliderType::ROD));
+	b11 = App->physics->CreateChain(0, 0, Barra, 14, App->physics->STATIC, ColliderType::ROD);
+	chains.add(b11);
+	b12 = App->physics->CreateChain(0, 0, Barra2, 14, App->physics->STATIC, ColliderType::ROD);
+	chains.add(b12);
 	//chains.add(App->physics->CreateBouncyChain(0, 0, Triangle, 20, bounce, App->physics->STATIC, ColliderType::ORANGE_BUMPER));
 	//chains.add(App->physics->CreateBouncyChain(0, 0, Triangle2, 20, bounce, App->physics->STATIC, ColliderType::ORANGE_BUMPER));//canviar els valos de bounce per ajustar rebot
 	//chains.add(App->physics->CreateBouncyChain(0, 0, Oval, 40, bounce, App->physics->STATIC, ColliderType::OVAL));
@@ -355,9 +357,10 @@ bool ModuleScene::Start()
 
 
 	//chains.add(App->physics->CreateRectangleSensor(280, 380, 40, 1, ColliderType::OVAL));//sensor típic passar carril sumar punts, animació especial?
-	chains.add(App->physics->CreateRectangleSensor(318, 537, 40, 1, ColliderType::NOSE));
-
-	chains.add(App->physics->CreateRectangleSensor(310,850, 350, 1, ColliderType::BELL));//"mort jugador"
+	sensor_1 = App->physics->CreateRectangleSensor(318, 537, 40, 1, ColliderType::NOSE);
+	chains.add(sensor_1);
+	sensor_2 = App->physics->CreateRectangleSensor(310, 850, 350, 1, ColliderType::BELL);//"mort jugador"
+	chains.add(sensor_2);
 
 	// Create a big red sensor on the bottom of the screen.
 	// This sensor will not make other objects collide with it, but it can tell if it is "colliding" with something else
@@ -368,7 +371,8 @@ bool ModuleScene::Start()
 	//lower_ground_sensor->listener = this;
 	
 	// Ball
-	circles.add(App->physics->CreateCircle(543, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
+	bola = App->physics->CreateCircle(543, 571, 16, App->physics->DYNAMIC, ColliderType::BALL);
+	circles.add(bola);
 	circles.getLast()->data->listener = this;
 
 	// Audio
@@ -387,6 +391,7 @@ bool ModuleScene::Start()
 	lifeLose = false;
 	godMode = false;
 	retry = false;
+	lose = true;
 	return ret;
 }
 
@@ -400,42 +405,125 @@ bool ModuleScene::CleanUp()
 	App->textures->Unload(fondo);
 
 	App->renderer->UnLoadFont(subtitleFont);
-
+	
 	greenP = false;
 	purpleP = false;
 	turquoiseP = false;
 	pinkP = false;
 
-	p2List_item<PhysBody*>* circleItem;
-
-	circleItem = circles.start;
-
-	while (circleItem != NULL)
+	
+	if (b1->body->GetFixtureList())
 	{
-		if (circleItem->data != NULL)
-		{					  
-			delete circleItem->data;
-			circleItem->data = NULL;
-		}
-		circleItem = circleItem->next;
+		b1->body->DestroyFixture(b1->body->GetFixtureList());
 	}
 
-	p2List_item<PhysBody*>* chianItem;
 
-	chianItem = chains.start;
-
-	while (chianItem != NULL)
+	if (b2->body->GetFixtureList())
 	{
-		if (chianItem->data != NULL)
-		{
-			delete chianItem->data;
-			chianItem->data = NULL;
-		}
-		chianItem = chianItem->next;
+		b2->body->DestroyFixture(b2->body->GetFixtureList());
+	}
+		
+	if (b3->body->GetFixtureList())
+	{
+		b3->body->DestroyFixture(b3->body->GetFixtureList());
 	}
 
-	circles.clear();
-	chains.clear();
+	if (b4->body->GetFixtureList())
+	{
+		b4->body->DestroyFixture(b4->body->GetFixtureList());
+	}
+
+	if (b5->body->GetFixtureList())
+	{
+		b5->body->DestroyFixture(b5->body->GetFixtureList());
+	}
+
+	if (b6->body->GetFixtureList())
+	{
+		b6->body->DestroyFixture(b6->body->GetFixtureList());
+	}
+
+	if (b7->body->GetFixtureList())
+	{
+		b7->body->DestroyFixture(b7->body->GetFixtureList());
+	}
+
+	if (b8->body->GetFixtureList())
+	{
+		b8->body->DestroyFixture(b8->body->GetFixtureList());
+	}
+
+	if (b9->body->GetFixtureList())
+	{
+		b9->body->DestroyFixture(b9->body->GetFixtureList());
+	}
+
+	if (b10->body->GetFixtureList())
+	{
+		b10->body->DestroyFixture(b10->body->GetFixtureList());
+	}
+
+	if (b11->body->GetFixtureList())
+	{
+		b11->body->DestroyFixture(b11->body->GetFixtureList());
+	}
+
+	if (b12->body->GetFixtureList())
+	{
+		b12->body->DestroyFixture(b12->body->GetFixtureList());
+	}
+
+	if (backGround->body->GetFixtureList())
+	{
+		backGround->body->DestroyFixture(backGround->body->GetFixtureList());
+	}
+
+	if (sensor_1->body->GetFixtureList())
+	{
+		sensor_1->body->DestroyFixture(sensor_1->body->GetFixtureList());
+	}
+
+	if (sensor_2->body->GetFixtureList())
+	{
+		sensor_2->body->DestroyFixture(sensor_2->body->GetFixtureList());
+	}
+
+	if (bola->body->GetFixtureList())
+	{
+		bola->body->DestroyFixture(bola->body->GetFixtureList());
+	}
+
+
+	//p2List_item<PhysBody*>* circleItem;
+
+	//circleItem = circles.start;
+
+	//while (circleItem != NULL)
+	//{
+	//	if (circleItem->data != NULL)
+	//	{					  
+	//		delete circleItem->data;
+	//		circleItem->data = NULL;
+	//	}
+	//	circleItem = circleItem->next;
+	//}
+
+	//p2List_item<PhysBody*>* chianItem;
+
+	//chianItem = chains.start;
+
+	//while (chianItem != NULL)
+	//{
+	//	if (chianItem->data != NULL)
+	//	{
+	//		delete chianItem->data;
+	//		chianItem->data = NULL;
+	//	}
+	//	chianItem = chianItem->next;
+	//}
+
+	//circles.clear();
+	//chains.clear();
 
 	App->player->Disable();
 	
@@ -448,7 +536,10 @@ update_status ModuleScene::Update()
 	App->renderer->Blit(fondo, 0, 0);
 	//App->renderer->Blit(map,0,0);
 
-	debug();
+	if (App->player->numBalls != 0) {
+		debug();
+	}
+
 	loseLife();
 
 
@@ -695,6 +786,7 @@ bool ModuleScene::loseGame()
 
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN && retry == false)
 	{
+
 		App->fade->FadeToBlack(this, (Module*)App->scene_lead, 90);
 	}
 	// non retry
