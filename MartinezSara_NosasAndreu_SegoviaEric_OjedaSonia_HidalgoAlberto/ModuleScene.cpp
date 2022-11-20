@@ -364,11 +364,9 @@ bool ModuleScene::Start()
 	audiomiau = App->audio->LoadFx("pinball/meow.ogg");
 	audiolose = App->audio->LoadFx("pinball/gameOver.ogg");
 
-	if (musicIsOn == false) {
 
+	if (retry == true) {
 		App->audio->PlayMusic("pinball/Music.ogg", 0);
-		musicIsOn = true;
-
 	}
 
 	greenP = false;
