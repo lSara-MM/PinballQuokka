@@ -77,6 +77,7 @@ bool ModuleLeaderboard::CleanUp()
 	App->renderer->UnLoadFont(titleFont);
 	App->renderer->UnLoadFont(subtitleFont);
 	App->textures->Unload(texLurkingCat);
+	animLurkingCat.Reset();
 	return true;
 }
 

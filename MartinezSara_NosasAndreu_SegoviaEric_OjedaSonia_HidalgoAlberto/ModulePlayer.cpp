@@ -104,6 +104,19 @@ bool ModulePlayer::CleanUp()
 		circle2->body->DestroyFixture(circle2->body->GetFixtureList());
 	}
 	
+	delete rect;
+	delete rect2;
+	delete circle;
+	delete circle2;
+	delete spring;
+	delete base;
+
+	 rect = nullptr;
+	 rect2 = nullptr;
+	 circle = nullptr;
+	 circle2 = nullptr;
+	 spring = nullptr;
+	 base = nullptr;
 
 	App->textures->Unload(textureFlipers);
 	App->textures->Unload(textureMuelle);

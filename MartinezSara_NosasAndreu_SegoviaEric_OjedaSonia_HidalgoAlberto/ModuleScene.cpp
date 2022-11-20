@@ -396,7 +396,6 @@ bool ModuleScene::CleanUp()
 	turquoiseP = false;
 	pinkP = false;
 
-
 	if (b1->body->GetFixtureList()) { b1->body->DestroyFixture(b1->body->GetFixtureList()); }
 	if (b2->body->GetFixtureList()) { b2->body->DestroyFixture(b2->body->GetFixtureList()); }
 	if (b3->body->GetFixtureList()) { b3->body->DestroyFixture(b3->body->GetFixtureList()); }
@@ -415,7 +414,6 @@ bool ModuleScene::CleanUp()
 	if (sensor_2->body->GetFixtureList()) { sensor_2->body->DestroyFixture(sensor_2->body->GetFixtureList()); }
 
 	if (bola->body->GetFixtureList()) { bola->body->DestroyFixture(bola->body->GetFixtureList()); }
-
 
 	circles.~p2List();
 	slingershots.~p2List();
