@@ -334,8 +334,8 @@ bool ModuleScene::Start()
 	//lower_ground_sensor->listener = this;
 	
 	// Ball
-	Ball = App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL);
-	circles.add(Ball);
+	ballPlayer = App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL);
+	circles.add(ballPlayer);
 	circles.getLast()->data->listener = this;
 
 	// Audio
@@ -407,15 +407,7 @@ update_status ModuleScene::Update()
 	//App->renderer->Blit(map,0,0);
 	
 	debug();
-	if (lifeLose==true) {
-		App->player->numBalls--;
-
-		circles.getLast()->data->body->DestroyFixture(circles.getLast()->data->body->GetFixtureList());
-		circles.add(App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
-		circles.getLast()->data->listener = this;
-		
-		lifeLose = false;
-	}
+	loseLife();
 
 	//Slingershot
 	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
@@ -643,6 +635,21 @@ bool ModuleScene::loseGame()
 	App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_intro, 90);
 
 	return true;
+}
+
+void ModuleScene::loseLife() {
+
+	if (lifeLose == true) {
+		App->player->numBalls--;
+
+		circles.getLast()->data->body->DestroyFixture(circles.getLast()->data->body->GetFixtureList());
+		circles.add(App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
+		circles.getLast()->data->listener = this;
+
+		lifeLose = false;
+		LOG("Life lost!");
+	}
+	
 }
 
 void ModuleScene::debug()

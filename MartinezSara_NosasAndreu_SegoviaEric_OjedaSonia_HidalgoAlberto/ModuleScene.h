@@ -19,7 +19,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
-
+	void loseLife();
 	bool loseGame();
 
 	void debug();
@@ -80,6 +80,6 @@ public:
 	PhysBody* Green_Paw;
 	PhysBody* Purple_Paw;
 
-	PhysBody* Ball;
+	PhysBody* ballPlayer;
 
 };
