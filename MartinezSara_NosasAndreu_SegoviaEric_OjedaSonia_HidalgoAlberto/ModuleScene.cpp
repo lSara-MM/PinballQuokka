@@ -486,7 +486,7 @@ update_status ModuleScene::Update()
 
 
 	// Lifes left
-	if (App->player->numBalls == 0)
+	if (App->player->numBalls == 0 && !App->physics->debug)
 		loseGame();
 	if (App->player->numBalls >= 1)
 		App->renderer->Blit(ball, 10, 10);
