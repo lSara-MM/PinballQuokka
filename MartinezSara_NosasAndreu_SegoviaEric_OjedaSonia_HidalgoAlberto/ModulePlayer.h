@@ -29,6 +29,8 @@ public:
 
 	//Muelle lanzador
 	SDL_Rect springData;
+	iPoint fliperI;
+	iPoint fliperD;
 	float compresion=0.1;
 	float MaxLength=4;
 	bool SpringReleased= false;
