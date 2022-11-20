@@ -377,6 +377,7 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius, BodyType type, C
 	if (collType == ColliderType::TURQUOISE_PAW) { pbody->ctype = ColliderType::TURQUOISE_PAW; }
 	if (collType == ColliderType::PINK_PAW) { pbody->ctype = ColliderType::PINK_PAW; }
 	if (collType == ColliderType::PLATFORM) { pbody->ctype = ColliderType::PLATFORM; }
+	if (collType == ColliderType::NOSE) { pbody->ctype = ColliderType::NOSE; }
 	if (collType == ColliderType::ORANGE_BUMPER) { pbody->ctype = ColliderType::ORANGE_BUMPER; }
 	if (collType == ColliderType::OVAL) { pbody->ctype = ColliderType::OVAL; }
 	if (collType == ColliderType::BELL) { pbody->ctype = ColliderType::BELL; }
@@ -428,6 +429,7 @@ PhysBody* ModulePhysics::CreateBouncyCircle(int x, int y, int radius, float boun
 	if (collType == ColliderType::TURQUOISE_PAW) { pbody->ctype = ColliderType::TURQUOISE_PAW; }
 	if (collType == ColliderType::PINK_PAW) { pbody->ctype = ColliderType::PINK_PAW; }
 	if (collType == ColliderType::PLATFORM) { pbody->ctype = ColliderType::PLATFORM; }
+	if (collType == ColliderType::NOSE) { pbody->ctype = ColliderType::NOSE; }
 	if (collType == ColliderType::ORANGE_BUMPER) { pbody->ctype = ColliderType::ORANGE_BUMPER; }
 	if (collType == ColliderType::OVAL) { pbody->ctype = ColliderType::OVAL; }
 	if (collType == ColliderType::BELL) { pbody->ctype = ColliderType::BELL; }
@@ -485,6 +487,7 @@ PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height, Bo
 	if (collType == ColliderType::CHEEK) { pbody->ctype = ColliderType::CHEEK; }
 	if (collType == ColliderType::SLINGERSHOT) { pbody->ctype = ColliderType::SLINGERSHOT; }
 	if (collType == ColliderType::EARS) { pbody->ctype = ColliderType::EARS; }
+	if (collType == ColliderType::NOSE) { pbody->ctype = ColliderType::NOSE; }
 	// Return our PhysBody class
 	return pbody;
 }
@@ -525,6 +528,7 @@ PhysBody* ModulePhysics::CreateRectangleSensor(int x, int y, int width, int heig
 	if (collType == ColliderType::TURQUOISE_PAW) { pbody->ctype = ColliderType::TURQUOISE_PAW; }
 	if (collType == ColliderType::PINK_PAW) { pbody->ctype = ColliderType::PINK_PAW; }
 	if (collType == ColliderType::PLATFORM) { pbody->ctype = ColliderType::PLATFORM; }
+	if (collType == ColliderType::NOSE) { pbody->ctype = ColliderType::NOSE; }
 	if (collType == ColliderType::ORANGE_BUMPER) { pbody->ctype = ColliderType::ORANGE_BUMPER; }
 	if (collType == ColliderType::OVAL) { pbody->ctype = ColliderType::OVAL; }
 	if (collType == ColliderType::BELL) { pbody->ctype = ColliderType::BELL; }
@@ -588,6 +592,7 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, BodyTy
 	if (collType == ColliderType::CHEEK) { pbody->ctype = ColliderType::CHEEK; }
 	if (collType == ColliderType::SLINGERSHOT) { pbody->ctype = ColliderType::SLINGERSHOT; }
 	if (collType == ColliderType::EARS) { pbody->ctype = ColliderType::EARS; }
+	if (collType == ColliderType::NOSE) { pbody->ctype = ColliderType::NOSE; }
 	
 
 	// Return our PhysBody class
@@ -649,6 +654,7 @@ PhysBody* ModulePhysics::CreateBouncyChain(int x, int y, int* points, int size, 
 	if (collType == ColliderType::CHEEK) { pbody->ctype = ColliderType::CHEEK; }
 	if (collType == ColliderType::SLINGERSHOT) { pbody->ctype = ColliderType::SLINGERSHOT; }
 	if (collType == ColliderType::EARS) { pbody->ctype = ColliderType::EARS; }
+	if (collType == ColliderType::NOSE) { pbody->ctype = ColliderType::NOSE; }
 
 	// Return our PhysBody class
 	return pbody;

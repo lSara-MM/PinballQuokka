@@ -56,6 +56,7 @@ private:
 	uint bonus_fx;
 	int audiohit;
 	int audioimpact;
+	int audiomiau; 
 
 	// Combo
 	bool greenP, purpleP, turquoiseP, pinkP;

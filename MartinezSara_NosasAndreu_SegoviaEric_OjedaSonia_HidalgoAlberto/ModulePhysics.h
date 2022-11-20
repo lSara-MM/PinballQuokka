@@ -32,6 +32,7 @@ enum class ColliderType {
 	OVAL,
 	PLATFORM,
 	BELL,
+	NOSE,
 	UNKNOWN
 	// ..
 };

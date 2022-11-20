@@ -351,8 +351,8 @@ bool ModuleScene::Start()
 	circles.add(Pink_Paw);
 
 
-	chains.add(App->physics->CreateRectangleSensor(280, 380, 40, 1, ColliderType::OVAL));//sensor típic passar carril sumar punts, animació especial?
-	chains.add(App->physics->CreateRectangleSensor(222, 380, 40, 1, ColliderType::OVAL));
+	//chains.add(App->physics->CreateRectangleSensor(280, 380, 40, 1, ColliderType::OVAL));//sensor típic passar carril sumar punts, animació especial?
+	chains.add(App->physics->CreateRectangleSensor(318, 537, 40, 1, ColliderType::NOSE));
 
 	chains.add(App->physics->CreateRectangleSensor(250,820, 330, 1, ColliderType::BELL));//"mort jugador"
 
@@ -371,6 +371,7 @@ bool ModuleScene::Start()
 	// Audio
 	audiohit = App->audio->LoadFx("pinball/hit.ogg");
 	audioimpact = App->audio->LoadFx("pinball/impact.ogg");
+	audiomiau = App->audio->LoadFx("pinball/meow.ogg");
 
 	greenP = false;
 	purpleP = false; 
@@ -527,6 +528,13 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		case ColliderType::PLATFORM:
 			LOG("Collider platform");
 			
+			//WHATEVER
+			break;
+
+		case ColliderType::NOSE:
+			LOG("Collider nose");
+			App->audio->PlayFx(audiomiau);
+
 			//WHATEVER
 			break;
 
