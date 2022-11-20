@@ -671,7 +671,6 @@ bool ModuleScene::loseGame()
 	// non retry
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN && retry == true)
 	{
-		musicIsOn = false;
 		App->fade->FadeToBlack(this, (Module*)App->scene, 90);
 	}
 
@@ -932,9 +931,6 @@ void ModuleScene::debug()
 		b2->body->GetFixtureList()->SetRestitution(bounce);
 		b3->body->GetFixtureList()->SetRestitution(bounce);
 		b4->body->GetFixtureList()->SetRestitution(bounce);
-		/*b5->body->GetFixtureList()->SetRestitution(bounce); //crec que aquests no haurien de fer bounce
-		b6->body->GetFixtureList()->SetRestitution(bounce);
-		b7->body->GetFixtureList()->SetRestitution(bounce);*/
 		b8->body->GetFixtureList()->SetRestitution(bounce);
 		b9->body->GetFixtureList()->SetRestitution(bounce);
 
