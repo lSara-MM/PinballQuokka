@@ -59,6 +59,7 @@ public:
 	bool fps = false;
 	bool boing = false;
 	bool normGrav = 0;
+	bool lifeLose;
 
 	//Audio
 
@@ -78,5 +79,7 @@ public:
 	PhysBody* Turqupise_Paw;
 	PhysBody* Green_Paw;
 	PhysBody* Purple_Paw;
+
+	PhysBody* Ball;
 
 };

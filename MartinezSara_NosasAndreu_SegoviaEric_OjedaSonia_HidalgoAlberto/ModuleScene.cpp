@@ -323,7 +323,7 @@ bool ModuleScene::Start()
 	chains.add(App->physics->CreateRectangleSensor(280, 380, 40, 1, ColliderType::OVAL));//sensor típic passar carril sumar punts, animació especial?
 	chains.add(App->physics->CreateRectangleSensor(222, 380, 40, 1, ColliderType::OVAL));
 
-	chains.add(App->physics->CreateRectangleSensor(250,818, 330, 1, ColliderType::BELL));
+	chains.add(App->physics->CreateRectangleSensor(250,820, 330, 1, ColliderType::BELL));//"mort jugador"
 
 	// Create a big red sensor on the bottom of the screen.
 	// This sensor will not make other objects collide with it, but it can tell if it is "colliding" with something else
@@ -334,8 +334,8 @@ bool ModuleScene::Start()
 	//lower_ground_sensor->listener = this;
 	
 	// Ball
-
-	circles.add(App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
+	Ball = App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL);
+	circles.add(Ball);
 	circles.getLast()->data->listener = this;
 
 	// Audio
@@ -346,6 +346,7 @@ bool ModuleScene::Start()
 	purpleP = false; 
 	turquoiseP = false; 
 	pinkP = false;
+	lifeLose = false;
 	return ret;
 }
 
@@ -406,6 +407,15 @@ update_status ModuleScene::Update()
 	//App->renderer->Blit(map,0,0);
 	
 	debug();
+	if (lifeLose==true) {
+		App->player->numBalls--;
+
+		circles.getLast()->data->body->DestroyFixture(circles.getLast()->data->body->GetFixtureList());
+		circles.add(App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
+		circles.getLast()->data->listener = this;
+		
+		lifeLose = false;
+	}
 
 	//Slingershot
 	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
@@ -593,13 +603,9 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 		case ColliderType::BELL:
 			LOG("Collider bell");
-			/*if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
-			{
-				App->player->numBalls--;
-				circles.getLast()->data->body->DestroyFixture(circles.getLast()->data->body->GetFixtureList());
-				circles.add(App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
-				circles.getLast()->data->listener = this;
-			}*/
+			App->player->numBalls--;
+			lifeLose = true;
+
 			//WHATEVER
 			break;
 
