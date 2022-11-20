@@ -277,14 +277,23 @@ bool ModuleScene::Start()
 	chains.add(App->physics->CreateChain(0, 0, Fondo, 122, App->physics->STATIC, ColliderType::PLATFORM));
 
 	b1 =  App->physics->CreateBouncyChain(0, 0, Oreja, 44, bounce, App->physics->STATIC, ColliderType::EARS);
+	chains.add(b1);
 	b2 = App->physics->CreateBouncyChain(0, 0, Oreja2, 48, bounce, App->physics->STATIC, ColliderType::EARS);
+	chains.add(b2);
 	b3 = App->physics->CreateBouncyChain(0, 0, Triangle, 20, bounce, App->physics->STATIC, ColliderType::ORANGE_BUMPER);
+	chains.add(b3);
 	b4 = App->physics->CreateBouncyChain(0, 0, Triangle2, 20, bounce, App->physics->STATIC, ColliderType::ORANGE_BUMPER);
-	b5 = App->physics->CreateBouncyChain(0, 0, Oval, 40, bounce, App->physics->STATIC, ColliderType::OVAL);
-	b6 = App->physics->CreateBouncyChain(0, 0, Oval2, 40, bounce, App->physics->STATIC, ColliderType::OVAL);
-	b7 = App->physics->CreateBouncyChain(0, 0, Oval3, 40, bounce, App->physics->STATIC, ColliderType::OVAL);
+	chains.add(b4);
+	b5 = App->physics->CreateChain(0, 0, Oval, 40, App->physics->STATIC, ColliderType::OVAL);//crec que aquests no haurien de fer bounce
+	chains.add(b5);
+	b6 = App->physics->CreateChain(0, 0, Oval2, 40, App->physics->STATIC, ColliderType::OVAL);
+	chains.add(b6);
+	b7 = App->physics->CreateChain(0, 0, Oval3, 40, App->physics->STATIC, ColliderType::OVAL);
+	chains.add(b7);
 	b8 = App->physics->CreateBouncyCircle(379, 554, 19, bounce, App->physics->STATIC, ColliderType::CHEEK);
+	chains.add(b8);
 	b9 = App->physics->CreateBouncyCircle(128, 554, 19, bounce, App->physics->STATIC, ColliderType::CHEEK);
+	chains.add(b9);
 
 	//chains.add(App->physics->CreateBouncyChain(0, 0, Oreja, 44, bounce, App->physics->STATIC, ColliderType::EARS));
 	//chains.add(App->physics->CreateBouncyChain(0, 0, Oreja2, 48, bounce, App->physics->STATIC, ColliderType::EARS));
@@ -304,24 +313,28 @@ bool ModuleScene::Start()
 	Turqupise_Paw = App->physics->CreateBouncyCircle(363, 198, 31, bounce, App->physics->STATIC, ColliderType::TURQUOISE_PAW);
 	Pink_Paw = App->physics->CreateBouncyCircle(252, 256, 31, bounce, App->physics->STATIC, ColliderType::PINK_PAW);
 
-	/*circles.add(Purple_Paw);
+
+	circles.add(Purple_Paw);
 	circles.add(Green_Paw);
 	circles.add(Turqupise_Paw);
-	circles.add(Pink_Paw);*/
+	circles.add(Pink_Paw);
 
 
 	chains.add(App->physics->CreateRectangleSensor(280, 380, 40, 1, ColliderType::OVAL));//sensor típic passar carril sumar punts, animació especial?
 	chains.add(App->physics->CreateRectangleSensor(222, 380, 40, 1, ColliderType::OVAL));
 
+	chains.add(App->physics->CreateRectangleSensor(250,818, 330, 1, ColliderType::BELL));
+
 	// Create a big red sensor on the bottom of the screen.
 	// This sensor will not make other objects collide with it, but it can tell if it is "colliding" with something else
-	lower_ground_sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50, ColliderType::UNKNOWN);
-
+	//lower_ground_sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50, ColliderType::UNKNOWN);
+	
 	// Add this module (ModuleScene) as a listener for collisions with the sensor.
 	// In ModulePhysics::PreUpdate(), we iterate over all sensors and (if colliding) we call the function ModuleScene::OnCollision()
-	lower_ground_sensor->listener = this;
+	//lower_ground_sensor->listener = this;
 	
 	// Ball
+
 	circles.add(App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
 	circles.getLast()->data->listener = this;
 
@@ -520,6 +533,11 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 				App->player->comboPaws++;
 				greenP = true;
 			}
+			else if (pinkP == true)
+			{
+				App->player->comboPaws--;
+				pinkP = false;
+			}
 			//WHATEVER
 			break;
 		
@@ -532,6 +550,11 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 				App->player->comboPaws++;
 				purpleP = true;
 			}
+			else if (pinkP == true)
+			{
+				App->player->comboPaws--;
+				pinkP = false;
+			}
 			//WHATEVER
 			break;
 		case ColliderType::TURQUOISE_PAW:
@@ -542,6 +565,11 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 			{
 				App->player->comboPaws++;
 				turquoiseP = true;
+			}
+			else if (pinkP == true)
+			{
+				App->player->comboPaws--;
+				pinkP = false;
 			}
 			//WHATEVER
 			break;
@@ -555,18 +583,23 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 				App->player->comboPaws++;
 				pinkP = true;
 			}
+			else if (pinkP == true)
+			{
+				App->player->comboPaws--;
+				pinkP = false;
+			}
 			//WHATEVER
 			break;
 
 		case ColliderType::BELL:
 			LOG("Collider bell");
-			if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+			/*if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 			{
 				App->player->numBalls--;
 				circles.getLast()->data->body->DestroyFixture(circles.getLast()->data->body->GetFixtureList());
 				circles.add(App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
 				circles.getLast()->data->listener = this;
-			}
+			}*/
 			//WHATEVER
 			break;
 
@@ -822,9 +855,9 @@ void ModuleScene::debug()
 		b2->body->GetFixtureList()->SetRestitution(bounce);
 		b3->body->GetFixtureList()->SetRestitution(bounce);
 		b4->body->GetFixtureList()->SetRestitution(bounce);
-		b5->body->GetFixtureList()->SetRestitution(bounce);
+		/*b5->body->GetFixtureList()->SetRestitution(bounce);//crec que aquests no haurien de fer bounce
 		b6->body->GetFixtureList()->SetRestitution(bounce);
-		b7->body->GetFixtureList()->SetRestitution(bounce);
+		b7->body->GetFixtureList()->SetRestitution(bounce);*/
 		b8->body->GetFixtureList()->SetRestitution(bounce);
 		b9->body->GetFixtureList()->SetRestitution(bounce);
 
