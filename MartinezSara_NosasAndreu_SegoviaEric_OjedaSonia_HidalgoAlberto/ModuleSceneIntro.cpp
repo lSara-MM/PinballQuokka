@@ -15,9 +15,28 @@
 using namespace std;
 #include <sstream>
 
+#include "Animation.h"
+
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 
+	animPlayCat.PushBack({ 0, 0, 480, 480 });
+	animPlayCat.PushBack({ 0, 0, 480, 480 });
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			animPlayCat.PushBack({ 480 * j, 480 * i, 480, 480 });
+		}
+	}
+
+	animPlayCat.PushBack({ 480 * 4, 0, 480, 480 });
+	animPlayCat.PushBack({ 480 * 4, 480, 480, 480 });
+	animPlayCat.PushBack({ 480 * 4, 480 * 2, 480, 480 });
+	animPlayCat.PushBack({ 480 * 4, 480 * 3, 480, 480 });
+
+	animPlayCat.loop = true;
+	animPlayCat.speed = 0.2f;
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
@@ -33,11 +52,12 @@ bool ModuleSceneIntro::Start()
 	// Set camera position
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
-	bgTexture = App->textures->Load("pinball/map.png");
+	bgTexture = App->textures->Load("pinball/introBg.png");
+	texPlayCat = App->textures->Load("pinball/ss_playCat.png");
 
 	// Load Font
 	char lookupTable1[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789   .,:!?()-" };
-	titleFont = App->renderer->LoadFont("Pinball/font_CatPaw.png", lookupTable1, 4, 13); // 4 = rows 13 = columns
+	titleFont = App->renderer->LoadFont("Pinball/font_QuietMeows.png", lookupTable1, 4, 13); // 4 = rows 13 = columns
 	
 	char lookupTable2[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789   .,:!?()-" };
 	subtitleFont = App->renderer->LoadFont("Pinball/font_CatPaw32.png", lookupTable2, 6, 13); // 6 = rows 13 = columns
@@ -59,15 +79,11 @@ bool ModuleSceneIntro::CleanUp()
 update_status ModuleSceneIntro::Update()
 {
 	dTime = SDL_GetTicks() - startTime;
-	//Dibujar el mapa
-	App->renderer->Blit(bgTexture, 0, 0);
 
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
 		App->fade->FadeToBlack(this, (Module*)App->scene, 90);
 	}
-
-
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		App->fade->FadeToBlack(this, (Module*)App->scene, 0);
@@ -82,11 +98,21 @@ update_status ModuleSceneIntro::Update()
 		App->fade->FadeToBlack(this, (Module*)App->scene_lead, 0);
 	}
 
-	
+	// Render 
+	App->renderer->Blit(bgTexture, 0, 0);
+
+	App->renderer->BlitText(45, 30, titleFont, "CATBALL");
+	App->renderer->BlitText(90, 110, subtitleFont, "by Quokka Stu(d)i(os)", 0.5f);
+
+		// Animation
+	animPlayCat.Update();
+	App->renderer->Blit(texPlayCat, 20, 130, &(animPlayCat.GetCurrentFrame()));
+
+		// Blinking text
 	if (dTime < 1500)
 	{
-		App->renderer->BlitText(85, 600, subtitleFont, "Press ENTER");
-		App->renderer->BlitText(120, 650, subtitleFont, "to start");
+		App->renderer->BlitText(85, 650, subtitleFont, "Press ENTER");
+		App->renderer->BlitText(120, 690, subtitleFont, "to start");
 	}
 	if (dTime > 2500) { startTime = SDL_GetTicks(); }
 	

@@ -11,9 +11,10 @@
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
 
+#include "Animation.h"
+
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-
 	// Initialise all the internal class variables, at least to NULL pointer
 	ball = NULL;
 	ray_on = false;
@@ -40,8 +41,10 @@ bool ModuleScene::Start()
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 	map = App->textures->Load("pinball/muelle.png");
 
-
 	fondo = App->textures->Load("pinball/Fondo2.png");
+	//texLoseCat = App->textures->Load("pinball/.png");
+	bgColor = { 0, 0, SCREEN_WIDTH * SCREEN_SIZE, SCREEN_HEIGHT * SCREEN_SIZE };
+
 	int Fondo[122] = {
 	504, 825,
 	503, 146,
@@ -334,13 +337,10 @@ bool ModuleScene::Start()
 	//lower_ground_sensor->listener = this;
 	
 	// Ball
-
 	circles.add(App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
-
 	circles.getLast()->data->listener = this;
 
 	// Audio
-
 	audiohit = App->audio->LoadFx("pinball/hit.ogg");
 
 	greenP = false;
@@ -349,7 +349,7 @@ bool ModuleScene::Start()
 	pinkP = false;
 	lifeLose = false;
 
-	pause = false;
+	gameOver = false;
 	return ret;
 }
 
@@ -469,7 +469,7 @@ update_status ModuleScene::Update()
 
 	// Ball render
 
-	if (pause == false)
+	if (gameOver == false)
 	{
 		int ballX, ballY;
 		circles.getLast()->data->GetPosition(ballX, ballY);
@@ -489,7 +489,7 @@ update_status ModuleScene::Update()
 
 
 	// Lifes left
-	if (App->player->numBalls == 0)
+	if (App->player->numBalls == 0 && !App->physics->debug)
 		loseGame();
 	if (App->player->numBalls >= 1)
 		App->renderer->Blit(ball, 10, 10);
@@ -629,7 +629,8 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 bool ModuleScene::loseGame()
 {
 	//App->physics->world->DestroyBody(circles.getLast()->data->body);
-	pause = true;
+	gameOver = true;
+	App->renderer->DrawQuad(bgColor, 255, 255, 255);
 
 	if (App->scene_lead->leaderboard[9] < App->player->score) { App->scene_lead->leaderboard[9] = App->player->score; }
 	App->scene_lead->currentScore = App->player->score;
@@ -683,10 +684,6 @@ void ModuleScene::debug()
 		App->scene_lead->currentScore = App->player->score;
 		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_lead, 0);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)	// delete after
-	{
-		pause = true;
-	}
 
 	// GodMode
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
@@ -715,6 +712,7 @@ void ModuleScene::debug()
 	// Insta lose
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
+		App->player->numBalls = 0;
 		loseGame();
 	}
 

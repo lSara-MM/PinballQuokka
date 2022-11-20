@@ -6,6 +6,7 @@
 #include "ModuleTextures.h"
 #include "ModuleInput.h"
 
+#include "ModuleScene.h"
 #include <iostream>
 using namespace std;
 #include <sstream>
@@ -58,7 +59,7 @@ bool ModulePlayer::Start()
 	// Score
 	score = 0;
 	comboPaws = 0;
-
+	
 	// Load Font
 	char lookupTable[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789   .,:!?()- " };
 	scoreFont = App->renderer->LoadFont("Pinball/font_CatPaw32.png", lookupTable, 6, 13); // 6 = rows 
@@ -116,9 +117,7 @@ update_status ModulePlayer::Update()
 			compresion = 0.1;
 			SpringReleased = false;
 			timer = 100;
-
-		}
-		
+		}	
 	}
 	jointMuelle->SetLimits(-compresion/4, compresion);
 
@@ -134,16 +133,13 @@ update_status ModulePlayer::Update()
 		//comprimir el muelle
 		compresion += (0.025-compresion/320);
 		//LOG("%f", compresion);
-		jointMuelle->SetLimits(compresion / 4, compresion);
-		
-		
+		jointMuelle->SetLimits(compresion / 4, compresion);		
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP && compresion >= 0)
 	{
 		SpringReleased = true;
-		spring->body->ApplyForce(b2Vec2(/*-MaxLength / 2*/ 0, -compresion * compresion*25), b2Vec2(0, 0), true);
-		
+		spring->body->ApplyForce(b2Vec2(/*-MaxLength / 2*/ 0, -compresion * compresion*25), b2Vec2(0, 0), true);	
 	}
 	App->renderer->Blit(textureMuelle, springData.x-25, springData.y-15,NULL,0.4F); //Al convertir de metros a pixeles hay cierto error de redondeo asi que ponemos el -25 y el -15
 
@@ -163,12 +159,15 @@ update_status ModulePlayer::Update()
 	rect2->GetPosition(x, y);
 	App->renderer->Blit(textureFlipers, x, y-25, NULL, 0.3F, NULL, rect2->GetRotation(), NULL, NULL, SDL_FLIP_NONE);
 
-	// strings to const char*
-	string s_score = std::to_string(score);
-	const char* ch_score = s_score.c_str();
-	App->renderer->BlitText(120, 15, scoreFont, "Score:");
-	App->renderer->BlitText(300, 15, scoreFont, ch_score);
 
+	if (App->scene->gameOver == false)
+	{
+		// strings to const char*
+		string s_score = std::to_string(score);
+		const char* ch_score = s_score.c_str();
+		App->renderer->BlitText(120, 15, scoreFont, "Score:");
+		App->renderer->BlitText(300, 15, scoreFont, ch_score);
+	}
 	return UPDATE_CONTINUE;
 }
 

@@ -2,6 +2,8 @@
 #include "Module.h"
 #include "Globals.h"
 
+#include "Animation.h"
+
 class ModuleSceneIntro : public Module
 {
 public:
@@ -22,6 +24,9 @@ private:
 	int subtitleFont;
 
 	SDL_Texture* bgTexture;
+	Animation animPlayCat;
+	SDL_Texture* texPlayCat;
+
 
 	Uint32 startTime = 0;
 	uint dTime;
