@@ -334,8 +334,7 @@ bool ModuleScene::Start()
 	//lower_ground_sensor->listener = this;
 	
 	// Ball
-	Ball = App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL);
-	circles.add(Ball);
+	circles.add(App->physics->CreateCircle(483, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
 	circles.getLast()->data->listener = this;
 
 	// Audio
@@ -444,20 +443,9 @@ update_status ModuleScene::Update()
 	// All draw functions ------------------------------------------------------
 
 	// Circles
-	p2List_item<PhysBody*>* c = circles.getFirst();
-	while(c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-
-		// If mouse is over this circle, paint the circle's texture
-		if(c->data->Contains(App->input->GetMouseX(), App->input->GetMouseY()))
-			App->renderer->Blit(ball, x, y, NULL, 1.0f, c->data->GetRotation());
-
-		c = c->next;
-	}
-
+	
 	//Slingershots
+	p2List_item<PhysBody*>* c;	
 	c = slingershots.getFirst();
 	while (c != NULL)
 	{
@@ -695,7 +683,7 @@ void ModuleScene::debug()
 	// Spawn bola donde el mouse
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
-		circles.getLast()->data->body->DestroyFixture(circles.getLast()->data->body->GetFixtureList());
+		App->physics->world->DestroyBody(circles.getLast()->data->body);
 		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 16, App->physics->DYNAMIC, ColliderType::BALL));
 		circles.getLast()->data->listener = this;
 	}

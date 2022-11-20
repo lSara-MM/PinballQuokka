@@ -37,9 +37,6 @@ ModuleLeaderboard::ModuleLeaderboard(Application* app, bool start_enabled) : Mod
 	{
 		animLurkingCat.PushBack({ 256 * i, 0, 256, 192 });
 	}
-
-	//animLurkingCat.loop = true;
-	//animLurkingCat.pingpong = true;
 	animLurkingCat.speed = 0.2f;
 }
 
