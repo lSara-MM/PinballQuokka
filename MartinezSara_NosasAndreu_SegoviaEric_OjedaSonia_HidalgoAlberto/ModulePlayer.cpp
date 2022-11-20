@@ -26,9 +26,9 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 	//DATA DEL MUELLE
-	springData.x = 445;
-	springData.y = 600;
-	springData.w = 40;
+	springData.x = 520;
+	springData.y = 700;
+	springData.w = 35;
 	springData.h = 25;
 
 	//LANZADOR
@@ -44,8 +44,8 @@ bool ModulePlayer::Start()
 	//PALAS
 	
 	//Fliper derecho
-	fliperD.x = 300;
-	fliperD.y = 790;
+	fliperD.x = 385;
+	fliperD.y = 770;
 	circle = App->physics->CreateCircle(fliperD.x, fliperD.y, 2, App->physics->STATIC, ColliderType::UNKNOWN);
 	rect = App->physics->CreateRectangle(fliperD.x, fliperD.y, 50, 10, App->physics->DYNAMIC, ColliderType::UNKNOWN);
 
@@ -54,8 +54,8 @@ bool ModulePlayer::Start()
 	Vec1 = { -0.50, 0 };
 
 	//Fliper Izquierdo
-	fliperI.x = 196;
-	fliperI.y = 790;
+	fliperI.x = 245;
+	fliperI.y = 770;
 	circle2 = App->physics->CreateCircle(fliperI.x, fliperI.y, 2, App->physics->STATIC, ColliderType::UNKNOWN);
 	rect2 = App->physics->CreateRectangle(fliperI.x, fliperI.y, 50, 10, App->physics->DYNAMIC, ColliderType::UNKNOWN);
 
@@ -127,10 +127,10 @@ update_status ModulePlayer::Update()
 			timer = 100;
 		}
 	}
-	jointMuelle->SetLimits(-compresion / 4, compresion);
+	jointMuelle->SetLimits(-compresion / 8, compresion);
 
 
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT && compresion <= 8)
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT && compresion <= 4)
 	{
 		//setearlo
 		SpringReleased = false;
@@ -139,9 +139,9 @@ update_status ModulePlayer::Update()
 			compresion = 0.1;
 		}
 		//comprimir el muelle
-		compresion += (0.025 - compresion / 320);
+		compresion += (0.05 - compresion / 160);
 		//LOG("%f", compresion);
-		jointMuelle->SetLimits(compresion / 4, compresion);
+		jointMuelle->SetLimits(compresion / 8, compresion);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP && compresion >= 0)
