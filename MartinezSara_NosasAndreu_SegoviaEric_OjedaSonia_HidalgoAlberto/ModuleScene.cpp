@@ -305,6 +305,7 @@ bool ModuleScene::Start()
     104, 139
 	};
 
+	//Scene colliders
 	backGround = App->physics->CreateChain(0, 0, Fondo, 112, App->physics->STATIC, ColliderType::PLATFORM);
 	chains.add(backGround);
 
@@ -316,7 +317,7 @@ bool ModuleScene::Start()
 	chains.add(b3);
 	b4 = App->physics->CreateBouncyChain(0, 0, Triangle2, 16, bounce, App->physics->STATIC, ColliderType::ORANGE_BUMPER);
 	chains.add(b4);
-	b5 = App->physics->CreateChain(0, 0, Oval, 40, App->physics->STATIC, ColliderType::OVAL);//crec que aquests no haurien de fer bounce
+	b5 = App->physics->CreateChain(0, 0, Oval, 40, App->physics->STATIC, ColliderType::OVAL);
 	chains.add(b5);
 	b6 = App->physics->CreateChain(0, 0, Oval2, 40, App->physics->STATIC, ColliderType::OVAL);
 	chains.add(b6);
@@ -329,20 +330,10 @@ bool ModuleScene::Start()
 	b9 = App->physics->CreateBouncyCircle(196, 554, 19, bounce, App->physics->STATIC, ColliderType::CHEEK);
 	chains.add(b9);
 
-	//chains.add(App->physics->CreateBouncyChain(0, 0, Oreja, 44, bounce, App->physics->STATIC, ColliderType::EARS));
-	//chains.add(App->physics->CreateBouncyChain(0, 0, Oreja2, 48, bounce, App->physics->STATIC, ColliderType::EARS));
 	b11 = App->physics->CreateChain(0, 0, Barra, 14, App->physics->STATIC, ColliderType::ROD);
 	chains.add(b11);
 	b12 = App->physics->CreateChain(0, 0, Barra2, 14, App->physics->STATIC, ColliderType::ROD);
 	chains.add(b12);
-	//chains.add(App->physics->CreateBouncyChain(0, 0, Triangle, 20, bounce, App->physics->STATIC, ColliderType::ORANGE_BUMPER));
-	//chains.add(App->physics->CreateBouncyChain(0, 0, Triangle2, 20, bounce, App->physics->STATIC, ColliderType::ORANGE_BUMPER));//canviar els valos de bounce per ajustar rebot
-	//chains.add(App->physics->CreateBouncyChain(0, 0, Oval, 40, bounce, App->physics->STATIC, ColliderType::OVAL));
-	//chains.add(App->physics->CreateBouncyChain(0, 0, Oval2, 40, bounce, App->physics->STATIC, ColliderType::OVAL));
-	//chains.add(App->physics->CreateBouncyChain(0, 0, Oval3, 40, bounce, App->physics->STATIC, ColliderType::OVAL));
-
-	//circles.add(App->physics->CreateBouncyCircle(379, 554, 19, bounce, App->physics->STATIC, ColliderType::CHEEK));
-	//circles.add(App->physics->CreateBouncyCircle(128, 554, 19, bounce, App->physics->STATIC, ColliderType::CHEEK));
 
 	Purple_Paw = App->physics->CreateBouncyCircle(47, 490, 28, bounce, App->physics->STATIC, ColliderType::PURPLE_PAW);
 	Green_Paw = App->physics->CreateBouncyCircle(232, 221, 31, bounce, App->physics->STATIC, ColliderType::GREEN_PAW);
@@ -356,22 +347,14 @@ bool ModuleScene::Start()
 	circles.add(Pink_Paw);
 
 
-	//chains.add(App->physics->CreateRectangleSensor(280, 380, 40, 1, ColliderType::OVAL));//sensor típic passar carril sumar punts, animació especial?
 	sensor_1 = App->physics->CreateRectangleSensor(318, 537, 40, 1, ColliderType::NOSE);
 	chains.add(sensor_1);
 	sensor_2 = App->physics->CreateRectangleSensor(310, 850, 350, 1, ColliderType::BELL);//"mort jugador"
 	chains.add(sensor_2);
 
-	// Create a big red sensor on the bottom of the screen.
-	// This sensor will not make other objects collide with it, but it can tell if it is "colliding" with something else
-	//lower_ground_sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50, ColliderType::UNKNOWN);
-	
-	// Add this module (ModuleScene) as a listener for collisions with the sensor.
-	// In ModulePhysics::PreUpdate(), we iterate over all sensors and (if colliding) we call the function ModuleScene::OnCollision()
-	//lower_ground_sensor->listener = this;
-	
+
 	// Ball
-	bola = App->physics->CreateCircle(543, 571, 16, App->physics->DYNAMIC, ColliderType::BALL);
+	bola = App->physics->CreateCircle(550, 685, 16, App->physics->DYNAMIC, ColliderType::BALL);
 	circles.add(bola);
 	circles.getLast()->data->listener = this;
 
@@ -380,6 +363,13 @@ bool ModuleScene::Start()
 	audioimpact = App->audio->LoadFx("pinball/impact.ogg");
 	audiomiau = App->audio->LoadFx("pinball/meow.ogg");
 	audiolose = App->audio->LoadFx("pinball/gameOver.ogg");
+
+	if (musicIsOn == false) {
+
+		App->audio->PlayMusic("pinball/Music.ogg", 0);
+		musicIsOn = true;
+
+	}
 
 	greenP = false;
 	purpleP = false; 
@@ -491,37 +481,6 @@ bool ModuleScene::CleanUp()
 	}
 
 
-	//p2List_item<PhysBody*>* circleItem;
-
-	//circleItem = circles.start;
-
-	//while (circleItem != NULL)
-	//{
-	//	if (circleItem->data != NULL)
-	//	{					  
-	//		delete circleItem->data;
-	//		circleItem->data = NULL;
-	//	}
-	//	circleItem = circleItem->next;
-	//}
-
-	//p2List_item<PhysBody*>* chianItem;
-
-	//chianItem = chains.start;
-
-	//while (chianItem != NULL)
-	//{
-	//	if (chianItem->data != NULL)
-	//	{
-	//		delete chianItem->data;
-	//		chianItem->data = NULL;
-	//	}
-	//	chianItem = chianItem->next;
-	//}
-
-	//circles.clear();
-	//chains.clear();
-
 	App->player->Disable();
 	
 	return true;
@@ -616,42 +575,40 @@ update_status ModuleScene::Update()
 
 void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
-	// Play Audio FX on every collision, regardless of who is colliding
-	
-	//App->audio->PlayFx(bonus_fx);
+
 
 	switch (bodyB->ctype)
 	{
 		case ColliderType::PLATFORM:
 			LOG("Collider platform");
 			
-			//WHATEVER
+			
 			break;
 
 		case ColliderType::NOSE:
 			LOG("Collider nose");
 			App->audio->PlayFx(audiomiau);
 
-			//WHATEVER
+			
 			break;
 
 		case ColliderType::EARS:
 			LOG("Collider ears");
 			App->player->score += 50;
-			//WHATEVER
+	
 			break;
 
 		case ColliderType::ORANGE_BUMPER:
 			LOG("Collider orange bumper");
 			App->player->score += 100;
 			App->audio->PlayFx(audioimpact);
-			//WHATEVER
+		
 			break;
 
 		case ColliderType::OVAL:
 			LOG("Collider oval");
 			App->player->score += 50;
-			//WHATEVER
+		
 			break;
 
 		case ColliderType::GREEN_PAW:
@@ -663,12 +620,7 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 				App->player->comboPaws++;
 				greenP = true;
 			}
-			else if (greenP == true)
-			{
-				App->player->comboPaws--;
-				greenP = false;
-			}
-			//WHATEVER
+		
 			break;
 		
 		case ColliderType::PURPLE_PAW:
@@ -680,12 +632,6 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 				App->player->comboPaws++;
 				purpleP = true;
 			}
-			else if (purpleP == true)
-			{
-				App->player->comboPaws--;
-				purpleP = false;
-			}
-			//WHATEVER
 			break;
 		case ColliderType::TURQUOISE_PAW:
 			LOG("Collider turquoise paw");
@@ -696,12 +642,7 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 				App->player->comboPaws++;
 				turquoiseP = true;
 			}
-			else if (turquoiseP == true)
-			{
-				App->player->comboPaws--;
-				turquoiseP = false;
-			}
-			//WHATEVER
+	
 			break;
 
 		case ColliderType::PINK_PAW:
@@ -713,37 +654,22 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 				App->player->comboPaws++;
 				pinkP = true;
 			}
-			else if (pinkP == true)
-			{
-				App->player->comboPaws--;
-				pinkP = false;
-			}
-			//WHATEVER
+		
 			break;
 
 		case ColliderType::BELL:
 			LOG("Collider bell");
 			if (!App->physics->debug)
 				lifeLose = true;
-
-			//WHATEVER
 			break;
 
 		case ColliderType::CHEEK:
 			LOG("Collider cheek");
 			App->player->score += 100;
-			//WHATEVER
 			break;
 
 		case ColliderType::ROD:
 			LOG("Collider rod");
-			//WHATEVER
-			break;
-
-		case ColliderType::SLINGERSHOT:
-			App->audio->PlayFx(audioimpact);
-			LOG("Collider slingershot");
-			//WHATEVER
 			break;
 	}
 	
@@ -789,13 +715,13 @@ bool ModuleScene::loseGame()
 	// non retry
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN && retry == true)
 	{
+		musicIsOn = false;
 		App->fade->FadeToBlack(this, (Module*)App->scene, 90);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN ||
 		App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 		retry = !retry;
-
 
 	// Score
 	if (App->scene_lead->leaderboard[9] < App->player->score) { App->scene_lead->leaderboard[9] = App->player->score; }
@@ -816,7 +742,7 @@ void ModuleScene::loseLife() {
 		App->player->numBalls--;
 
 		circles.getLast()->data->body->DestroyFixture(circles.getLast()->data->body->GetFixtureList());
-		circles.add(App->physics->CreateCircle(543, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
+		circles.add(App->physics->CreateCircle(550, 685, 16, App->physics->DYNAMIC, ColliderType::BALL));
 		circles.getLast()->data->listener = this;
 
 		lifeLose = false;

@@ -48,6 +48,7 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
+
 	//Music
 	App->audio->PlayMusic("pinball/Music.ogg", 0);
 
