@@ -184,14 +184,14 @@ bool ModuleScene::Start()
 	};
 
 	int Triangle[16] = {
-	192 + 5, 646,
-	240 + 5, 699,
-	240 + 5, 708,
-	233 + 5, 712,
-	186 + 5, 697,
-	181 + 5, 692,
-	182 + 5, 651,
-	186 + 5, 646
+	192, 646,
+	240, 699,
+	240, 708,
+	233, 712,
+	186, 697,
+	181, 692,
+	182, 651,
+	186, 646
 	};
 
 	int Triangle2[16] = {
@@ -354,7 +354,7 @@ bool ModuleScene::Start()
 	//chains.add(App->physics->CreateRectangleSensor(280, 380, 40, 1, ColliderType::OVAL));//sensor típic passar carril sumar punts, animació especial?
 	chains.add(App->physics->CreateRectangleSensor(318, 537, 40, 1, ColliderType::NOSE));
 
-	chains.add(App->physics->CreateRectangleSensor(310,850, 400, 1, ColliderType::BELL));//"mort jugador"
+	chains.add(App->physics->CreateRectangleSensor(250,820, 330, 1, ColliderType::BELL));//"mort jugador"
 
 	// Create a big red sensor on the bottom of the screen.
 	// This sensor will not make other objects collide with it, but it can tell if it is "colliding" with something else
@@ -365,7 +365,7 @@ bool ModuleScene::Start()
 	//lower_ground_sensor->listener = this;
 	
 	// Ball
-	circles.add(App->physics->CreateCircle(550, 685, 16, App->physics->DYNAMIC, ColliderType::BALL));
+	circles.add(App->physics->CreateCircle(543, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
 	circles.getLast()->data->listener = this;
 
 	// Audio
@@ -677,7 +677,7 @@ void ModuleScene::loseLife() {
 		App->player->numBalls--;
 
 		circles.getLast()->data->body->DestroyFixture(circles.getLast()->data->body->GetFixtureList());
-		circles.add(App->physics->CreateCircle(550, 685, 16, App->physics->DYNAMIC, ColliderType::BALL));
+		circles.add(App->physics->CreateCircle(543, 571, 16, App->physics->DYNAMIC, ColliderType::BALL));
 		circles.getLast()->data->listener = this;
 
 		lifeLose = false;
