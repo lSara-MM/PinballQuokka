@@ -109,4 +109,5 @@ private:
 public:
 	// Debug mode
 	bool debug;
+	bool stop = false;
 };

@@ -58,6 +58,7 @@ public:
 	float frames = 60.0f;
 	bool fps = false;
 	bool boing = false;
+	bool normGrav = 0;
 
 	//Audio
 

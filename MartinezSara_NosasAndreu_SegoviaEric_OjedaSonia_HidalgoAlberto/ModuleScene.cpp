@@ -674,9 +674,17 @@ void ModuleScene::debug()
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		App->physics->debug = !App->physics->debug;
+		normGrav = true;
 	}
 	if (App->physics->debug) { App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 0)); }
-	if (!App->physics->debug) { App->physics->world->SetGravity(b2Vec2(GRAVITY_X, -GRAVITY_Y)); }
+	if (!App->physics->debug) 
+	{ 
+		if (normGrav) 
+		{
+			App->physics->world->SetGravity(b2Vec2(GRAVITY_X, -GRAVITY_Y));
+		}
+		normGrav = false;
+	}
 
 	// Spawn bola donde el mouse
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
