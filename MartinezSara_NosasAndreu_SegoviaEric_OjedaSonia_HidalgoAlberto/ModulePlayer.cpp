@@ -36,7 +36,7 @@ bool ModulePlayer::Start()
 	//MUELLE EN SI
 	spring = App->physics->CreateRectangle(springData.x+ springData.w, springData.y+springData.h, springData.w, springData.h, App->physics->DYNAMIC, ColliderType::UNKNOWN);
 	jointMuelle = App->physics->CreatePrismaticJoint(spring, VecS1, base, VecS2, axis, -MaxLength/2, MaxLength, false, true); //TODO: Modificar funcion para max y min
-	texture = App->textures->Load("pinball/muelle.png");
+	textureMuelle = App->textures->Load("pinball/muelle.png");
 
 
 	//PALAS
@@ -52,7 +52,7 @@ bool ModulePlayer::Start()
 	rect2 = App->physics->CreateRectangle(196, 790, 50, 10, App->physics->DYNAMIC, ColliderType::UNKNOWN);
 
 	App->physics->CreateRevoluteJoint(rect2, Vec1, circle2, Vec2, 33.0f);
-
+	textureFlipers= App->textures->Load("pinball/fliper.png");
 
 	numBalls = 3;
 	// Score
@@ -96,14 +96,14 @@ bool ModulePlayer::CleanUp()
 	}
 	
 
-	App->renderer->UnLoadFont(scoreFont);
+	//App->renderer->UnLoadFont(scoreFont);
 	return true;	
 }
 
 // Update: draw background
 update_status ModulePlayer::Update()
 {
-	
+	//MUELLE
 	//Posicion muelle
 	springData.x = METERS_TO_PIXELS(spring->body->GetTransform().p.x);
 	springData.y = METERS_TO_PIXELS(spring->body->GetTransform().p.y);
@@ -145,9 +145,9 @@ update_status ModulePlayer::Update()
 		spring->body->ApplyForce(b2Vec2(/*-MaxLength / 2*/ 0, -compresion * compresion*25), b2Vec2(0, 0), true);
 		
 	}
-	
-	
-	App->renderer->Blit(texture, springData.x-25, springData.y-15,NULL,0.4F); //Al convertir de metros a pixeles hay cierto error de redondeo asi que ponemos el -25 y el -15
+	App->renderer->Blit(textureMuelle, springData.x-25, springData.y-15,NULL,0.4F); //Al convertir de metros a pixeles hay cierto error de redondeo asi que ponemos el -25 y el -15
+
+	//FLIPERS
 
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
 		rect2->body->ApplyForce(b2Vec2(-2, -2), b2Vec2(0, -5), true);
@@ -156,6 +156,12 @@ update_status ModulePlayer::Update()
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
 		rect->body->ApplyForce(b2Vec2(2, -2), b2Vec2(0, -5), true);
 	}
+	int x, y;
+	rect->GetPosition(x,y);
+	App->renderer->Blit(textureFlipers, x, y, NULL, 0.3F, NULL, rect->GetRotation(), NULL, NULL, SDL_FLIP_HORIZONTAL);
+
+	rect2->GetPosition(x, y);
+	App->renderer->Blit(textureFlipers, x, y-25, NULL, 0.3F, NULL, rect2->GetRotation(), NULL, NULL, SDL_FLIP_NONE);
 
 	// strings to const char*
 	string s_score = std::to_string(score);

@@ -45,8 +45,8 @@ public:
 	int numBalls; 
 
 	//Textures
-	SDL_Texture* texture;
-
+	SDL_Texture* textureMuelle;
+	SDL_Texture* textureFlipers;
 	int scoreFont;
 	int score;
 	int comboPaws;
