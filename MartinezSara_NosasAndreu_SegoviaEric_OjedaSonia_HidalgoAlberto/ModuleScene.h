@@ -79,6 +79,7 @@ private:
 	PhysBody* b7;
 	PhysBody* b8;
 	PhysBody* b9;
+	PhysBody* b10;
 
 	PhysBody* Pink_Paw;
 	PhysBody* Turqupise_Paw;
