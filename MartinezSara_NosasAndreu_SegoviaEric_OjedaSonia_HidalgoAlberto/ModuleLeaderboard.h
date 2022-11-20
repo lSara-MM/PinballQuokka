@@ -22,19 +22,14 @@ public:
 
 	
 	// Textures
-	//SDL_Texture* bgTexture;
-
 	Animation animLurkingCat;
 	SDL_Texture* texLurkingCat;
 
-	// FX
-	//uint bonus_fx;
-
 	int leaderboard[10];
 	int currentScore;
-	int titleFont;
 
 private:
+	int titleFont;
 	int subtitleFont;
 
 	// Ranks

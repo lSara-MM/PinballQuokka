@@ -4,7 +4,7 @@
 #include "p2Point.h"
 #include "Globals.h"
 
-#include "Animation.h"
+#include "ModulePhysics.h"
 
 class PhysBody;
 
@@ -31,17 +31,8 @@ public:
 	p2List<PhysBody*> circles;
 	p2List<PhysBody*> slingershots;
 	p2List<PhysBody*> chains;
-	
 
-	// Lower ground sensor (will kill all objects passig through it)
-	PhysBody* lower_ground_sensor;
-	bool sensed;
-
-	// Raycast
-	p2Point<int> ray;
-	bool ray_on;
-
-	float frames = 60.0f;
+	float frames = FRAMES;
 
 private:
 	// Textures
@@ -65,7 +56,7 @@ private:
 	bool greenP, purpleP, turquoiseP, pinkP;
 
 	// Bounce valor
-	float bounce = 0.6f;
+	float bounce = BOUNCE;
 
 	//God mode
 	bool godMode;
@@ -104,5 +95,4 @@ private:
 	PhysBody* Turqupise_Paw;
 	PhysBody* Green_Paw;
 	PhysBody* Purple_Paw;
-
 };

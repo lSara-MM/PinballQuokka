@@ -6,6 +6,9 @@
 #define GRAVITY_X 0.0f
 #define GRAVITY_Y -5.0f
 
+#define FRAMES 60.0f;
+#define BOUNCE 0.6f; 
+
 #define PIXELS_PER_METER 50.0f // if touched change METER_PER_PIXEL too
 #define METER_PER_PIXEL 0.02f // this is 1 / PIXELS_PER_METER !
 

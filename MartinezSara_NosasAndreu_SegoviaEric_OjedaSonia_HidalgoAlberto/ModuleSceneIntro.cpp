@@ -5,11 +5,8 @@
 #include "ModuleInput.h"
 #include "ModuleTextures.h"
 #include "ModuleAudio.h"
-#include "ModulePhysics.h"
 
 #include "ModuleFadeToBlack.h"
-#include "ModulePlayer.h"
-#include "ModuleLeaderboard.h"
 
 #include <iostream>
 using namespace std;

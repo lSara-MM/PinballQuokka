@@ -23,8 +23,6 @@ ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, sta
 {
 	// Initialise all the internal class variables, at least to NULL pointer
 	ball = NULL;
-	ray_on = false;
-	sensed = false;
 }
 
 ModuleScene::~ModuleScene()
@@ -478,9 +476,7 @@ bool ModuleScene::CleanUp()
 		bola->body->DestroyFixture(bola->body->GetFixtureList());
 	}
 
-
 	App->player->Disable();
-	
 	return true;
 }
 
@@ -488,30 +484,11 @@ update_status ModuleScene::Update()
 {
 	//Dibujar el mapa
 	App->renderer->Blit(fondo, 0, 0);
-	//App->renderer->Blit(map,0,0);
 
-	if (App->player->numBalls != 0) {
-		debug();
-	}
-
+	debug();
 	loseLife();
 
-
-	// Prepare for raycast ------------------------------------------------------
-
-	// The target point of the raycast is the mouse current position (will change over game time)
-	iPoint mouse;
-	mouse.x = App->input->GetMouseX();
-	mouse.y = App->input->GetMouseY();
-
-	// Total distance of the raycast reference segment
-	int ray_hit = ray.DistanceTo(mouse);
-
-	// Declare a vector. We will draw the normal to the hit surface (if we hit something)
-	fVector normal(0.0f, 0.0f);
-
 	// All draw functions ------------------------------------------------------
-
 	//Slingershots
 	p2List_item<PhysBody*>* c;
 	c = slingershots.getFirst();
@@ -521,22 +498,6 @@ update_status ModuleScene::Update()
 		c->data->GetPosition(x, y);
 		//App->renderer->Blit(rick, x, y, NULL, 1.0f, c->data->GetRotation());
 		c = c->next;
-	}
-
-	// Raycasts -----------------
-	if (ray_on == true)
-	{
-		// Compute the vector from the raycast origin up to the contact point (if we're hitting anything; otherwise this is the reference length)
-		fVector destination(mouse.x - ray.x, mouse.y - ray.y);
-		destination.Normalize();
-		destination *= ray_hit;
-
-		// Draw a line from origin to the hit point (or reference length if we are not hitting anything)
-		App->renderer->DrawLine(ray.x, ray.y, ray.x + destination.x, ray.y + destination.y, 255, 255, 255);
-
-		// If we are hitting something with the raycast, draw the normal vector to the contact point
-		if (normal.x != 0.0f)
-			App->renderer->DrawLine(ray.x + destination.x, ray.y + destination.y, ray.x + destination.x + normal.x * 25.0f, ray.y + destination.y + normal.y * 25.0f, 100, 255, 100);
 	}
 
 	// Ball render
@@ -579,40 +540,33 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	{
 		case ColliderType::PLATFORM:
 			LOG("Collider platform");
-			
-			
 			break;
 
 		case ColliderType::NOSE:
 			LOG("Collider nose");
 			App->audio->PlayFx(audiomiau);
-
-			
 			break;
 
 		case ColliderType::EARS:
 			LOG("Collider ears");
-			App->player->score += 50;
-	
+			if (App->player->numBalls != 0) { App->player->score += 50; }
 			break;
 
 		case ColliderType::ORANGE_BUMPER:
 			LOG("Collider orange bumper");
-			App->player->score += 100;
+			if (App->player->numBalls != 0) { App->player->score += 100; }
 			App->audio->PlayFx(audioimpact);
-		
 			break;
 
 		case ColliderType::OVAL:
 			LOG("Collider oval");
-			App->player->score += 50;
-		
+			if (App->player->numBalls != 0) { App->player->score += 50; }
 			break;
 
 		case ColliderType::GREEN_PAW:
 			LOG("Collider green paw");
-			App->player->score += 150;
-			App->audio->PlayFx(audiohit); 
+			if (App->player->numBalls != 0) { App->player->score += 150; }
+			App->audio->PlayFx(audiohit);
 			if (greenP == false)
 			{
 				App->player->comboPaws++;
@@ -633,7 +587,7 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 			break;
 		case ColliderType::TURQUOISE_PAW:
 			LOG("Collider turquoise paw");
-			App->player->score += 150;
+			if (App->player->numBalls != 0) { App->player->score += 150; }
 			App->audio->PlayFx(audiohit);
 			if (turquoiseP == false)
 			{
@@ -645,7 +599,7 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 		case ColliderType::PINK_PAW:
 			LOG("Collider pink paw");
-			App->player->score += 150;
+			if (App->player->numBalls != 0) { App->player->score += 150; }
 			App->audio->PlayFx(audiohit);
 			if (pinkP == false)
 			{
@@ -663,14 +617,18 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 		case ColliderType::CHEEK:
 			LOG("Collider cheek");
-			App->player->score += 100;
-			break;
+			if (App->player->numBalls != 0) { App->player->score += 100; }
+		break;
 
 		case ColliderType::ROD:
 			LOG("Collider rod");
 			break;
+
+		case ColliderType::SLINGERSHOT:
+			App->audio->PlayFx(audioimpact);
+			LOG("Collider slingershot");
+			break;
 	}
-	
 }
 
 bool ModuleScene::loseGame()
@@ -750,18 +708,6 @@ void ModuleScene::loseLife() {
 
 void ModuleScene::debug()
 {
-	// If user presses SPACE, enable RayCast
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-	{
-		// Enable raycast mode
-		ray_on = !ray_on;
-
-		// Origin point of the raycast is be the mouse current position now (will not change)
-		ray.x = App->input->GetMouseX();
-		ray.y = App->input->GetMouseY();
-	}
-
-
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)	// delete after
 	{
 		App->fade->FadeToBlack((Module*)App->scene, (Module*)App->scene_intro, 0);
@@ -781,7 +727,7 @@ void ModuleScene::debug()
 		godMode = !godMode;
 	}
 	if (App->physics->debug && godMode) { App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 0)); }
-	if (!App->physics->debug && !godMode) { App->physics->world->SetGravity(b2Vec2(GRAVITY_X, -GRAVITY_Y)); }
+	if (!App->physics->debug && !godMode && App->physics->world->GetGravity().y == 0) { App->physics->world->SetGravity(b2Vec2(GRAVITY_X, -GRAVITY_Y)); }
 
 	// Spawn bola donde el mouse
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
@@ -918,9 +864,13 @@ void ModuleScene::debug()
 			frames = 90;
 			fps = false;
 		}
+		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) {
+			frames = FRAMES;
+			fps = false;
+		}
 	}
 
-	string bouncing = std::to_string(App->scene->bounce);
+	string bouncing = std::to_string(bounce);
 	const char* b = bouncing.c_str();
 	App->renderer->BlitText(200, 53, subtitleFont, "BOUNCINESS", 0.4f);
 	App->renderer->BlitText(320, 53, subtitleFont, ("%.2f; ", b), 0.4f);
@@ -928,49 +878,53 @@ void ModuleScene::debug()
 	// Bouncing coefficient
 	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {
 		boing = true;
-		LOG("Boing %f", App->scene->bounce);
+		LOG("Boing %f", bounce);
 	}
 	if (boing)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
 		{
-			App->scene->bounce = 0;
+			bounce = 0;
 			boing = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
-			App->scene->bounce = 0.3;
+			bounce = 0.3;
 			boing = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
-			App->scene->bounce = 0.6;
+			bounce = 0.6;
 			boing = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
-			App->scene->bounce = 0.9;
+			bounce = 0.9;
 			boing = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
-			App->scene->bounce = 1.2;
+			bounce = 1.2;
 			fps = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN) {
-			App->scene->bounce = 1.5;
+			bounce = 1.5;
 			boing = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN) {
-			App->scene->bounce = 1.8;
+			bounce = 1.8;
 			boing = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN) {
-			App->scene->bounce = 2.1;
+			bounce = 2.1;
 			boing = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_8) == KEY_DOWN) {
-			App->scene->bounce = 2.4;
+			bounce = 2.4;
 			boing = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_9) == KEY_DOWN) {
-			App->scene->bounce = 2.7;
+			bounce = 2.7;
+			boing = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) {
+			bounce = BOUNCE;
 			boing = false;
 		}
 
@@ -993,5 +947,4 @@ void ModuleScene::debug()
 	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN && !godMode) {
 		App->physics->debug = !App->physics->debug;
 	}
-
 }
