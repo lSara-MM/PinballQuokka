@@ -5,6 +5,8 @@ https://github.com/lSara-MM/PinballQuokka
 
 ## Description
 
+Cat Ball is game based on pintball, were the theme is cats. With some cute animations and physics engine, we arrive to have a simple but
+cool Pintball.
 
 ## Controls
 
@@ -32,11 +34,11 @@ https://github.com/lSara-MM/PinballQuokka
 
 * Change Gravity -> F5 & (0-9)
 
-* Change & show fps -> F6 & (0-9)
+* Change fps -> F6 & (0-9)
 
-* Change Bouncing coefficient -> F7
+* Change Bouncing coefficient -> F7 (0-9)
 
-* _  -> F8
+* Debug Mode on/off -> F8
 
 * _  -> F9
 
