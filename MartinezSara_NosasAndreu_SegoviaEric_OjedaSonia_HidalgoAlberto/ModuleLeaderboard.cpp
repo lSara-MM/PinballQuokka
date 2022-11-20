@@ -83,9 +83,7 @@ bool ModuleLeaderboard::CleanUp()
 update_status ModuleLeaderboard::Update()
 {
 	dTime = SDL_GetTicks() - startTime;
-	randNum = rand() % 3000 + 7000;
-	// Dibujar el mapa
-	//App->renderer->Blit(bgTexture, 0, 0);
+	randNum = rand() % 3000 + 10000;
 	
 	App->renderer->DrawQuad(bgColor, 162, 209, 255);
 
@@ -94,7 +92,7 @@ update_status ModuleLeaderboard::Update()
 	if (dTime < 4000 || animLurkingCat.HasFinished() == true)
 	{
 		animLurkingCat.Update();
-		App->renderer->Blit(texLurkingCat, 300, 300, &(animLurkingCat.GetCurrentFrame()), 1.f, 1.f, -90, INT_MAX, INT_MAX, SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
+		App->renderer->Blit(texLurkingCat, 368, 300, &(animLurkingCat.GetCurrentFrame()), 1.f, 1.f, -90, INT_MAX, INT_MAX, SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
 
 	}
 	if (dTime > randNum)
@@ -120,8 +118,8 @@ update_status ModuleLeaderboard::Update()
 	ranks();
 
 	// render text
-	App->renderer->BlitText(170, 30, titleFont, "HIGH", 0.7f);
-	App->renderer->BlitText(130, 80, titleFont, "SCORES", 0.7f);
+	App->renderer->BlitText(220, 30, titleFont, "HIGH", 0.7f);
+	App->renderer->BlitText(170, 80, titleFont, "SCORES", 0.7f);
 	for (int i = 0; i < 10; i++)
 	{
 		string s_num = std::to_string(i+1);
@@ -133,13 +131,20 @@ update_status ModuleLeaderboard::Update()
 
 		string s_score = std::to_string(leaderboard[i]);
 		const char* ch_score = s_score.c_str();
-		App->renderer->BlitText(150, 164 + 50 * i, subtitleFont, ch_score);
+		if (leaderboard[i] == currentScore)
+		{
+			SDL_Rect rect = { 147, 160 + 50 * i, 32 * strlen(ch_score), 40 };
+			App->renderer->DrawQuad(rect, 200, 0, 255, 75);
+			App->renderer->BlitText(32 * strlen(ch_score) + 170, 167 + 50 * i, subtitleFont, "Current", 0.75f);
+		}
+
+		App->renderer->BlitText(150, 164 + 50 * i, subtitleFont, ch_score);	
 	}
 
-	App->renderer->BlitText(150, 700, titleFont, "PREVIOUS SCORE", 0.3f);
+	App->renderer->BlitText(150, 680, titleFont, "PREVIOUS SCORE", 0.3f);
 	string s_Pnum = std::to_string(prevScore[0]);
 	const char* ch_Pnum = s_Pnum.c_str();
-	App->renderer->BlitText(200, 750, subtitleFont, ch_Pnum);
+	App->renderer->BlitText(200, 720, subtitleFont, ch_Pnum);
 
 	// Keep playing
 	return UPDATE_CONTINUE;
