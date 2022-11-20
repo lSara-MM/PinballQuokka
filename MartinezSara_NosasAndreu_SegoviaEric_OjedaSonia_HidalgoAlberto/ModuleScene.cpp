@@ -703,8 +703,7 @@ bool ModuleScene::loseGame()
 		retry = !retry;
 
 
-
-
+	// Score
 	if (App->scene_lead->leaderboard[9] < App->player->score) { App->scene_lead->leaderboard[9] = App->player->score; }
 	App->scene_lead->currentScore = App->player->score;
 
@@ -778,7 +777,7 @@ void ModuleScene::debug()
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
 		App->audio->PlayFx(audiomiau);
-		App->physics->world->DestroyBody(circles.getLast()->data->body);
+		//App->physics->world->DestroyBody(circles.getLast()->data->body);
 		App->player->numBalls = 0;
 		loseGame();
 	}
