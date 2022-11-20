@@ -75,7 +75,7 @@ private:
 	bool boing = false;
 	bool lifeLose;
 	bool retry;
-	bool musicIsOn = true;
+	
 
 	SDL_Rect bRetry;
 	SDL_Rect bGoRanks;
