@@ -109,7 +109,7 @@ update_status ModulePlayer::Update()
 	springData.x = METERS_TO_PIXELS(spring->body->GetTransform().p.x);
 	springData.y = METERS_TO_PIXELS(spring->body->GetTransform().p.y);
 
-	if ( SpringReleased == true)
+	if (SpringReleased == true)
 	{
 		--timer;
 		if (timer <= 0) {
@@ -117,12 +117,12 @@ update_status ModulePlayer::Update()
 			compresion = 0.1;
 			SpringReleased = false;
 			timer = 100;
-		}	
+		}
 	}
-	jointMuelle->SetLimits(-compresion/4, compresion);
+	jointMuelle->SetLimits(-compresion / 4, compresion);
 
-	
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT && compresion<=8)
+
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT && compresion <= 8)
 	{
 		//setearlo
 		SpringReleased = false;
@@ -131,17 +131,17 @@ update_status ModulePlayer::Update()
 			compresion = 0.1;
 		}
 		//comprimir el muelle
-		compresion += (0.025-compresion/320);
+		compresion += (0.025 - compresion / 320);
 		//LOG("%f", compresion);
-		jointMuelle->SetLimits(compresion / 4, compresion);		
+		jointMuelle->SetLimits(compresion / 4, compresion);
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP && compresion >= 0)
 	{
 		SpringReleased = true;
-		spring->body->ApplyForce(b2Vec2(/*-MaxLength / 2*/ 0, -compresion * compresion*25), b2Vec2(0, 0), true);	
+		spring->body->ApplyForce(b2Vec2(/*-MaxLength / 2*/ 0, -compresion * compresion * 25), b2Vec2(0, 0), true);
 	}
-	App->renderer->Blit(textureMuelle, springData.x-25, springData.y-15,NULL,0.4F); //Al convertir de metros a pixeles hay cierto error de redondeo asi que ponemos el -25 y el -15
+	App->renderer->Blit(textureMuelle, springData.x - 25, springData.y - 15, NULL, 0.4F); //Al convertir de metros a pixeles hay cierto error de redondeo asi que ponemos el -25 y el -15
 
 	//FLIPERS
 
@@ -154,21 +154,20 @@ update_status ModulePlayer::Update()
 	}
 
 	int x, y;
-	rect->GetPosition(x,y);
+	rect->GetPosition(x, y);
 	App->renderer->Blit(textureFlipers, x - 10, y, NULL, 0.3F, NULL, rect->GetRotation(), NULL, NULL, SDL_FLIP_HORIZONTAL);
 
 	rect2->GetPosition(x, y);
 	App->renderer->Blit(textureFlipers, x, y - 33, NULL, 0.3F, NULL, rect2->GetRotation(), NULL, NULL, SDL_FLIP_NONE);
 
 
-	if (App->scene->gameOver == false)
-	{
-		// strings to const char*
-		string s_score = std::to_string(score);
-		const char* ch_score = s_score.c_str();
-		App->renderer->BlitText(120, 15, scoreFont, "Score:");
-		App->renderer->BlitText(300, 15, scoreFont, ch_score);
-	}
+
+	// strings to const char*
+	string s_score = std::to_string(score);
+	const char* ch_score = s_score.c_str();
+	App->renderer->BlitText(120, 15, scoreFont, "Score:");
+	App->renderer->BlitText(300, 15, scoreFont, ch_score);
+
 	return UPDATE_CONTINUE;
 }
 

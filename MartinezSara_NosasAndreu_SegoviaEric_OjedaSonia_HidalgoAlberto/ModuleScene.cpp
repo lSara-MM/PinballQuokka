@@ -355,7 +355,6 @@ bool ModuleScene::Start()
 	pinkP = false;
 	lifeLose = false;
 
-	gameOver = false;
 	return ret;
 }
 
@@ -414,23 +413,13 @@ update_status ModuleScene::Update()
 	//Dibujar el mapa
 	App->renderer->Blit(fondo, 0, 0);
 	//App->renderer->Blit(map,0,0);
-	
+
 	debug();
 	loseLife();
 
-	//Slingershot
-	//if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN) {
 
-	//	int triangle[6] = {
-	//			0, 0,
-	//			400, 0,
-	//			200, 200,//valors arbirtaris, canviar en funció mapa
-	//	};
-	//	slingershots.add(App->physics->CreateBouncyChain(App->input->GetMouseX(), App->input->GetMouseY(), triangle, 6, 2.0, App->physics->STATIC, ColliderType::UNKNOWN));
-	//}
-	
 	// Prepare for raycast ------------------------------------------------------
-	
+
 	// The target point of the raycast is the mouse current position (will change over game time)
 	iPoint mouse;
 	mouse.x = App->input->GetMouseX();
@@ -445,7 +434,7 @@ update_status ModuleScene::Update()
 	// All draw functions ------------------------------------------------------
 
 	//Slingershots
-	p2List_item<PhysBody*>* c;	
+	p2List_item<PhysBody*>* c;
 	c = slingershots.getFirst();
 	while (c != NULL)
 	{
@@ -456,10 +445,10 @@ update_status ModuleScene::Update()
 	}
 
 	// Raycasts -----------------
-	if(ray_on == true)
+	if (ray_on == true)
 	{
 		// Compute the vector from the raycast origin up to the contact point (if we're hitting anything; otherwise this is the reference length)
-		fVector destination(mouse.x-ray.x, mouse.y-ray.y);
+		fVector destination(mouse.x - ray.x, mouse.y - ray.y);
 		destination.Normalize();
 		destination *= ray_hit;
 
@@ -467,18 +456,16 @@ update_status ModuleScene::Update()
 		App->renderer->DrawLine(ray.x, ray.y, ray.x + destination.x, ray.y + destination.y, 255, 255, 255);
 
 		// If we are hitting something with the raycast, draw the normal vector to the contact point
-		if(normal.x != 0.0f)
+		if (normal.x != 0.0f)
 			App->renderer->DrawLine(ray.x + destination.x, ray.y + destination.y, ray.x + destination.x + normal.x * 25.0f, ray.y + destination.y + normal.y * 25.0f, 100, 255, 100);
 	}
 
 	// Ball render
 
-	if (gameOver == false)
-	{
-		int ballX, ballY;
-		circles.getLast()->data->GetPosition(ballX, ballY);
-		App->renderer->Blit(ball, ballX, ballY, NULL, 1, 1.0f, circles.getLast()->data->GetRotation());
-	}
+	int ballX, ballY;
+	circles.getLast()->data->GetPosition(ballX, ballY);
+	App->renderer->Blit(ball, ballX, ballY, NULL, 1, 1.0f, circles.getLast()->data->GetRotation());
+
 	
 	if (App->player->comboPaws == 4)
 	{
@@ -633,7 +620,9 @@ void ModuleScene::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 bool ModuleScene::loseGame()
 {
 	//App->physics->world->DestroyBody(circles.getLast()->data->body);
-	gameOver = true;
+	//gameOver = true;
+	
+	App->player->Disable();
 	App->renderer->DrawQuad(bgColor, 255, 255, 255);
 
 	if (App->scene_lead->leaderboard[9] < App->player->score) { App->scene_lead->leaderboard[9] = App->player->score; }
@@ -697,12 +686,8 @@ void ModuleScene::debug()
 	}
 	if (App->physics->debug) { App->physics->world->SetGravity(b2Vec2(GRAVITY_X, 0)); }
 	if (!App->physics->debug) 
-	{ 
-		if (normGrav) 
-		{
-			App->physics->world->SetGravity(b2Vec2(GRAVITY_X, -GRAVITY_Y));
-		}
-		normGrav = false;
+	{
+		//App->physics->world->SetGravity(b2Vec2(GRAVITY_X, -GRAVITY_Y));
 	}
 
 	// Spawn bola donde el mouse
@@ -786,7 +771,6 @@ void ModuleScene::debug()
 	}
 
 	// FPS Change
-
 	string s_num = std::to_string((int)frames);
 	const char* ch_num = s_num.c_str();
 	App->renderer->BlitText(45, 54, App->scene_lead->titleFont, "FPS", 0.4f);

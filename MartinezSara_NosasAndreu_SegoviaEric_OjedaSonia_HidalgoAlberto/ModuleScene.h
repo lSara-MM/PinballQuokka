@@ -42,7 +42,6 @@ public:
 	bool ray_on;
 
 	float frames = 60.0f;
-	bool gameOver;
 
 private:
 	// Textures
@@ -60,13 +59,11 @@ private:
 	bool greenP, purpleP, turquoiseP, pinkP;
 
 	// Bounce valor
-
 	float bounce = 0.6f;
 
 	bool grav = false;
 	bool fps = false;
 	bool boing = false;
-	bool normGrav = 0;
 	bool lifeLose;
 
 	//Audio
